@@ -8,13 +8,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	private final Color clrBackground = new Color(75, 141, 221);
 	
 	protected objMenuSystem menuSystem;
-	protected dragStack cardDrag = new dragStack();
 
-	protected boolean isDragging = false, hasWon = false;
-	private int newDiffLevel = 0;
-	protected int cardBackImageUsing = 0;
-	protected objInstruction currentInstruction, dragPaintInstruction; //Previous instruction is used for dragging
-	protected Image[] imgCardBack;
 	
 	public MunchkinPaintAndLayout ()
 	{
@@ -45,25 +39,6 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected void performMenuAction ()
 	{
 		
-		int menuAction = menuSystem.getMenuAction();
-		
-		if (menuAction == 0)
-		{
-			newGame();
-		}
-		else if (menuAction > 0 && menuAction <= 3)
-		{
-			
-			newDiffLevel = menuAction - 1;
-			newGame();
-			
-		}
-		else if (menuAction >= 4)
-		{
-			setCardBackImage(menuAction - 4);
-		}
-		
-		repaint();
 		
 	}
 	
@@ -120,24 +95,13 @@ public class MunchkinPaintAndLayout extends Canvas
 		
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 			
-		if (isDragging)
-		{						
-			clip(cardDrag.getPaintInstruction(), grpOffScreen, g);			
-		}
-		else if (menuSystem.isMenuVisible())
-		{
-			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
-		}
-		else
-		{
-			clip(currentInstruction, grpOffScreen, g);
-		}
-
+		
+		
 	
 				
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);
-		currentInstruction.reset();		
+	
 		
 	}
 	

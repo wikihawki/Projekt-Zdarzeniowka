@@ -1,15 +1,21 @@
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 
-public class MunchkinWindow  implements MouseListener, MouseMotionListener
+
+public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListener, MouseMotionListener
 {
 	
 	private final int refreshRate = 5;
 	private int refreshCounter = 0;
 	private boolean updateDrag = false;
 	
-	
+	public MunchkinWindow()
+	{
+		
+		this.addMouseListener(this);
+		this.addMouseMotionListener(this);
+		
+	}	
 	
 	
 	

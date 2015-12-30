@@ -1,0 +1,153 @@
+import java.awt.*;
+import java.util.Vector;
+public class MunchkinPaintAndLayout extends Canvas
+{
+	
+	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
+
+	private final Color clrBackground = new Color(75, 141, 221);
+	
+	protected objMenuSystem menuSystem;
+	protected dragStack cardDrag = new dragStack();
+
+	protected boolean isDragging = false, hasWon = false;
+	private int newDiffLevel = 0;
+	protected int cardBackImageUsing = 0;
+	protected objInstruction currentInstruction, dragPaintInstruction; //Previous instruction is used for dragging
+	protected Image[] imgCardBack;
+	
+	public MunchkinPaintAndLayout ()
+	{
+				
+		setupMenuSystem();
+		setupColumnSystem();
+			
+	}
+	
+	private void setupMenuSystem ()
+	{
+		
+		String[] strMenuItemText = {"Deal", "Easy difficulty", "Medium difficulty", "Hard difficulty", "Card image Sonic the Hedgehog",
+	"Card image Belgium flag", "Card image Dutch mouse", "Card image Finding Nemo", "Card image UK flag", "Card image Vanessa Mae"};
+		boolean[] boolMenuItemSep = {true, false, false, true, false, false, false, false, false, false};
+		
+		menuSystem = new objMenuSystem(strMenuItemText, boolMenuItemSep);
+		
+	}
+	
+	private void setupColumnSystem ()
+	{
+		
+	
+		
+	}
+	
+	protected void performMenuAction ()
+	{
+		
+		int menuAction = menuSystem.getMenuAction();
+		
+		if (menuAction == 0)
+		{
+			newGame();
+		}
+		else if (menuAction > 0 && menuAction <= 3)
+		{
+			
+			newDiffLevel = menuAction - 1;
+			newGame();
+			
+		}
+		else if (menuAction >= 4)
+		{
+			setCardBackImage(menuAction - 4);
+		}
+		
+		repaint();
+		
+	}
+	
+	public void newGame ()
+	{
+		
+		
+	}
+	
+	private void setCardBackImage (int index)
+	{
+		
+		
+	}
+	
+	public void setupCards (Image[][] imgCards, Image[] imgCardBack) //Sets up the images from the applet
+	{
+	
+		
+	}
+		
+	private void layoutCards ()
+	{
+		
+	
+	}
+	
+	public void update (Graphics g)
+	{
+		paint(g);
+	}
+	
+	private void clip (objInstruction clipInstruction, Graphics grpOffScreen, Graphics g)
+	{
+		
+		int startX = clipInstruction.getStartX();
+		int startY = clipInstruction.getStartY();
+		int width = clipInstruction.getWidth();
+		int height = clipInstruction.getHeight();
+
+		grpOffScreen.clipRect(startX, startY, width, height);
+		g.clipRect(startX, startY, width, height);
+		
+		grpOffScreen.setColor(clrBackground);
+		grpOffScreen.clearRect(startX, startY, width, height);
+		
+	}		
+	
+	public void paint (Graphics g)
+	{
+			
+		Image imgOffScreen = createImage(getSize().width, getSize().height);
+		Graphics grpOffScreen = imgOffScreen.getGraphics();
+		
+		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
+			
+		if (isDragging)
+		{						
+			clip(cardDrag.getPaintInstruction(), grpOffScreen, g);			
+		}
+		else if (menuSystem.isMenuVisible())
+		{
+			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
+		}
+		else
+		{
+			clip(currentInstruction, grpOffScreen, g);
+		}
+
+	
+				
+		menuSystem.drawMenu(grpOffScreen);
+		g.drawImage(imgOffScreen, 0, 0, this);
+		currentInstruction.reset();		
+		
+	}
+	
+	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY) //Called by solitareColumn() to paint each card
+	{
+		
+		grpOffScreen.drawImage(imgCard, startX, startY, this);
+		grpOffScreen.setColor(new Color(149,146,140)); //Grey
+		grpOffScreen.drawRect(startX, startY, 71, 96); //Draw a border around the card
+		
+	}
+
+}

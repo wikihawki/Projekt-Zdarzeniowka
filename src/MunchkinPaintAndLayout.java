@@ -5,7 +5,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	
 	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
 
-	private final Color clrBackground = new Color(75, 141, 221);
+	private final Color clrBackground = new Color(231, 218, 167);
 	
 	protected objMenuSystem menuSystem;
 

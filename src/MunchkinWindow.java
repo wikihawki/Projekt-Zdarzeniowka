@@ -26,18 +26,36 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		int x = arg0.getX();
+		int y = arg0.getY();
 		
 	}
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		if (menuSystem.checkMouseMove(arg0.getX(),arg0.getY()))
+		{
+			repaint();
+		}
+		
 		
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+
+		if (arg0.getButton() == MouseEvent.BUTTON1)
+		{
+
+			int x = arg0.getX();
+			int y = arg0.getY();
+			
+			if (menuSystem.checkMenuClicked(x,y)) //Check if the menu or menu items were clicked
+			{
+				performMenuAction(); //if so, perform the action of the menu item clicked
+			}
+			
+
+			
+		}
 	}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {

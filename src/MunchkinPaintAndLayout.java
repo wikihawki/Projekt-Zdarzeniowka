@@ -21,9 +21,8 @@ public class MunchkinPaintAndLayout extends Canvas
 	private void setupMenuSystem ()
 	{
 		
-		String[] strMenuItemText = {"Deal", "Easy difficulty", "Medium difficulty", "Hard difficulty", "Card image Sonic the Hedgehog",
-	"Card image Belgium flag", "Card image Dutch mouse", "Card image Finding Nemo", "Card image UK flag", "Card image Vanessa Mae"};
-		boolean[] boolMenuItemSep = {true, false, false, true, false, false, false, false, false, false};
+		String[] strMenuItemText = {"Nowa Gra", "Zapisz Grê", "Wczytaj Grê"};
+		boolean[] boolMenuItemSep = {true, false, false};
 		
 		menuSystem = new objMenuSystem(strMenuItemText, boolMenuItemSep);
 		
@@ -38,39 +37,23 @@ public class MunchkinPaintAndLayout extends Canvas
 	
 	protected void performMenuAction ()
 	{
-		
-		
+		int menuAction = menuSystem.getMenuAction();
+		repaint();
 	}
 	
-	public void newGame ()
-	{
-		
-		
-	}
-	
-	private void setCardBackImage (int index)
-	{
-		
-		
-	}
-	
+
 	public void setupCards (Image[][] imgCards, Image[] imgCardBack) //Sets up the images from the applet
 	{
 	
 		
 	}
 		
-	private void layoutCards ()
-	{
-		
 	
-	}
 	
 	public void update (Graphics g)
 	{
 		paint(g);
 	}
-	
 	private void clip (objInstruction clipInstruction, Graphics grpOffScreen, Graphics g)
 	{
 		
@@ -92,13 +75,11 @@ public class MunchkinPaintAndLayout extends Canvas
 			
 		Image imgOffScreen = createImage(getSize().width, getSize().height);
 		Graphics grpOffScreen = imgOffScreen.getGraphics();
-		
+		if (menuSystem.isMenuVisible())
+		{
+			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
+		}
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
-			
-		
-		
-	
-				
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);
 	

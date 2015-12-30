@@ -15,7 +15,7 @@ public class MunchkinGUI {
 		
 		mainWindow = new MunchkinWindow();
 		mainWindow.setSize(new Dimension(970, 700));
-		mainWindow.setBackground(new Color(75,141,221));
+		mainWindow.setBackground(new Color(231, 218, 167));
 		
 		mt = new MediaTracker(mainApp);
 		importPictures();
@@ -80,7 +80,7 @@ public class MunchkinGUI {
 		}
 
 		mainWindow.setupCards(imgCards, imgCardBack);
-		mainWindow.newGame();
+	
 		
 	}
 	

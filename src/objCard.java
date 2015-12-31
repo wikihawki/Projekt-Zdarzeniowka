@@ -5,7 +5,7 @@ import java.awt.*;
 public class objCard
 {
 	
-	private int colour = 0, rank = 0;
+	private int  rank = 0;
 	private boolean isFaceDown = true;	
 	private Image imgCard = null;
 	
@@ -13,18 +13,13 @@ public class objCard
 	{
 	}
 	
-	public objCard (int colour, int rank, Image imgCard)
+	public objCard (int rank, Image imgCard)
 	{
 		
-		this.colour = colour;
+
 		this.rank = rank;
 		this.imgCard = imgCard;
 		
-	}
-	
-	public int getColour ()
-	{
-		return colour;
 	}
 	
 	public int getRank ()

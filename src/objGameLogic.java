@@ -91,5 +91,8 @@ public class objGameLogic {
     {
     	return currentInstruction.getPlayerHandPositionY(Player-1);
     }
-
+    public Image getCharactedImage()
+    {
+    	return CharacterImage;
+    }
 }

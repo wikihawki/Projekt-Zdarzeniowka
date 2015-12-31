@@ -100,6 +100,42 @@ public class MunchkinPaintAndLayout extends Canvas
 	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
 		
 	}
+	public void DrawCharacterImage(Graphics grpOffScreen)
+	{
+		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
+		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
+		Image tempImg = logikaMunchkin.getCharactedImage();
+	
+		drawCard(grpOffScreen,tempImg,tempX,tempY,1);
+		
+		
+		
+		
+		//rysowanie dla pozycji gracza numer 2 po lewej stronie
+		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
+	     tempImg = logikaMunchkin.getCharactedImage();
+      
+		drawCard(grpOffScreen,tempImg,tempX,tempY,2);
+		
+		
+		//rysowanie dla pozycji gracza numer 3 u góry
+		 tempX = logikaMunchkin.getPlayerHandPositionX(3);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(3);
+	     tempImg = logikaMunchkin.getCharactedImage();
+      
+		drawCard(grpOffScreen,tempImg,tempX,tempY,3);
+		
+       
+		//rysowanie dla pozycji gracza numer 2 po lewej stronie
+		 tempX = logikaMunchkin.getPlayerHandPositionX(4);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(4);
+	     tempImg = logikaMunchkin.getCharactedImage();
+  
+		drawCard(grpOffScreen,tempImg,tempX,tempY,4);
+		
+	}
+	
 	public void update (Graphics g)
 	{
 		paint(g);

@@ -8,8 +8,11 @@ public class MunchkinPaintAndLayout extends Canvas
 	private final Color clrBackground = new Color(231, 218, 167);
 	
 	protected objMenuSystem menuSystem;
-
-	
+	protected MunchkinColumn[] cardColumn = new MunchkinColumn[10];
+	protected MunchkinDeck cardDeck = new MunchkinDeck();
+	protected int cardBackImageUsing = 0;
+	protected Image[] imgCardBack;
+	protected objInstruction currentInstruction, dragPaintInstruction; //Previous instruction is used for dragging
 	public MunchkinPaintAndLayout ()
 	{
 				
@@ -31,7 +34,10 @@ public class MunchkinPaintAndLayout extends Canvas
 	private void setupColumnSystem ()
 	{
 		
-	
+		for (int column = 0; column < 10; column++)
+		{
+			cardColumn[column] = new MunchkinColumn((gapColumn + ((71 + gapColumn) * column)), 50);
+		}
 		
 	}
 	
@@ -41,7 +47,29 @@ public class MunchkinPaintAndLayout extends Canvas
 		repaint();
 	}
 	
-
+	public void newGame ()
+	{
+		
+		currentInstruction.reset();
+		
+	}
+	
+	private void setCardBackImage (int index)
+	{
+		
+		cardBackImageUsing = index;
+		
+		for (int column = 0; column < 10; column++)
+		{
+			cardColumn[column].setCardBackImage(imgCardBack[cardBackImageUsing]);
+		}
+		
+		cardDeck.setCardBackImage(imgCardBack[cardBackImageUsing]);
+		
+	}
+	
+	
+	
 	public void setupCards (Image[][] imgCards, Image[] imgCardBack) //Sets up the images from the applet
 	{
 	

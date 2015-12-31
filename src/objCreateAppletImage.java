@@ -36,17 +36,18 @@ public class objCreateAppletImage
 	{
 		
 		int count = 0;
-
+System.out.println("dodawanie obrazka");
 		BufferedInputStream imgStream = new BufferedInputStream(parentClass.getClass().getResourceAsStream(path));
-		
+		System.out.println("dodawanie obrazka2");
 		if (imgStream != null) //If file exists
 		{
-			
+			System.out.println("dodawanie obrazka3");
 			byte buff[] = new byte[fileSize]; //Create the array of bytes
 			
 			try
-			{				
+			{		System.out.println(buff);		
 				count = imgStream.read(buff);
+				
 			}
 			catch (IOException e)
 			{
@@ -69,7 +70,7 @@ public class objCreateAppletImage
 				return null;
 				
 			}
-			
+			System.out.println("dodawanie obrazka9");
 			return buff;
 			
 		}

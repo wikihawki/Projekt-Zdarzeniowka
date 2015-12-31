@@ -1,55 +1,89 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.Vector;
 public class MunchkinPaintAndLayout extends Canvas
 {
-	
+	private objGameLogic logikaMunchkin;
 	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
-
 	private final Color clrBackground = new Color(231, 218, 167);
-	
 	protected objMenuSystem menuSystem;
 	protected Image imgCardBack;
-	protected objInstruction currentInstruction, dragPaintInstruction; 
+	protected int imgHeight=100;
+	protected int imgWidth=72;
 	public MunchkinPaintAndLayout ()
-	{
-				
-		setupMenuSystem();
-		
-			
+	{	
+		setupMenuSystem();	
 	}
-	
 	private void setupMenuSystem ()
 	{
-		
+		logikaMunchkin=new objGameLogic();
 		String[] strMenuItemText = {"Nowa Gra", "Zapisz Grê", "Wczytaj Grê"};
 		boolean[] boolMenuItemSep = {true, false, false};
 		
 		menuSystem = new objMenuSystem(strMenuItemText, boolMenuItemSep);
 		
 	}
-	
-
 	protected void performMenuAction ()
 	{
 		int menuAction = menuSystem.getMenuAction();
 		repaint();
 	}
-	
 	public void newGame ()
 	{
 		
 		//currentInstruction.reset();
 		
 	}
-	
 	public void setCardBackImage (Image index)
 	{
 		
-		imgCardBack = index;
+		imgCardBack = index.getScaledInstance(71, 96, Image.SCALE_DEFAULT);
 	}
-	
-	
-	
+	public void DrawHand(Graphics grpOffScreen)
+	{
+		/*
+		//rysowanie dla pozycji gracza numer 1
+		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
+		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
+		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+		for(int i=0 ; i<=5;i++)
+		{
+		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		}
+		*/
+		
+		
+		//rysowanie dla pozycji gracza numer 2 po lewej stronie
+		int tempX = logikaMunchkin.getPlayerHandPositionX(2);
+		int tempY = logikaMunchkin.getPlayerHandPositionY(2);
+		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+for(int i=0 ; i<=5;i++)
+		{
+		drawCard(grpOffScreen,tempImg,tempX+imgHeight/2,tempY+(i*10+i*imgWidth));
+		}
+		/*
+		//rysowanie dla pozycji gracza numer 3
+		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
+		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
+		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+		for(int i=0 ; i<=5;i++)
+		{
+		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		}
+		
+		//rysowanie dla pozycji gracza numer 4
+		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
+		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
+		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+		for(int i=0 ; i<=5;i++)
+		{
+		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		}
+		*/
+		
+	}
 	public void update (Graphics g)
 	{
 		paint(g);
@@ -69,8 +103,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		grpOffScreen.clearRect(startX, startY, width, height);
 		
 	}		
-	
-	public void paint (Graphics g)
+    public void paint (Graphics g)
 	{
 			
 		Image imgOffScreen = createImage(getSize().width, getSize().height);
@@ -79,20 +112,43 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
-		drawCard(grpOffScreen,imgCardBack,100,100);
+        System.out.println();
+		DrawHand(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);
 	
 		
 	}
-	
 	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY) //Called by solitareColumn() to paint each card
 	{
+		/*
 		grpOffScreen.drawImage(imgCard, startX, startY, this);
 		grpOffScreen.setColor(new Color(149,146,140)); //Grey
-		grpOffScreen.drawRect(startX, startY, 71, 96); //Draw a border around the card
+		grpOffScreen.drawRect(startX, startY, imgWidth, imgHeight); //Draw a border around the card
+	*/
 		
+		Graphics2D g2d = (Graphics2D) grpOffScreen;
+		
+		
+	       AffineTransform at = new AffineTransform();
+
+	       // 4. translate it to the center of the component
+	       at.translate( startX,  startY);
+
+	       // 3. do the actual rotation
+	       at.rotate(Math.PI/2);
+
+	     
+	       // 1. translate the object so that you rotate it around the 
+	       //    center (easier :))
+	       at.translate(-imgWidth/2, -imgHeight/2);
+
+	       // draw the image
+	    
+	       g2d.drawImage( imgCard, at, this);
+
 	}
 
+	
 }

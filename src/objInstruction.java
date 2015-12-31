@@ -17,17 +17,29 @@ public class objInstruction
 		this.canvasWidth = canvasWidth;
 		this.canvasHeight = canvasHeight;
 		// Pozycja rêki gracza 1
-		this.polaGraczyX.add(100);
+		this.polaGraczyX.add(235);
 		this.polaGraczyY.add(700);
 		// Pozycja rêki gracza 2
 		this.polaGraczyX.add(0);
 		this.polaGraczyY.add(130);
 		// Pozycja rêki gracza 3
-		this.polaGraczyX.add(100);
-		this.polaGraczyY.add(700);
+		this.polaGraczyX.add(235);
+		this.polaGraczyY.add(0);
 		// Pozycja rêki gracza 4
-		this.polaGraczyX.add(100);
-		this.polaGraczyY.add(700);
+		this.polaGraczyX.add(910);
+		this.polaGraczyY.add(150);
+		// Pozycja Decku kart drzwi
+		this.polaGraczyX.add(450);
+		this.polaGraczyY.add(250);
+
+		// Pozycja Decku kart skarbu
+		this.polaGraczyX.add(450);
+		this.polaGraczyY.add(400);
+		
+		// Pozycja Decku kart foczek
+		this.polaGraczyX.add(250);
+		this.polaGraczyY.add(350);
+		
 	}
 	
 	public objInstruction (int startX, int startY, int width, int height) //Creates an instruction with a specific clip

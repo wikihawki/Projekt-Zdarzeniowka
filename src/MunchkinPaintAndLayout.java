@@ -43,45 +43,61 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	public void DrawHand(Graphics grpOffScreen)
 	{
-		/*
+		
 		//rysowanie dla pozycji gracza numer 1
 		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
 		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
 		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
 		for(int i=0 ; i<=5;i++)
 		{
-		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight/2,1);
 		}
-		*/
+		
 		
 		
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
-		int tempX = logikaMunchkin.getPlayerHandPositionX(2);
-		int tempY = logikaMunchkin.getPlayerHandPositionY(2);
-		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
-for(int i=0 ; i<=5;i++)
+		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
+	     tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+        for(int i=0 ; i<=5;i++)
 		{
-		drawCard(grpOffScreen,tempImg,tempX+imgHeight/2,tempY+(i*10+i*imgWidth));
-		}
-		/*
-		//rysowanie dla pozycji gracza numer 3
-		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
-		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
-		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
-		for(int i=0 ; i<=5;i++)
-		{
-		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		drawCard(grpOffScreen,tempImg,tempX+imgHeight/2,tempY+(i*10+i*imgWidth),2);
 		}
 		
-		//rysowanie dla pozycji gracza numer 4
-		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
-		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
-		Image tempImg = logikaMunchkin.getHand().getLastCard().getImg();
-		for(int i=0 ; i<=5;i++)
+		//rysowanie dla pozycji gracza numer 3 u góry
+		 tempX = logikaMunchkin.getPlayerHandPositionX(3);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(3);
+	     tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+       for(int i=0 ; i<=5;i++)
 		{
-		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight);
+		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY+imgHeight/2,3);
 		}
-		*/
+       
+		//rysowanie dla pozycji gracza numer 2 po lewej stronie
+		 tempX = logikaMunchkin.getPlayerHandPositionX(4);
+		 tempY = logikaMunchkin.getPlayerHandPositionY(4);
+	     tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+      for(int i=0 ; i<=5;i++)
+		{
+		drawCard(grpOffScreen,tempImg,tempX-imgHeight/2,tempY+(i*10+i*imgWidth),4);
+		}
+      //rysowanie decku karty drzwi
+      tempX = logikaMunchkin.getPlayerHandPositionX(5);
+	  tempY = logikaMunchkin.getPlayerHandPositionY(5);
+	  tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
+	  
+      //rysowanie decku karty skarbu
+      tempX = logikaMunchkin.getPlayerHandPositionX(6);
+	  tempY = logikaMunchkin.getPlayerHandPositionY(6);
+	  tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
+	  
+      //rysowanie decku karty foczek
+      tempX = logikaMunchkin.getPlayerHandPositionX(7);
+	  tempY = logikaMunchkin.getPlayerHandPositionY(7);
+	  tempImg = logikaMunchkin.getHand().getLastCard().getImg();
+	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
 		
 	}
 	public void update (Graphics g)
@@ -120,7 +136,7 @@ for(int i=0 ; i<=5;i++)
 	
 		
 	}
-	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY) //Called by solitareColumn() to paint each card
+	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY,int Player) //Called by solitareColumn() to paint each card
 	{
 		/*
 		grpOffScreen.drawImage(imgCard, startX, startY, this);
@@ -137,7 +153,7 @@ for(int i=0 ; i<=5;i++)
 	       at.translate( startX,  startY);
 
 	       // 3. do the actual rotation
-	       at.rotate(Math.PI/2);
+	       at.rotate((Player-1)*(Math.PI/2));
 
 	     
 	       // 1. translate the object so that you rotate it around the 
@@ -149,6 +165,6 @@ for(int i=0 ; i<=5;i++)
 	       g2d.drawImage( imgCard, at, this);
 
 	}
-
+     
 	
 }

@@ -12,6 +12,7 @@ public class objGameLogic {
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
     private Image[] imgCardBack = new Image[6];
+    private Image CharacterImage ;
     protected objInstruction currentInstruction, dragPaintInstruction; 
 	public objGameLogic()
 	{
@@ -56,7 +57,7 @@ public class objGameLogic {
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[suit][rank] = createImage.getImage(this, "images/ks (1).jpg", 2000000);
 				//System.out.print("\nGot card");
-		//	mt.addImage(imgCards[suit][rank], 0);
+		        //	mt.addImage(imgCards[suit][rank], 0);
 				
 			}
 			
@@ -73,7 +74,7 @@ public class objGameLogic {
 			
 		}
 	
-
+		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
 	
 	
 

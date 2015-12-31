@@ -1,4 +1,8 @@
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -75,7 +79,12 @@ public class MunchkinGUI {
 		for (int card = 0; card < 6; card++) //Loop the number of card back images being supplied
 		{
 			
-			imgCardBack[card] = createImage.getImage(this, "images/ks (1).jpg", 2000000);
+			try {
+				imgCardBack[card] =  ImageIO.read(new File("C:/Users/Wiktor/Desktop/Java projekty/Projekt-Zdarzeniowka/src/images/ks (1).jpg"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			imgCardBack[card].getScaledInstance(71, 96, Image.SCALE_DEFAULT);
 			//mt.addImage(imgCardBack[card], 0);
 			

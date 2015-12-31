@@ -50,7 +50,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	public void newGame ()
 	{
 		
-		currentInstruction.reset();
+		//currentInstruction.reset();
 		
 	}
 	

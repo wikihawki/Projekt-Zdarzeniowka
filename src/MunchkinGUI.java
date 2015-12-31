@@ -64,7 +64,7 @@ public class MunchkinGUI {
 			{
 				
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[suit][rank] = createImage.getImage(this, "images/club1.gif", 5000);
+				imgCards[suit][rank] = createImage.getImage(this, "images/ks(1).jpg", 2000000);
 				System.out.print("\nGot card");
 				mt.addImage(imgCards[suit][rank], 0);
 				

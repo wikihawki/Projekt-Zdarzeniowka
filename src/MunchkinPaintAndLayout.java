@@ -79,6 +79,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
+		
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);
@@ -88,7 +89,6 @@ public class MunchkinPaintAndLayout extends Canvas
 	
 	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY) //Called by solitareColumn() to paint each card
 	{
-		
 		grpOffScreen.drawImage(imgCard, startX, startY, this);
 		grpOffScreen.setColor(new Color(149,146,140)); //Grey
 		grpOffScreen.drawRect(startX, startY, 71, 96); //Draw a border around the card

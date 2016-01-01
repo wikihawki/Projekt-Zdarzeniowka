@@ -9,32 +9,45 @@ import javax.swing.*;
 
 public class objGameLogic {
 
-	private ArrayList<MunchkinHand> reka = new ArrayList<MunchkinHand>();
+	private ArrayList<objPlayer> players = new ArrayList<objPlayer>();
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
     private Image[] imgCardBack = new Image[6];
     private Image CharacterImage ;
+    private MunchkinGroup sealDeck, treasureDeck, doorDeck;
+    private MunchkinGroup treasureDiscard,doorDiscard;
     protected objInstruction currentInstruction, dragPaintInstruction; 
 	public objGameLogic()
 	{
+		sealDeck=new MunchkinGroup();
+		treasureDeck=new MunchkinGroup();
+		doorDeck=new MunchkinGroup();
+		doorDiscard=new MunchkinGroup();
+		treasureDiscard=new MunchkinGroup();
+		
 		currentInstruction	= new objInstruction(1,1);
 		importPictures();
-		przygotujReke();
+		setupPlayers();
 		przygotujTalie();
 	}	
 	private void przygotujTalie()
 	{
 		for(int i = 0 ;i<=64;i++)
 		{
-			objCard karta = new objCard(i,imgCardBack[1]);
-			reka.get(0).addCard(karta);
+			objCard karta = new objCard(objCard.Type.SEAL,imgCardBack[1], null, null);
+			sealDeck.addCard(karta);
+			karta = new objCard(objCard.Type.ARMOR,imgCardBack[1], null, null);
+			treasureDeck.addCard(karta);
+			karta = new objCard(objCard.Type.MONSTER,imgCardBack[1], null, null);
+			doorDeck.addCard(karta);
 		}
 	}
-	private void przygotujReke()
+	private void setupPlayers()
 	{
 		for(int i =0 ; i<4;i++)
 		{
-			reka.add(new MunchkinHand(currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),i));
+			
+			players.add(new objPlayer(null,true,currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),this));
 		}
 	}
     private void importPictures ()
@@ -88,9 +101,9 @@ public class objGameLogic {
 	
 
 	}
-	public MunchkinHand getHand(int Player)
+	public MunchkinHand getHand(int player)
 	{
-		return reka.get(Player);
+		return players.get(player).getHand();
 	}
     public Integer getPlayerHandPositionX(int Player)
     {
@@ -105,6 +118,15 @@ public class objGameLogic {
     {
     	return CharacterImage;
     }
+	public MunchkinGroup getSealDeck() {
+		return sealDeck;
+	}
+	public MunchkinGroup getTreasureDeck() {
+		return treasureDeck;
+	}
+	public MunchkinGroup getDoorDeck() {
+		return doorDeck;
+	}
     
 
 }

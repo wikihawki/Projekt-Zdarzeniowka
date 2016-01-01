@@ -164,8 +164,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
-        System.out.println();
-		DrawHand(grpOffScreen);
+        DrawHand(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);

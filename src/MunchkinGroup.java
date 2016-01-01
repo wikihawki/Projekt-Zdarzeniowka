@@ -39,14 +39,18 @@ public class MunchkinGroup
 	protected objCard removeCard (int index)
 	{
 		
-		objCard card = (objCard)stack.remove(index);
+		objCard card = stack.remove(index);
 	
 		
 		return card;
 		
 	}
+	protected objCard removeLastCard()
+	{
+		return stack.elementAt(stack.size()-1);
+	}
 	
-	protected void addStack (Vector vecStack)
+	protected void addStack (Vector<objCard> vecStack)
 	{
 		
 		int addStackwidth = vecStack.size();
@@ -55,7 +59,7 @@ public class MunchkinGroup
 		for (int counter = 0; counter < addStackwidth; counter++)
 		{
 			
-			card = (objCard)vecStack.remove(0);
+			card = vecStack.remove(0);
 			addCard(card);
 			
 		}
@@ -64,7 +68,7 @@ public class MunchkinGroup
 	
 	protected objCard getCard (int index)
 	{
-		return (objCard)stack.elementAt(index);
+		return stack.elementAt(index);
 	}
 	
 	public Vector getStack (int startIndex)
@@ -83,7 +87,7 @@ public class MunchkinGroup
 	
 	protected objCard getLastCard ()
 	{
-		return (objCard)stack.lastElement();
+		return stack.lastElement();
 	}
 	
 	protected Vector removeStack (int startIndex)

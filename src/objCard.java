@@ -4,27 +4,24 @@ import java.awt.*;
 
 public class objCard
 {
+	public enum Type{MONSTER, DISASTER, MONSTERBONUS, USABLE, OTHERITEM, BOOTS, ARMOR, HEADGEAR, WEAPON, SEAL}
+	private String name="";
+	private String discription="";
+	private Type type;
 	
-	private int  rank = 0;
+	
 	private boolean isFaceDown = true;	
 	private Image imgCard = null;
 	
-	public void objCard ()
-	{
-	}
-	
-	public objCard (int rank, Image imgCard)
+	public objCard (Type type, Image imgCard, String name, String discription)
 	{
 		
 
-		this.rank = rank;
+		this.type=type;
+		this.name=name;
 		this.imgCard = imgCard;
+		this.discription=discription;
 		
-	}
-	
-	public int getRank ()
-	{
-		return rank;
 	}
 	
 	public boolean isFaceDown () 
@@ -41,5 +38,20 @@ public class objCard
 	{
 		return imgCard;
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Type getType() {
+		return type;
+	}
+
+	public String getDiscription() {
+		return discription;
+	}
+
+
+
 	
 }

@@ -8,7 +8,7 @@ public class MunchkinGroup
 	private Vector<objCard> stack = new Vector<objCard>();
 	
 	private int width = 0, previousStackSize = 0;
-	protected int startX = 0, startY = 0;
+
 	
 	public void MunchkinGroup ()
 	{

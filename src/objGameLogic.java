@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,7 +9,7 @@ import javax.swing.*;
 
 public class objGameLogic {
 
-	private MunchkinHand reka = new MunchkinHand(100,100);
+	private ArrayList<MunchkinHand> reka = new ArrayList<MunchkinHand>();
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
     private Image[] imgCardBack = new Image[6];
@@ -18,6 +19,7 @@ public class objGameLogic {
 	{
 		currentInstruction	= new objInstruction(1,1);
 		importPictures();
+		przygotujReke();
 		przygotujTalie();
 	}	
 	private void przygotujTalie()
@@ -25,10 +27,17 @@ public class objGameLogic {
 		for(int i = 0 ;i<=64;i++)
 		{
 			objCard karta = new objCard(i,imgCardBack[1]);
-			reka.addCard(karta);
+			reka.get(0).addCard(karta);
 		}
 	}
-	private void importPictures ()
+	private void przygotujReke()
+	{
+		for(int i =0 ; i<4;i++)
+		{
+			reka.add(new MunchkinHand(currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),i));
+		}
+	}
+    private void importPictures ()
 	{
 		
 		String colour = "";
@@ -79,9 +88,9 @@ public class objGameLogic {
 	
 
 	}
-	public MunchkinHand getHand()
+	public MunchkinHand getHand(int Player)
 	{
-		return reka;
+		return reka.get(Player);
 	}
     public Integer getPlayerHandPositionX(int Player)
     {

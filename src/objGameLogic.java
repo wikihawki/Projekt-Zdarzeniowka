@@ -7,8 +7,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
-public class objGameLogic {
-
+public class objGameLogic
+{
+	
 	private ArrayList<objPlayer> players = new ArrayList<objPlayer>();
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
@@ -17,6 +18,7 @@ public class objGameLogic {
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
     protected objInstruction currentInstruction, dragPaintInstruction; 
+    private MunchkinGroup playedCards;
 	public objGameLogic()
 	{
 		sealDeck=new MunchkinGroup();
@@ -24,21 +26,26 @@ public class objGameLogic {
 		doorDeck=new MunchkinGroup();
 		doorDiscard=new MunchkinGroup();
 		treasureDiscard=new MunchkinGroup();
-		
 		currentInstruction	= new objInstruction(1,1);
+		playedCards= new MunchkinGroup();
 		importPictures();
-		setupPlayers();
+		newGame();
+	}
+	
+	public void newGame()
+	{
 		przygotujTalie();
-	}	
+		setupPlayers();
+	}
 	private void przygotujTalie()
 	{
 		for(int i = 0 ;i<=64;i++)
 		{
-			objCard karta = new objCard(objCard.Type.SEAL,imgCardBack[1], null, null);
+			objCard karta = new objSealCard(objCard.Type.SEAL,imgCardBack[1], null, null, i);
 			sealDeck.addCard(karta);
-			karta = new objCard(objCard.Type.ARMOR,imgCardBack[1], null, null);
+			karta = new objTreasureCard(objCard.Type.ARMOR,imgCardBack[1], null, null, i, i, i, i);
 			treasureDeck.addCard(karta);
-			karta = new objCard(objCard.Type.MONSTER,imgCardBack[1], null, null);
+			karta = new objDoorCard(objCard.Type.MONSTER,imgCardBack[1], null, null, i, i, i);
 			doorDeck.addCard(karta);
 		}
 	}
@@ -53,22 +60,19 @@ public class objGameLogic {
     private void importPictures ()
 	{
 		
-		String colour = "";
-		//Array to store all the card back images
-
 		for (int suit = 0; suit < 4; suit++) //Loop 4 times (for each suit)
 		{
 			
 			switch (suit) //Inspect current suit number
 			{
 				
-				case 0:	colour = "";
+				case 0:	
 						break; //Have to put break to stop it executing the other statements
-				case 1: colour = "";
+				case 1: 
 						break;
-				case 2: colour = "";
+				case 2: 
 						break;
-				case 3: colour = "";
+				case 3: 
 						break;
 						
 			}
@@ -101,6 +105,13 @@ public class objGameLogic {
 	
 
 	}
+    
+    public objDoorCard showDoorCard()
+	{
+		objDoorCard temp=(objDoorCard) doorDeck.getCard(doorDeck.size()-1);
+		playedCards.addCard(temp);
+		return temp;
+	}
 	public MunchkinHand getHand(int player)
 	{
 		return players.get(player).getHand();
@@ -126,6 +137,9 @@ public class objGameLogic {
 	}
 	public MunchkinGroup getDoorDeck() {
 		return doorDeck;
+	}
+	public MunchkinGroup getPlayedCard() {
+		return playedCard;
 	}
     
 

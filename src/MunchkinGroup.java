@@ -45,9 +45,19 @@ public class MunchkinGroup
 		return card;
 		
 	}
+	protected Vector<objCard> findCards(String name, objCard.Type type)
+	{
+		Vector<objCard> temp= new Vector<objCard>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getType()==type || type==null))temp.add(card);
+		}
+		return temp;
+	}
 	protected objCard removeLastCard()
 	{
-		return stack.elementAt(stack.size()-1);
+		return stack.remove(stack.size()-1);
 	}
 	
 	protected void addStack (Vector<objCard> vecStack)

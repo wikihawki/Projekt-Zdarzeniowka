@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class objCard
 {
-	public enum Type{MONSTER, DISASTER, MONSTERBONUS, USABLE, OTHERITEM, BOOTS, ARMOR, HEADGEAR, WEAPON, SEAL}
+	public enum Type{MONSTER, DISASTER, OTHER, OTHERITEM, BOOTS, ARMOR, HEADGEAR, WEAPON, SEAL}
 	private String name="";
 	private String discription="";
 	private Type type;
@@ -50,7 +50,7 @@ public class objCard
 	public String getDiscription() {
 		return discription;
 	}
-
+	
 
 
 	

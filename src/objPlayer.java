@@ -1,6 +1,9 @@
 
+
 public class objPlayer
 {
+	public enum turnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, FIGHT, LOOKFOR, LOOT,CHARITY}
+	private turnPhase myTurnPhase;
 	private String name;
 	private boolean sex;
 	private int level;
@@ -21,7 +24,9 @@ public class objPlayer
 		environment=envi;
 		drawTreasure(4);
 		drawDoor(4);
+		myTurnPhase=turnPhase.NOTMYTURN;
 	}
+	
 
 
 	public int getLevel()
@@ -61,7 +66,22 @@ public class objPlayer
 	{
 		for(int i=0;i<amount;i++)hand.addCard(environment.getDoorDeck().removeLastCard());
 	}
-	
+	public void beginTurn() throws IllegalStateException
+	{
+		if(myTurnPhase==turnPhase.NOTMYTURN) myTurnPhase=turnPhase.ITEMSARRANGE;
+		else throw new IllegalStateException("nie mo¿esz zacz¹æ tury jeœli jest twoja tura");
+	}
+	public void kickOpenDoor() throws IllegalStateException
+	{
+		if(myTurnPhase==turnPhase.ITEMSARRANGE)
+		{
+			myTurnPhase=turnPhase.KICKDOOR;
+			objDoorCard temp= environment.showDoorCard();
+			
+			
+		}
+		else throw new IllegalStateException("z³a kolejnoœæ faz tury");
+	}
 	public void playCard(int cardNr)
 	{
 		objCard temp =hand.getCard(cardNr);
@@ -71,7 +91,7 @@ public class objPlayer
 		}
 		else
 		{
-			if(temp.getType()==objCard.Type.USABLE ||temp.getType()==objCard.Type.DISASTER)
+			if(temp.getType()==objCard.Type.OTHER ||temp.getType()==objCard.Type.DISASTER)
 			{
 				
 			}
@@ -79,6 +99,11 @@ public class objPlayer
 	}
 	public MunchkinGroup getCardsInPlay() {
 		return cardsInPlay;
+	}
+
+
+	public turnPhase getMyTurnPhase() {
+		return myTurnPhase;
 	}
 	
 }

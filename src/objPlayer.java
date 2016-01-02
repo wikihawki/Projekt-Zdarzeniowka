@@ -77,7 +77,22 @@ public class objPlayer
 		{
 			myTurnPhase=turnPhase.KICKDOOR;
 			objDoorCard temp= environment.showDoorCard();
-			
+			switch (temp.getType())
+			{
+			case MONSTER:
+				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
+				
+				break;
+			case DISASTER:
+				
+				break;
+			case OTHER:
+				
+				break;
+			default:
+				break;
+			}
+				
 			
 		}
 		else throw new IllegalStateException("z³a kolejnoœæ faz tury");

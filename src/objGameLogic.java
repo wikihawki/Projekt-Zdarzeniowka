@@ -19,6 +19,7 @@ public class objGameLogic
     private MunchkinGroup treasureDiscard,doorDiscard;
     protected objInstruction currentInstruction, dragPaintInstruction; 
     private MunchkinGroup playedCards;
+    private objFight currentFight;
 	public objGameLogic()
 	{
 		sealDeck=new MunchkinGroup();
@@ -34,10 +35,10 @@ public class objGameLogic
 	
 	public void newGame()
 	{
-		przygotujTalie();
+		importCards();
 		setupPlayers();
 	}
-	private void przygotujTalie()
+	private void importCards()
 	{
 		for(int i = 0 ;i<=64;i++)
 		{
@@ -45,7 +46,7 @@ public class objGameLogic
 			sealDeck.addCard(karta);
 			karta = new objTreasureCard(objCard.Type.ARMOR,imgCardBack[1], null, null, i, i, i, i);
 			treasureDeck.addCard(karta);
-			karta = new objDoorCard(objCard.Type.MONSTER,imgCardBack[1], null, null, i, i, i);
+			karta = new objDoorCard(objCard.Type.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
 			doorDeck.addCard(karta);
 		}
 	}
@@ -138,8 +139,16 @@ public class objGameLogic
 	public MunchkinGroup getDoorDeck() {
 		return doorDeck;
 	}
-	public MunchkinGroup getPlayedCard() {
-		return playedCard;
+	public MunchkinGroup getPlayedCards() {
+		return playedCards;
+	}
+
+	public objFight getCurrentFight() {
+		return currentFight;
+	}
+
+	public void setCurrentFight(objFight currentFight) {
+		this.currentFight = currentFight;
 	}
     
 

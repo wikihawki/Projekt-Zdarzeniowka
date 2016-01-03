@@ -6,23 +6,28 @@ public class objEffectHandler
 	{
 		environment=envi;
 	}
-	public void handleEffect(objCard.Type cardType, int effectNr)
+	public void handleEffect(objCard.Type cardType, int effectNr, int playerNr)
 	{
 		switch (cardType)
 		{
-		case ARMOR:
-			break;
-		case BOOTS:
-			break;
 		case DISASTER:
-			break;
-		case HEADGEAR:
+			switch (effectNr)
+			{
+			case 1:
+				environment.getPlayer(playerNr).levelUp(-1);
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				break;
+			}
 			break;
 		case MONSTER:
 			break;
 		case OTHER:
-			break;
-		case OTHERITEM:
+
 			break;
 		case SEAL:
 			break;

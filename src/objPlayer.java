@@ -2,7 +2,7 @@
 
 public class objPlayer
 {
-	public enum turnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, FIGHT, LOOKFOR, LOOT,CHARITY}
+	public enum turnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOKFOR, LOOT,CHARITY}
 	private turnPhase myTurnPhase;
 	private String name;
 	private boolean sex;
@@ -26,20 +26,16 @@ public class objPlayer
 		drawDoor(4);
 		myTurnPhase=turnPhase.NOTMYTURN;
 	}
-	
+
 
 
 	public int getLevel()
 	{
 		return level;
 	}
-	public int levelUp()
+	public int levelUp(int amount)
 	{
-		return ++level;
-	}
-	public int levelDown()
-	{
-		return --level;
+		return level+=amount;
 	}
 	public boolean changeSex()
 	{
@@ -80,35 +76,67 @@ public class objPlayer
 			switch (temp.getType())
 			{
 			case MONSTER:
+				environment.getPlayedCards().removeLastCard();
 				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
-				
+				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), environment.getPlayerIndex(this));
 				break;
 			case DISASTER:
-				
+
 				break;
 			case OTHER:
-				
+				hand.addCard(temp);
+				environment.getPlayedCards().removeLastCard();
 				break;
 			default:
 				break;
 			}
-				
-			
+
+
 		}
 		else throw new IllegalStateException("z³a kolejnoœæ faz tury");
+	}
+	public void lookForTrouble(objDoorCard temp)
+	{
+		if(myTurnPhase==turnPhase.KICKDOOR)
+		{
+			myTurnPhase=turnPhase.LOOKFOR;
+			if(temp.getType()==objCard.Type.MONSTER)
+			{
+				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
+				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), environment.getPlayerIndex(this));
+			}
+			else throw new IllegalArgumentException();
+		}
+		else throw new IllegalStateException();
+	}
+	public void lootRoom()
+	{
+		if(myTurnPhase==turnPhase.KICKDOOR)
+		{
+			myTurnPhase=turnPhase.LOOT;
+			this.drawDoor(1);
+		}
+		else throw new IllegalStateException();
+	}
+	public void Charity()
+	{
+		if(myTurnPhase==turnPhase.KICKDOOR||myTurnPhase==turnPhase.LOOKFOR||myTurnPhase==turnPhase.LOOT)
+		{
+			myTurnPhase=turnPhase.CHARITY;
+		}
 	}
 	public void playCard(int cardNr)
 	{
 		objCard temp =hand.getCard(cardNr);
 		if(temp.getClass()==objTreasureCard.class)
 		{
-			
+
 		}
 		else
 		{
 			if(temp.getType()==objCard.Type.OTHER ||temp.getType()==objCard.Type.DISASTER)
 			{
-				
+
 			}
 		}
 	}
@@ -120,5 +148,5 @@ public class objPlayer
 	public turnPhase getMyTurnPhase() {
 		return myTurnPhase;
 	}
-	
+
 }

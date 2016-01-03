@@ -7,13 +7,34 @@ public class objFight
 	private objPlayer helperPlayer;
 	private int playersStrength;
 	private int sidesBonuses;
+	private int escapeDiff;
+	private int treasuresForHelper;
 	public objFight(objMonster monster, objPlayer player)
 	{
 		monsters=new Vector<objMonster>();
 		monsters.add(monster);
 		setHelperPlayer(null);
 		setMainPlayer(player);
-		
+		treasuresForHelper=0;
+	}
+	public void resolveBattle()
+	{
+		if(getMonstersStrength() < getPlayersStrength())
+		{
+			int levels=0;
+			for(int i=0; i<this.monsters.size();i++)levels+=this.monsters.elementAt(i).getLevelReward();
+			mainPlayer.levelUp(levels);
+
+		}
+	}
+	public void addhelper(objPlayer helper, int treasuresReward) throws IllegalStateException
+	{
+		if(helperPlayer==null)
+		{
+			setHelperPlayer(helper);
+			treasuresForHelper=treasuresReward;
+		}
+		else throw new IllegalStateException("pomagac mo¿e tylko jedna osoba");
 	}
 	public void addBonus(int bonus)
 	{
@@ -29,7 +50,7 @@ public class objFight
 		for(int i=0; i<this.monsters.size();i++)monsters+=this.monsters.elementAt(i).getStrength();
 		return monsters;
 	}
-	public int getplayersStrength()
+	public int getPlayersStrength()
 	{
 		return playersStrength;
 	}
@@ -61,13 +82,22 @@ public class objFight
 	public objPlayer getHelperPlayer() {
 		return helperPlayer;
 	}
-	public void setHelperPlayer(objPlayer helperPlayer) 
+	private void setHelperPlayer(objPlayer helperPlayer)
 	{
 		if(helperPlayer!=mainPlayer)this.helperPlayer = helperPlayer;
 	}
 	public Vector<objMonster> getMonsters() {
 		return monsters;
 	}
-	
-	
+	public int getEscapeDiff() {
+		return escapeDiff;
+	}
+	public void addEscapeDiff(int amount) {
+		this.escapeDiff += amount;
+	}
+	public int getTreasuresForHelper() {
+		return treasuresForHelper;
+	}
+
+
 }

@@ -27,7 +27,7 @@ public class objCard extends objEntity
 		this.effect[1]=effect2;
 		this.rewardValue=reward;
 		this.treasures=treasures;
-		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER))||(type==Type.DOOR&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
+		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
 		{
 			this.type=type;
 			secondaryType=type2;

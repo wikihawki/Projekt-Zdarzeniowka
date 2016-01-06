@@ -47,19 +47,15 @@ public class objGameLogic
 	}
 	private void importCards()
 	{
-		for(int i = 0 ;i<6;i++)
+		for(int i = 0 ;i<64;i++)
 		{
-<<<<<<< HEAD
-			objCard karta = new objCard(i,imgCardBack[i]);
-			reka.get(0).addCard(karta);
-=======
+
 			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i);
 			sealDeck.addCard(karta);
 			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i);
 			treasureDeck.addCard(karta);
 			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
 			doorDeck.addCard(karta);
->>>>>>> refs/remotes/origin/dodawanie_logiki_kart
 		}
 	}
 	private void setupPlayers()
@@ -89,13 +85,8 @@ public class objGameLogic
 						break;
 
 			}
-<<<<<<< HEAD
-			
-			for (int rank = 1; rank < 13; rank++) //Loop 13 times (for ace - king)
-=======
 
-			for (int rank = 0; rank < 13; rank++) //Loop 13 times (for ace - king)
->>>>>>> refs/remotes/origin/dodawanie_logiki_kart
+			for (int rank = 1; rank < 13; rank++) //Loop 13 times (for ace - king)
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
@@ -109,19 +100,11 @@ public class objGameLogic
 
 		for (int card = 1; card < 6; card++) //Loop the number of card back images being supplied
 		{
-<<<<<<< HEAD
-			
-		
-	
+
+
+
 			imgCardBack[card]= createImage.getImage(this, "images/ks ("+card+").jpg", 2000000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-			
-=======
 
-
-
-			imgCardBack[card]= createImage.getImage(this, "images/ks (1).jpg", 2000000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-
->>>>>>> refs/remotes/origin/dodawanie_logiki_kart
 		//	mt.addImage(imgCardBack[card], 0);
 
 		}
@@ -175,14 +158,12 @@ public class objGameLogic
     {
     	return CharacterImage;
     }
-<<<<<<< HEAD
-    
+
     public Image getCardImage()
     {
     	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
     }
-    
-=======
+
 	public MunchkinGroup getSealDeck() {
 		return sealDeck;
 	}
@@ -221,7 +202,5 @@ public class objGameLogic
 		return effectHandler;
 	}
 
-
->>>>>>> refs/remotes/origin/dodawanie_logiki_kart
 
 }

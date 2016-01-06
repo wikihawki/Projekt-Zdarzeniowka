@@ -17,39 +17,49 @@ import javax.swing.SwingUtilities;
 public class objCardWindow extends JFrame implements ActionListener{
     private static objCardWindow myInstance;
     private JPanel panel ;
+   
     private MunchkinWindow window;
+    private int CardIdex=0;
     JPanel pnlButtons = new JPanel();
     // Buttons
-    JButton przycisk = new JButton("Add Flight");
+    JButton przycisk = new JButton("Odrzuæ");
     // the constructor
-    private objCardWindow(MunchkinWindow Window)  {
+    private objCardWindow(MunchkinWindow Window,int index)  {
  
     	this.window=Window;
         this.setSize(300, 400);
-         this.setResizable(false);
+        this.setResizable(false);
         this.setTitle("Singleton Frame. Timestamp:" +
-            System.currentTimeMillis());
+         System.currentTimeMillis());
         
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        initComponents(this);
+        drawChanges(this);
     }
 
-    public static objCardWindow getInstance(MunchkinWindow Window) {
+    public static objCardWindow getInstance(MunchkinWindow Window,int index) {
         if (myInstance == null)
-            myInstance = new objCardWindow(Window);
-
+            myInstance = new objCardWindow(Window,index);
+            
         return myInstance;
     }
     
-    private void initComponents(JFrame frame) {
+    public void setCardIndex(int index)
+    {
+    	this.CardIdex=index;
+    }
+    
+    private void initComponents(JFrame frame, int index) {
     	
+    	System.out.println(CardIdex+"  ???");
     	 przycisk.setBounds(200, 200, 100, 30);
-
+    	 if (przycisk.getActionListeners().length<1){przycisk.addActionListener(this);}
+    	 
          // JPanel bounds
          pnlButtons.setBounds(200, 200, 100, 400);
 
          // Adding to JFrame
          pnlButtons.add(przycisk);
+      
          add(pnlButtons);
          // JFrame properties
          setSize(400, 400);
@@ -94,13 +104,27 @@ public class objCardWindow extends JFrame implements ActionListener{
         return bi;
     }
 
+	
+
+
+	
+    public void drawChanges(objCardWindow window)
+    {
+    	initComponents(this,CardIdex);
+    }
+
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
+
+	      Object src =e.getSource();
+	     
+		  if (src == przycisk) 
+			    {
+			    	window.getLogic().getPlayer(0).discardCardfromHand(CardIdex-1);
+			        window.repaint();
+			       this.setVisible(false);
+		        }
 		
 	}
-
-
-
-
 }

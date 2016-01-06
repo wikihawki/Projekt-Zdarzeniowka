@@ -9,11 +9,15 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private int refreshCounter = 0;
 	private boolean updateDrag = false;
 	private MunchkinGUI GUI;
+	objCardWindow singletonFrame ;
 	public MunchkinWindow(MunchkinGUI gui)
 	{
 		this.GUI=gui;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		singletonFrame  =  objCardWindow.getInstance(this,0);
+	      
+	       singletonFrame.setVisible(false);
 		
 	}	
 	
@@ -53,11 +57,13 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 				performMenuAction(); //if so, perform the action of the menu item clicked
 			}
 			
-			if (logikaMunchkin.getHand(0).isMouseCard(x, y)!=0) //Check if the menu or menu items were clicked
+			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) //Check if the menu or menu items were clicked
 			{
-		       objCardWindow singletonFrame =  objCardWindow.getInstance(this);
-		       System.out.println(logikaMunchkin.getHand(0).isMouseCard(x, y));
-		       singletonFrame.setVisible(true);
+			 singletonFrame.setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
+			 singletonFrame.drawChanges(singletonFrame);
+		     singletonFrame.setVisible(true);
+		     System.out.println(logikaMunchkin.getHand(0).isMouseCard(x, y,0));
+		     
 			}
 
 			

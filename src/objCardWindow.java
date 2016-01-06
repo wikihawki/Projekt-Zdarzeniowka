@@ -6,6 +6,9 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,13 +20,17 @@ import javax.swing.SwingUtilities;
 public class objCardWindow extends JFrame implements ActionListener{
     private static objCardWindow myInstance;
     private JPanel panel ;
-   
+    int i =1;
+    public  ImageIcon ii ;
     private MunchkinWindow window;
     public static int CardIdex;
-    JPanel pnlButtons = new JPanel();
-    JButton przycisk = new JButton("Odrzuæ");
+    public JLabel label;
+    public BufferedImage img;
+    public  JPanel pnlButtons = new JPanel();
+    public JButton przycisk = new JButton("Odrzuæ");
     // the constructor
         private objCardWindow(MunchkinWindow Window,int index)  {
+        	
         this.CardIdex=5;
     	this.window=Window;
         this.setSize(300, 400);
@@ -46,7 +53,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     {
     	this.CardIdex=index;
     }
-    
+
     private void initComponents(JFrame frame, int index) {
     	
     	
@@ -68,18 +75,20 @@ public class objCardWindow extends JFrame implements ActionListener{
       
          setVisible(true);
    
-
-        BufferedImage img =scaleImage(205, 285,"src/images/kd (" +index+ ").jpg");
-        //create label with image as background
-        JLabel label = new JLabel(new ImageIcon((Image) img)); 
-        frame.getContentPane().add(label, BorderLayout.WEST);
+         
+         img  =scaleImage(205, 285,"src/images/kd (" +index+ ").jpg");
+         ImageIcon icon=new ImageIcon((Image) img);
+        label = new JLabel(); 
+        label.setIcon(icon);
+        add(label, BorderLayout.WEST);
        
     }
-    
-    public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
+  
+   public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
+        ii=null;
         try {
-            ImageIcon ii = new ImageIcon(filename);//path to image
+          ii = new ImageIcon(ImageIO.read(new File(filename)));//path to image
             System.out.println(ii);
             bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = (Graphics2D) bi.createGraphics();
@@ -102,7 +111,10 @@ public class objCardWindow extends JFrame implements ActionListener{
 	
     public void drawChanges(objCardWindow window,int index)
     {
+    	 img =scaleImage(205, 285,"src/images/kd (" +index+ ").jpg");
     	initComponents(this,index);
+     
+        
     }
 
 	@Override

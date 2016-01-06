@@ -53,10 +53,11 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 				performMenuAction(); //if so, perform the action of the menu item clicked
 			}
 			
-			if (logikaMunchkin.getHand(0).isMouseCard(x, y)) //Check if the menu or menu items were clicked
+			if (logikaMunchkin.getHand(0).isMouseCard(x, y)!=0) //Check if the menu or menu items were clicked
 			{
-		       objCardWindow singletonFrame =  objCardWindow.getInstance();
-		        singletonFrame.setVisible(true);
+		       objCardWindow singletonFrame =  objCardWindow.getInstance(this);
+		       System.out.println(logikaMunchkin.getHand(0).isMouseCard(x, y));
+		       singletonFrame.setVisible(true);
 			}
 
 			

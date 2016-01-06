@@ -24,9 +24,9 @@ public class objGameLogic {
 	}	
 	private void przygotujTalie()
 	{
-		for(int i = 0 ;i<=64;i++)
+		for(int i = 0 ;i<6;i++)
 		{
-			objCard karta = new objCard(i,imgCardBack[1]);
+			objCard karta = new objCard(i,imgCardBack[i]);
 			reka.get(0).addCard(karta);
 		}
 	}
@@ -60,11 +60,11 @@ public class objGameLogic {
 						
 			}
 			
-			for (int rank = 0; rank < 13; rank++) //Loop 13 times (for ace - king)
+			for (int rank = 1; rank < 13; rank++) //Loop 13 times (for ace - king)
 			{
 				
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[suit][rank] = createImage.getImage(this, "images/ks (1).jpg", 2000000);
+				imgCards[suit][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 2000000);
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 				
@@ -72,12 +72,12 @@ public class objGameLogic {
 			
 		}
 
-		for (int card = 0; card < 6; card++) //Loop the number of card back images being supplied
+		for (int card = 1; card < 6; card++) //Loop the number of card back images being supplied
 		{
 			
 		
 	
-			imgCardBack[card]= createImage.getImage(this, "images/ks (1).jpg", 2000000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
+			imgCardBack[card]= createImage.getImage(this, "images/ks ("+card+").jpg", 2000000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			
 		//	mt.addImage(imgCardBack[card], 0);
 			
@@ -104,6 +104,11 @@ public class objGameLogic {
     public Image getCharacterImage()
     {
     	return CharacterImage;
+    }
+    
+    public Image getCardImage()
+    {
+    	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
     }
     
 

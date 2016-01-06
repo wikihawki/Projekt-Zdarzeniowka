@@ -8,14 +8,13 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private final int refreshRate = 5;
 	private int refreshCounter = 0;
 	private boolean updateDrag = false;
-	private MunchkinGUI gui;
 	
-	public MunchkinWindow(MunchkinGUI Gui)
+	public MunchkinWindow()
 	{
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		this.gui=Gui;
+		
 	}	
 	
 	

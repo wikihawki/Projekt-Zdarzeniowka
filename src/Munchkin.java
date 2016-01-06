@@ -8,17 +8,16 @@ public class Munchkin extends JFrame {
 
 	public static void main (String[] args)
 	{
-		 MunchkinGUI munchkin; 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-      
-            }
-        });
-		
-		
-		
-		
-	
+		JFrame.setDefaultLookAndFeelDecorated(true); //Make it look nice
+        JFrame frame = new JFrame("Munchkin"); //Title
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MunchkinGUI munchkin;  munchkin = new MunchkinGUI();
+        
+       frame.setContentPane(munchkin.createGUI(frame));
+        frame.setSize(970,730);
+        frame.setResizable(false);
+        frame.setVisible(true);  
+        frame.pack();       
 	}
 
 }

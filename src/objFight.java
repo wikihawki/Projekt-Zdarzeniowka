@@ -63,7 +63,7 @@ public class objFight
 		result+=temp.getEscapeBonus();
 		Vector<objCard> cards= player.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
 		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
-		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
+		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
 		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
 		for(int i=0;i<cards.size();i++)
 		{
@@ -105,7 +105,8 @@ public class objFight
 		Vector<objCard> temp= mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
+		temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
 		if(helperPlayer!=null)
 		{
@@ -113,7 +114,8 @@ public class objFight
 			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR));
 			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
 			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
+			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
+			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
 		}
 		for(int i=0;i<temp.size();i++)playersStrength+=(temp.elementAt(i)).getBonus();
@@ -154,6 +156,12 @@ public class objFight
 	{
 		this.escapeBonus = escapeBonus;
 	}
+	public boolean isThere(objCard.Tag tag)
+	{
+		boolean temp=false;
+		for(int i=0; i<monsters.size();i++)if(monsters.elementAt(i).getMyCard().getTag()==tag)temp=true;
+		return temp;
 
+	}
 
 }

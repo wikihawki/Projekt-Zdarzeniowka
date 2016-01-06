@@ -1,5 +1,3 @@
-import java.awt.Image;
-
 public class objPlayedCard
 {
 	private objCard playedCard;

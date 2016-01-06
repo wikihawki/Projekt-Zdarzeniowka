@@ -29,8 +29,6 @@ public class objEffectHandler
 		case OTHER:
 
 			break;
-		case WEAPON:
-			break;
 		default:
 			break;
 		}
@@ -56,8 +54,7 @@ public class objEffectHandler
 			break;
 		case OTHER:
 
-			break;
-		case WEAPON:
+
 			break;
 		default:
 			break;

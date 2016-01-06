@@ -65,6 +65,16 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
+	protected Vector<objCard> findCards(String name, objCard.Tag type)
+	{
+		Vector<objCard> temp= new Vector<objCard>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(card);
+		}
+		return temp;
+	}
 	protected objCard removeLastCard()
 	{
 		return stack.remove(stack.size()-1);

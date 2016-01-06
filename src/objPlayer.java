@@ -1,4 +1,4 @@
-
+import java.util.Vector;
 
 public class objPlayer extends objEntity
 {
@@ -10,7 +10,7 @@ public class objPlayer extends objEntity
 	private MunchkinHand hand;
 	private MunchkinGroup cardsInPlay;
 	private MunchkinGroup carriedCards;
-	private int freeHandCounter, footgearCounter, armorCounter, classCounter;
+	private int freeHandCounter, footgearCounter, armorCounter, classCounter,headgearCounter;
 	private objGameLogic environment;
 	public objPlayer(String name, boolean sex, int handX, int handY, objGameLogic envi)
 	{
@@ -149,27 +149,66 @@ public class objPlayer extends objEntity
 		case ARMOR:
 			break;
 		case BOOTS:
-			break;
-		case DISASTER:
-
-			discardCardfromHand(cardNr);
+			hand.removeCard(cardNr);
+			footgearCounter=equipItem(temp,footgearCounter);
 			break;
 		case HAT:
+			hand.removeCard(cardNr);
+			headgearCounter=equipItem(temp,headgearCounter);
 			break;
 		case ITEMENCHANCER:
 			break;
 		case MONSTER:
+			if(environment.getCurrentFight()!=null)
+			{
+				if((environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK)||(environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK))
+					{
+					environment.getCurrentFight().addMonster(new objMonster(temp));
+					this.discardCardfromHand(cardNr);
+					}
+				else throw new IllegalArgumentException();
+			}
 			break;
+		case DISASTER:
 		case OTHER:
+			environment.addCardToStack(temp, target);
 			break;
 		case OTHERITEM:
+			hand.removeCard(cardNr);
+			cardsInPlay.addCard(temp);
 			break;
-		case WEAPON:
+		case ONEHANDWEAPON:
+			hand.removeCard(cardNr);
+			freeHandCounter=equipItem(temp,freeHandCounter);
+			break;
+		case TWOHANDWEAPON:
+			hand.removeCard(cardNr);
+			freeHandCounter=equipItem(temp,freeHandCounter,2);
 			break;
 		default:
 			break;
 
 		}
+	}
+	public int equipItem(objCard temp, int counter)
+	{
+		if(counter>0)
+		{
+			cardsInPlay.addCard(temp);
+			counter--;
+		}
+		else carriedCards.addCard(temp);
+		return counter;
+	}
+	public int equipItem(objCard temp, int counter, int amount)
+	{
+		if(counter>0)
+		{
+			cardsInPlay.addCard(temp);
+			counter-=amount;
+		}
+		else carriedCards.addCard(temp);
+		return counter;
 	}
 	public MunchkinGroup getCardsInPlay()
 	{
@@ -187,30 +226,25 @@ public class objPlayer extends objEntity
 	{
 		return carriedCards;
 	}
-
-
+	public boolean isThereBigItem()
+	{
+		Vector<objCard> help=carriedCards.findCards(null, objCard.Tag.BIG);
+		help.addAll(cardsInPlay.findCards(null, objCard.Tag.BIG));
+		return (help.size()>0);
+	}
 
 	public int getFreeHandCounter()
 	{
 		return freeHandCounter;
 	}
-
-
-
 	public void setFreeHandCounter(int freeHandCounter)
 	{
 		this.freeHandCounter = freeHandCounter;
 	}
-
-
-
 	public int getFootgearCounter()
 	{
 		return footgearCounter;
 	}
-
-
-
 	public void setFootgearCounter(int footgearCounter)
 	{
 		this.footgearCounter = footgearCounter;

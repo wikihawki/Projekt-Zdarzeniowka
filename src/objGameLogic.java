@@ -1,13 +1,6 @@
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 
 public class objGameLogic
@@ -16,7 +9,7 @@ public class objGameLogic
 	private objPlayer[] players = new objPlayer[4];
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
-    private Image[] imgCardBack = new Image[6];
+    private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
@@ -98,7 +91,7 @@ public class objGameLogic
 
 		}
 
-		for (int card = 1; card < 6; card++) //Loop the number of card back images being supplied
+		for (int card = 1; card < 3; card++) //Loop the number of card back images being supplied
 		{
 
 
@@ -135,7 +128,10 @@ public class objGameLogic
 		}
 		return temp;
 	}
-
+    public objPlayer getCurrentPlayer()
+    {
+    	return players[currPlayer];
+    }
     public void discardCard(objCard card)
     {
     	if(card.getType()==objCard.Type.TREASURE)treasureDiscard.addCard(card);

@@ -3,7 +3,8 @@ import java.awt.*;
 public class objCard extends objEntity
 {
 	public enum Type{DOOR, TREASURE, SEAL}
-	public enum SecondaryType{WEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER}
+	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER}
+	public enum Tag{SHARK, UNDEAD, BIG, NULL}
 	private String name="";
 	private String discription="";
 	private Type type;
@@ -15,6 +16,7 @@ public class objCard extends objEntity
 	private boolean isFaceDown = true;
 	private Image imgCard = null;
 	private int idNr;
+	private Tag tag;
 	public objCard (int id,Type type,SecondaryType type2, Image imgCard, String name, String discription,int levelBonus, int effect, int effect2,int reward, int treasures)
 	{
 		this.idNr=id;
@@ -100,6 +102,14 @@ public class objCard extends objEntity
 
 	public int getIdNr() {
 		return idNr;
+	}
+
+	public Tag getTag() {
+		return tag;
+	}
+
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
 
 

@@ -1,30 +1,33 @@
 
 
-public class objPlayer implements objEntity
+public class objPlayer extends objEntity
 {
-	public enum turnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOKFOR, LOOT,CHARITY}
-	private turnPhase myTurnPhase;
+	public enum TurnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOT, CHARITY, FIGHT}
+	private TurnPhase myTurnPhase;
 	private String name;
 	private boolean sex;
 	private int level;
 	private MunchkinHand hand;
 	private MunchkinGroup cardsInPlay;
+	private MunchkinGroup carriedCards;
 	private int freeHandCounter, footgearCounter, armorCounter, classCounter;
 	private objGameLogic environment;
 	public objPlayer(String name, boolean sex, int handX, int handY, objGameLogic envi)
 	{
-		freeHandCounter=2;
-		footgearCounter=1;
-		armorCounter=1;
-		classCounter=1;
+		setFreeHandCounter(2);
+		setFootgearCounter(1);
+		setArmorCounter(1);
+		setClassCounter(1);
 		this.name=name;
 		level=1;
+		cardsInPlay=new MunchkinGroup();
+		carriedCards=new MunchkinGroup();
 		this.sex=sex;
 		hand=new MunchkinHand(handX, handY, 0);
 		environment=envi;
 		drawTreasure(4);
 		drawDoor(4);
-		myTurnPhase=turnPhase.NOTMYTURN;
+		myTurnPhase=TurnPhase.NOTMYTURN;
 	}
 
 
@@ -35,7 +38,8 @@ public class objPlayer implements objEntity
 	}
 	public int levelUp(int amount)
 	{
-		return level+=amount;
+		if(amount>-level)return level+=amount;
+		else throw new IllegalArgumentException();
 	}
 	public boolean changeSex()
 	{
@@ -64,46 +68,46 @@ public class objPlayer implements objEntity
 	}
 	public void beginTurn() throws IllegalStateException
 	{
-		if(myTurnPhase==turnPhase.NOTMYTURN) myTurnPhase=turnPhase.ITEMSARRANGE;
+		if(myTurnPhase==TurnPhase.NOTMYTURN) myTurnPhase=TurnPhase.ITEMSARRANGE;
 		else throw new IllegalStateException("nie mo¿esz zacz¹æ tury jeœli jest twoja tura");
 	}
 	public void kickOpenDoor() throws IllegalStateException
 	{
-		if(myTurnPhase==turnPhase.ITEMSARRANGE)
+		if(myTurnPhase==TurnPhase.ITEMSARRANGE)
 		{
-			myTurnPhase=turnPhase.KICKDOOR;
-			objDoorCard temp= environment.showDoorCard();
-			switch (temp.getType())
+			myTurnPhase=TurnPhase.KICKDOOR;
+			objCard temp= environment.showDoorCard();
+			switch (temp.getSecondaryType())
 			{
 			case MONSTER:
-				environment.getPlayedCards().removeLastCard();
-				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
-				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), this);
+				environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
+				myTurnPhase=TurnPhase.FIGHT;
+				objMonster monst=new objMonster(temp);
+				environment.setCurrentFight(new objFight(monst, this, environment));
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
 				break;
 			case DISASTER:
-
 				break;
 			case OTHER:
 				hand.addCard(temp);
-				environment.getPlayedCards().removeLastCard();
+				environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
 				break;
 			default:
-				break;
+				throw new IllegalStateException();
 			}
-
-
 		}
 		else throw new IllegalStateException("z³a kolejnoœæ faz tury");
 	}
-	public void lookForTrouble(objDoorCard temp)
+	public void lookForTrouble(objCard temp)
 	{
-		if(myTurnPhase==turnPhase.KICKDOOR)
+		if(myTurnPhase==TurnPhase.KICKDOOR)
 		{
-			myTurnPhase=turnPhase.LOOKFOR;
-			if(temp.getType()==objCard.Type.MONSTER)
+			if(temp.getSecondaryType()==objCard.SecondaryType.MONSTER)
 			{
-				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
-				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), this);
+				myTurnPhase=TurnPhase.FIGHT;
+				objMonster monst=new objMonster(temp);
+				environment.setCurrentFight(new objFight(monst, this,environment));
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
 			}
 			else throw new IllegalArgumentException();
 		}
@@ -111,42 +115,123 @@ public class objPlayer implements objEntity
 	}
 	public void lootRoom()
 	{
-		if(myTurnPhase==turnPhase.KICKDOOR)
+		if(myTurnPhase==TurnPhase.KICKDOOR)
 		{
-			myTurnPhase=turnPhase.LOOT;
+			myTurnPhase=TurnPhase.LOOT;
 			this.drawDoor(1);
 		}
 		else throw new IllegalStateException();
 	}
-	public void Charity()
+	public void charity()
 	{
-		if(myTurnPhase==turnPhase.KICKDOOR||myTurnPhase==turnPhase.LOOKFOR||myTurnPhase==turnPhase.LOOT)
+		if(myTurnPhase==TurnPhase.FIGHT||myTurnPhase==TurnPhase.LOOT)
 		{
-			myTurnPhase=turnPhase.CHARITY;
+			myTurnPhase=TurnPhase.CHARITY;
 		}
 	}
-	public void playCard(int cardNr)
+	public void endTour()
+	{
+		if(myTurnPhase==TurnPhase.CHARITY&&hand.size()<=5)
+		{
+			myTurnPhase=TurnPhase.NOTMYTURN;
+		}
+		else throw new IllegalStateException();
+	}
+	public void endImmediately()
+	{
+		myTurnPhase=TurnPhase.NOTMYTURN;
+	}
+	public void playCard(int cardNr, objEntity target)
 	{
 		objCard temp =hand.getCard(cardNr);
-		if(temp.getClass()==objTreasureCard.class)
+		switch (temp.getSecondaryType())
 		{
+		case ARMOR:
+			break;
+		case BOOTS:
+			break;
+		case DISASTER:
 
-		}
-		else
-		{
-			if(temp.getType()==objCard.Type.OTHER ||temp.getType()==objCard.Type.DISASTER)
-			{
+			discardCardfromHand(cardNr);
+			break;
+		case HAT:
+			break;
+		case ITEMENCHANCER:
+			break;
+		case MONSTER:
+			break;
+		case OTHER:
+			break;
+		case OTHERITEM:
+			break;
+		case WEAPON:
+			break;
+		default:
+			break;
 
-			}
 		}
 	}
-	public MunchkinGroup getCardsInPlay() {
+	public MunchkinGroup getCardsInPlay()
+	{
 		return cardsInPlay;
 	}
-
-
-	public turnPhase getMyTurnPhase() {
+	public void discardCardfromHand(int index)
+	{
+		environment.discardCard(hand.removeCard(index));
+	}
+	public TurnPhase getMyTurnPhase()
+	{
 		return myTurnPhase;
 	}
+	public MunchkinGroup getCarriedCards()
+	{
+		return carriedCards;
+	}
+
+
+
+	public int getFreeHandCounter()
+	{
+		return freeHandCounter;
+	}
+
+
+
+	public void setFreeHandCounter(int freeHandCounter)
+	{
+		this.freeHandCounter = freeHandCounter;
+	}
+
+
+
+	public int getFootgearCounter()
+	{
+		return footgearCounter;
+	}
+
+
+
+	public void setFootgearCounter(int footgearCounter)
+	{
+		this.footgearCounter = footgearCounter;
+	}
+	public int getArmorCounter()
+	{
+		return armorCounter;
+	}
+	public void setArmorCounter(int armorCounter)
+	{
+		this.armorCounter = armorCounter;
+	}
+	public int getClassCounter()
+	{
+		return classCounter;
+	}
+	public void setClassCounter(int classCounter)
+	{
+		this.classCounter = classCounter;
+	}
+
+
 
 }

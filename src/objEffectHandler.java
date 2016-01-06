@@ -6,9 +6,9 @@ public class objEffectHandler
 	{
 		environment=envi;
 	}
-	public void handleEffect(objCard.Type cardType, int effectNr, objEntity target)
+	public void handleEffect(objCard.SecondaryType type,int effectNr, objEntity target)
 	{
-		switch (cardType)
+		switch (type)
 		{
 		case DISASTER:
 			switch (effectNr)
@@ -29,12 +29,39 @@ public class objEffectHandler
 		case OTHER:
 
 			break;
-		case SEAL:
+		case WEAPON:
+			break;
+		default:
+			break;
+		}
+	}
+	public Class<?> getTargetClass(objCard.SecondaryType cardType, int effectNr)
+	{
+		switch (cardType)
+		{
+		case DISASTER:
+			switch (effectNr)
+			{
+			case 1:
+			case 2:
+			case 3:
+				return objPlayer.class;
+			case 12:
+				return null;
+			default:
+				break;
+			}
+			break;
+		case MONSTER:
+			break;
+		case OTHER:
+
 			break;
 		case WEAPON:
 			break;
 		default:
 			break;
 		}
+		return null;
 	}
 }

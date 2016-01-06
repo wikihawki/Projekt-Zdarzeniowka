@@ -2,6 +2,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,7 +13,7 @@ import javax.swing.*;
 public class objGameLogic
 {
 
-	private ArrayList<objPlayer> players = new ArrayList<objPlayer>();
+	private objPlayer[] players = new objPlayer[4];
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[4][13];
     private Image[] imgCardBack = new Image[6];
@@ -18,9 +21,10 @@ public class objGameLogic
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
     protected objInstruction currentInstruction, dragPaintInstruction;
-    private MunchkinGroup playedCards;
+    private Vector<objPlayedCard> playedCards;
     private objFight currentFight;
     private objEffectHandler effectHandler;
+    private int currPlayer;
 	public objGameLogic()
 	{
 		sealDeck=new MunchkinGroup();
@@ -29,8 +33,9 @@ public class objGameLogic
 		doorDiscard=new MunchkinGroup();
 		treasureDiscard=new MunchkinGroup();
 		currentInstruction	= new objInstruction(1,1);
-		playedCards= new MunchkinGroup();
+		playedCards= new Vector<objPlayedCard>();
 		effectHandler=new objEffectHandler(this);
+		currPlayer=0;
 		importPictures();
 		newGame();
 	}
@@ -44,11 +49,11 @@ public class objGameLogic
 	{
 		for(int i = 0 ;i<=64;i++)
 		{
-			objCard karta = new objSealCard(objCard.Type.SEAL,imgCardBack[1], null, null, i);
+			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i);
 			sealDeck.addCard(karta);
-			karta = new objTreasureCard(objCard.Type.ARMOR,imgCardBack[1], null, null, i, i, i, i);
+			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i);
 			treasureDeck.addCard(karta);
-			karta = new objDoorCard(objCard.Type.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
+			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
 			doorDeck.addCard(karta);
 		}
 	}
@@ -57,7 +62,7 @@ public class objGameLogic
 		for(int i =0 ; i<4;i++)
 		{
 
-			players.add(new objPlayer(null,true,currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),this));
+			players[i]=new objPlayer(null,true,currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),this);
 		}
 	}
     private void importPictures ()
@@ -110,24 +115,34 @@ public class objGameLogic
 	}
     public void resolveStackTopCard()
     {
-    	objCard temp=playedCards.removeLastCard();
-    	effectHandler.handleEffect(temp.getType(), temp.getEffect(), playerNr);
-    	discardCard(temp);
+    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
+    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
+    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
+    	discardCard(temp.getPlayedCard());
     }
-    public objDoorCard showDoorCard()
+    public void addCardToStack(objCard card, objEntity target)
+    {
+    	playedCards.add(new objPlayedCard(card, target));
+    }
+    public objCard showDoorCard()
 	{
-		objDoorCard temp=(objDoorCard) doorDeck.getCard(doorDeck.size()-1);
-		playedCards.addCard(temp);
+		objCard temp=doorDeck.getCard(doorDeck.size()-1);
+		if(temp.getSecondaryType()==objCard.SecondaryType.DISASTER)
+		{
+			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)
+				playedCards.add(new objPlayedCard(temp,players[currPlayer]));
+		}
 		return temp;
 	}
+
     public void discardCard(objCard card)
     {
-    	if(card.getClass()==objTreasureCard.class)treasureDiscard.addCard(card);
-    	if(card.getClass()==objDoorCard.class)doorDiscard.addCard(card);
+    	if(card.getType()==objCard.Type.TREASURE)treasureDiscard.addCard(card);
+    	if(card.getType()==objCard.Type.DOOR)doorDiscard.addCard(card);
     }
 	public MunchkinHand getHand(int player)
 	{
-		return players.get(player).getHand();
+		return players[player].getHand();
 	}
     public Integer getPlayerHandPositionX(int Player)
     {
@@ -151,7 +166,7 @@ public class objGameLogic
 	public MunchkinGroup getDoorDeck() {
 		return doorDeck;
 	}
-	public MunchkinGroup getPlayedCards() {
+	public Vector<objPlayedCard> getPlayedCards() {
 		return playedCards;
 	}
 
@@ -164,11 +179,16 @@ public class objGameLogic
 	}
 	public objPlayer getPlayer(int index)
 	{
-		return players.get(index);
+		return players[index];
 	}
 	public int getPlayerIndex(objPlayer player)
 	{
-		return players.indexOf(player);
+		int n=-1;
+		for(int i=0; i<4;i++)
+		{
+			if(player==players[i])n=i;
+		}
+		return n;
 	}
 
 	public objEffectHandler getEffectHandler() {

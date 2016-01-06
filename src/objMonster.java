@@ -1,19 +1,19 @@
 
-public class objMonster implements objEntity
+public class objMonster extends objEntity
 {
 	private String name;
 	private int strength;
 	private int levelReward;
 	private int treasures;
-	private int badStuff;
-	
-	public objMonster(String name, int level, int levelR, int treasures, int badStuff)
+	private int escapeBonus;
+	private objCard myCard;
+	public objMonster(objCard card)
 	{
-		setName(name);
-		this.strength=level;
-		levelReward=levelR;
-		this.treasures=treasures;
-		this.badStuff=badStuff;
+		myCard=card;
+		setName(card.getName());
+		this.strength=card.getLevel();
+		levelReward=card.getReward();
+		this.treasures=card.getTreasures();
 	}
 	public String getName() {
 		return name;
@@ -27,9 +27,6 @@ public class objMonster implements objEntity
 	public int getTreasures() {
 		return treasures;
 	}
-	public int getBadStuff() {
-		return badStuff;
-	}
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -41,4 +38,14 @@ public class objMonster implements objEntity
 	{
 		return (treasures+=amount);
 	}
+	public objCard getMyCard() {
+		return myCard;
+	}
+	public int getEscapeBonus() {
+		return escapeBonus;
+	}
+	public void setEscapeBonus(int escapeBonus) {
+		this.escapeBonus = escapeBonus;
+	}
+
 }

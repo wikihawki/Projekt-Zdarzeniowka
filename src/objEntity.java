@@ -1,5 +1,5 @@
 
-public interface objEntity
+public abstract class objEntity
 {
-	public String getName();
+	public abstract String getName();
 }

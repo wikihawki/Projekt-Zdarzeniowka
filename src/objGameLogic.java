@@ -8,7 +8,7 @@ public class objGameLogic
 
 	private objPlayer[] players = new objPlayer[4];
 	private objCreateAppletImage createImage = new objCreateAppletImage();
-    private	Image[][] imgCards = new Image[4][13];
+    private	Image[][] imgCards = new Image[3][80];
     private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;

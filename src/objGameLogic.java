@@ -24,7 +24,7 @@ public class objGameLogic {
 	}	
 	private void przygotujTalie()
 	{
-		for(int i = 0 ;i<=64;i++)
+		for(int i = 0 ;i<=6;i++)
 		{
 			objCard karta = new objCard(i,imgCardBack[1]);
 			reka.get(0).addCard(karta);
@@ -100,7 +100,11 @@ public class objGameLogic {
     {
     	return currentInstruction.getPlayerHandPositionY(Player-1);
     }
-    
+    public Image getCardLargeImage(int cardNumer,int cardClass)
+    {
+    	Image temp = createImage.getImage(this, "images/ks (1).jpg", 2000000);
+    	return temp;
+    }
     public Image getCharacterImage()
     {
     	return CharacterImage;

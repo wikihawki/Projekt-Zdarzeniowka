@@ -12,6 +12,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected Image imgCardBack;
 	protected int imgHeight=100;
 	protected int imgWidth=72;
+	protected int ClickedCard=0;
 	public MunchkinPaintAndLayout ()
 	{	
 		setupMenuSystem();	
@@ -135,7 +136,15 @@ public class MunchkinPaintAndLayout extends Canvas
 		drawCard(grpOffScreen,tempImg,tempX-200,tempY+400,4);
 		
 	}
-	
+	public void DrawClickedCard(Graphics grpOffScreen)
+	{
+		
+		int tempX = 485;
+		int tempY = 300;
+		Image tempImg = logikaMunchkin.getCardLargeImage(1,1);
+		System.out.println(tempImg);
+		drawCard(grpOffScreen,tempImg,tempX,tempY,1);
+	}
 	public void update (Graphics g)
 	{
 		paint(g);
@@ -166,6 +175,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		}
         System.out.println();
 		DrawHand(grpOffScreen);
+        DrawClickedCard(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);
@@ -202,6 +212,9 @@ public class MunchkinPaintAndLayout extends Canvas
 	       g2d.drawImage( imgCard, at, this);
 
 	}
-     
+    public void setClickedCard(int clickedCard)
+    {
+    	this.ClickedCard= clickedCard;
+    }
 	
 }

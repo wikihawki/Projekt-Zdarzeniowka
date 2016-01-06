@@ -32,21 +32,21 @@ public class MunchkinHand extends MunchkinGroup
 		this.imgCardBack = imgCardBack;
 	}
 	
-	protected boolean isMouseCard(int x, int y)
+	protected int isMouseOnCard(int x, int y)
 	{
-		
+		int clickedCard;
 		int cardHeight = handY + 96;
 		int cardWidth = handX + 72;
-		System.out.println("x "+x+" y "+y+" karta handx"+handX+" handY "+handY);
-for(int i =0;i<size();i++)
+		//System.out.println("x "+x+" y "+y+" karta handx"+handX+" handY "+handY);
+for(int i =0;i<size()-1;i++)
 {
 		if ((x >= handX-72/2+(i*72+i*10) && x <= (handX +72/2)+(i*72+i*10)) && (y >= handY-100 && y <= handY)) //Check if mouse is in this column's card area
 		{
-			System.out.println("??");
-			return true;
+		//	System.out.println("??");
+			return i+1;
 		}
 }	
-		return false;
+		return 0uuuuuu;
 		
 	}
 		

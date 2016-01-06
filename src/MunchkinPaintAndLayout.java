@@ -43,43 +43,51 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	public void DrawHand(Graphics grpOffScreen)
 	{
+		Image tempImg =null;
 
 		//rysowanie dla pozycji gracza numer 1
 		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
 		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
-		Image tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
+		
+	
 		for(int i=0 ; i<logikaMunchkin.getPlayer(0).getHand().size();i++)
 		{
-			if(i!=0)
+		if(logikaMunchkin.getPlayer(0).getHand().size()!=0)
+		tempImg = logikaMunchkin.getPlayer(0).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY-imgHeight/2,1);
 		}
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
 		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
 		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
-	     tempImg = logikaMunchkin.getHand(0).getCard(3).getImg();
+		
        for(int i=0 ; i<logikaMunchkin.getPlayer(1).getHand().size();i++)
 		{
+    	if(logikaMunchkin.getPlayer(1).getHand().size()!=0)
+    	tempImg = logikaMunchkin.getPlayer(1).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,tempX+imgHeight/2,tempY+(i*10+i*imgWidth),2);
 		}
 
 		//rysowanie dla pozycji gracza numer 3 u góry
 		 tempX = logikaMunchkin.getPlayerHandPositionX(3);
 		 tempY = logikaMunchkin.getPlayerHandPositionY(3);
-	     tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
-      for(int i=0 ; i<logikaMunchkin.getPlayer(2).getHand().size();i++)
-		{
-		drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY+imgHeight/2,3);
-		}
+         for(int i=0 ; i<logikaMunchkin.getPlayer(2).getHand().size();i++)
+		 {
+         if(logikaMunchkin.getPlayer(2).getHand().size()!=0)
+         tempImg = logikaMunchkin.getPlayer(2).getHand().getCard(i).getImg();	
+		  drawCard(grpOffScreen,tempImg,tempX+(10*i+i*imgWidth),tempY+imgHeight/2,3);
+		 }
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
 		 tempX = logikaMunchkin.getPlayerHandPositionX(4);
 		 tempY = logikaMunchkin.getPlayerHandPositionY(4);
-	     tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
      for(int i=0 ; i<logikaMunchkin.getPlayer(3).getHand().size();i++)
 		{
+    	 if(logikaMunchkin.getPlayer(3).getHand().size()!=0)
+          tempImg = logikaMunchkin.getPlayer(3).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,tempX-imgHeight/2,tempY+(i*10+i*imgWidth),4);
 		}
+     /*
      //rysowanie decku karty drzwi
      tempX = logikaMunchkin.getPlayerHandPositionX(5);
 	  tempY = logikaMunchkin.getPlayerHandPositionY(5);
@@ -98,7 +106,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	  tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
 	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
 
-		
+		*/
 
 	}
 	public void DrawCharacterImage(Graphics grpOffScreen)

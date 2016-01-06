@@ -15,8 +15,8 @@ public class objGameLogic
 
 	private objPlayer[] players = new objPlayer[4];
 	private objCreateAppletImage createImage = new objCreateAppletImage();
-    private	Image[][] imgCards = new Image[4][13];
-    private Image[] imgCardBack = new Image[6];
+    private	Image[][] imgCards = new Image[3][95];
+    private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
@@ -73,54 +73,55 @@ public class objGameLogic
     private void importPictures ()
 	{
 
-		for (int suit = 0; suit < 4; suit++) //Loop 4 times (for each suit)
-		{
-
-			switch (suit) //Inspect current suit number
-			{
-
-				case 0:
-						break; //Have to put break to stop it executing the other statements
-				case 1:
-						break;
-				case 2:
-						break;
-				case 3:
-						break;
-
-			}
-
-
-
-			for (int rank = 1; rank < 13; rank++) //Loop 13 times (for ace - king)
+		
+			for (int rank = 1; rank <= 69; rank++) //Loop 13 times (for ace - king)
 
 
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[suit][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 2000000);
+				imgCards[0][rank] = createImage.getImage(this, "images/kd ("+rank+").jpg", 200000);
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
 
-		}
-
-		for (int card = 1; card < 6; card++) //Loop the number of card back images being supplied
-		{
+			for (int rank = 1; rank <= 50; rank++) //Loop 13 times (for ace - king)
 
 
-	
-			imgCardBack[card]= createImage.getImage(this, "images/ks ("+card+").jpg", 2000000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
+			{
+
+				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
+				imgCards[1][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000);
+				//System.out.print("\nGot card");
+		        //	mt.addImage(imgCards[suit][rank], 0);
+
+			}
+
+	/*
+			for (int rank = 1; rank <= 12; rank++) //Loop 13 times (for ace - king)
+
+
+			{
+
+				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
+				imgCards[2][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000);
+				//System.out.print("\nGot card");
+		        //	mt.addImage(imgCards[suit][rank], 0);
+
+			}
+
+	*/
+		//	imgCardBack[1]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			
 
 
 
 		//	mt.addImage(imgCardBack[card], 0);
 
-		}
+		
 
-		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
+		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 200000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
 
 
 

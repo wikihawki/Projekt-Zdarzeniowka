@@ -151,8 +151,7 @@ public class objPlayer extends objEntity
 		case BOOTS:
 			break;
 		case DISASTER:
-
-			discardCardfromHand(cardNr);
+			environment.addCardToStack(temp, this);
 			break;
 		case HAT:
 			break;

@@ -164,11 +164,8 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
-<<<<<<< HEAD
-		DrawHand(grpOffScreen);
-=======
+
         DrawHand(grpOffScreen);
->>>>>>> refs/remotes/origin/dodawanie_logiki_kart
 		DrawCharacterImage(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);

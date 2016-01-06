@@ -196,7 +196,28 @@ public class objPlayer extends objEntity
 		help.addAll(cardsInPlay.findCards(null, objCard.Tag.BIG));
 		return (help.size()>0);
 	}
-
+	public Vector<Integer> findArmor()
+	{
+		return cardsInPlay.findCardsID(null, objCard.SecondaryType.ARMOR);
+	}
+	public Vector<Integer> findHat()
+	{
+		return cardsInPlay.findCardsID(null, objCard.SecondaryType.HAT);
+	}
+	public Vector<Integer> findBoots()
+	{
+		return cardsInPlay.findCardsID(null, objCard.SecondaryType.BOOTS);
+	}
+	public Vector<Integer> findWeapon()
+	{
+		Vector<Integer> temp=cardsInPlay.findCardsID(null, objCard.SecondaryType.ONEHANDWEAPON);
+		temp=cardsInPlay.findCardsID(null, objCard.SecondaryType.TWOHANDWEAPON);
+		return temp;
+	}
+	public Vector<Integer> findClass()
+	{
+		return cardsInPlay.findCardsID(null, objCard.SecondaryType.CLASS);
+	}
 
 	public void beginTurn() throws IllegalStateException
 	{

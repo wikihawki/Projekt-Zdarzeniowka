@@ -3,8 +3,8 @@ import java.awt.*;
 public class objCard extends objEntity
 {
 	public enum Type{DOOR, TREASURE, SEAL}
-	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER}
-	public enum Tag{SHARK, UNDEAD, BIG, NULL}
+	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER,CLASS}
+	public enum Tag{SHARK, UNDEAD, BIG, NULL,FLAME}
 	private String name="";
 	private String discription="";
 	private Type type;
@@ -17,7 +17,8 @@ public class objCard extends objEntity
 	private Image imgCard = null;
 	private int idNr;
 	private Tag tag;
-	public objCard (int id,Type type,SecondaryType type2, Image imgCard, String name, String discription,int levelBonus, int effect, int effect2,int reward, int treasures)
+	private int whenToPlay;
+	public objCard (int id,Type type,SecondaryType type2, Image imgCard, String name, String discription,int levelBonus, int effect, int effect2,int reward, int treasures,int whenTo)
 	{
 		this.idNr=id;
 		this.effect=new int[2];
@@ -29,7 +30,7 @@ public class objCard extends objEntity
 		this.effect[1]=effect2;
 		this.rewardValue=reward;
 		this.treasures=treasures;
-		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
+		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER||type2==SecondaryType.CLASS))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER&&type2==SecondaryType.CLASS)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
 		{
 			this.type=type;
 			secondaryType=type2;
@@ -111,6 +112,11 @@ public class objCard extends objEntity
 	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
+
+	public int getWhenToPlay() {
+		return whenToPlay;
+	}
+
 
 
 

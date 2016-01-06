@@ -75,6 +75,36 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
+	protected Vector<Integer> findCardsID(String name, objCard.Type type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getType()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsID(String name, objCard.SecondaryType type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsID(String name, objCard.Tag type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
 	protected objCard removeLastCard()
 	{
 		return stack.remove(stack.size()-1);
@@ -101,7 +131,7 @@ public class MunchkinGroup
 		return stack.elementAt(index);
 	}
 
-	public Vector getStack (int startIndex)
+	public Vector<objCard> getStack (int startIndex)
 	{
 
 		Vector vecStack = new Vector();

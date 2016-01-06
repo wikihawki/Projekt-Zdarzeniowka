@@ -43,11 +43,11 @@ public class objGameLogic
 		for(int i = 0 ;i<64;i++)
 		{
 
-			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i);
+			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i,i);
 			sealDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i);
+			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i, i);
 			treasureDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
+			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i, i);
 			doorDeck.addCard(karta);
 		}
 	}
@@ -149,7 +149,14 @@ public class objGameLogic
     {
     	return currentInstruction.getPlayerHandPositionY(Player-1);
     }
+    public void openSeal()
+    {
 
+    }
+    public void closeSeal()
+    {
+
+    }
     public Image getCharacterImage()
     {
     	return CharacterImage;

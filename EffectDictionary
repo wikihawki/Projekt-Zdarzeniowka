@@ -1,4 +1,4 @@
-Treasure:
+Item:
 1
 2
 3
@@ -10,6 +10,57 @@ Treasure:
 9
 10 +1 run Away
 11 -1 run Away
+Disaster
+1 Lose Level
+2 Lose HeadGear
+3 Open Seal
+4 Lose Item
+5 Lose D6 cards
+6 Lose Armor
+7 Lose Class
+8 Lose turn
+9 Lose Fire Items
+10Lose most valuble item
+11Lose Footgear
+12Change Sex
+13Close Seal
+Monster
+1 Open Seal
+2 Przegrywasz jeœli nikt Ci nie pomo¿e
+3 +3 przeciw facetom, +3 militia
+4 -(twój bonus +1) do ucieczki
+5 +4 scientist
+6 flame dont work
+7 -3 kid
+8 get headgear +1 if you win
+9 -4 scientists, militra
+10 you may open seal before combat +10 for player
+11 your Class dont count
+12 Any non-Undead may be played
+13 +5 za ka¿d¹ katastrofe odrzucon¹
+14 Immine to flame, -3 scientists, +5 if no scientists in game
+15 -4 Bloggers
+16 +5 if no footgear
+17 maybe played without wandering Monster
+18 +5 if alone
+19 -4 kid nie goni < 3
+20 +3 Bloggers
+21 -3 Milira
+22 +1(dodatkowe) za ka¿d¹ pieczec
+23 +3 kid
+24 +4 Militia and no Class
+25 Footgear liczy sie podwojnie
+26 +4 Bloggers
+27 jeœli nie ma pieczeci otwrórz, jeœli jest powtórz efekt ostatniej
+28 +3 kids
+29 Walcz samemu
+30 +3 naukowcy
+31 +5 if no headger
+32 +6 no Class
+33 flame counts double
+34 one hand fewer
+35 -3 blogger
+Other
 
 
 

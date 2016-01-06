@@ -19,13 +19,12 @@ public class objCardWindow extends JFrame implements ActionListener{
     private JPanel panel ;
    
     private MunchkinWindow window;
-    private int CardIdex=0;
+    public static int CardIdex;
     JPanel pnlButtons = new JPanel();
-    // Buttons
     JButton przycisk = new JButton("Odrzuæ");
     // the constructor
-    private objCardWindow(MunchkinWindow Window,int index)  {
- 
+        private objCardWindow(MunchkinWindow Window,int index)  {
+        this.CardIdex=5;
     	this.window=Window;
         this.setSize(300, 400);
         this.setResizable(false);
@@ -33,7 +32,7 @@ public class objCardWindow extends JFrame implements ActionListener{
          System.currentTimeMillis());
         
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        drawChanges(this);
+        //drawChanges(this);
     }
 
     public static objCardWindow getInstance(MunchkinWindow Window,int index) {
@@ -50,7 +49,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     
     private void initComponents(JFrame frame, int index) {
     	
-    	System.out.println(CardIdex+"  ???");
+    	
     	 przycisk.setBounds(200, 200, 100, 30);
     	 if (przycisk.getActionListeners().length<1){przycisk.addActionListener(this);}
     	 
@@ -69,22 +68,10 @@ public class objCardWindow extends JFrame implements ActionListener{
       
          setVisible(true);
    
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-        final BufferedImage img =scaleImage(205, 285,"");
-        //create label with image as background
-      
 
-        JLabel label = new JLabel(new ImageIcon((Image) img));
-     
-     
-        
+        BufferedImage img =scaleImage(205, 285,"src/images/kd (" +index+ ").jpg");
+        //create label with image as background
+        JLabel label = new JLabel(new ImageIcon((Image) img)); 
         frame.getContentPane().add(label, BorderLayout.WEST);
        
     }
@@ -92,25 +79,30 @@ public class objCardWindow extends JFrame implements ActionListener{
     public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
         try {
-            ImageIcon ii = new ImageIcon("src/images/kd (1).jpg");//path to image
+            ImageIcon ii = new ImageIcon(filename);//path to image
+            System.out.println(ii);
             bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = (Graphics2D) bi.createGraphics();
             g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
             g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
         } catch (Exception e) {
+        	System.out.println("blad");
             e.printStackTrace();
             return null;
         }
         return bi;
     }
-
+ public int getCardIdex()
+ {
+	 return CardIdex;
+ }
 	
 
 
 	
-    public void drawChanges(objCardWindow window)
+    public void drawChanges(objCardWindow window,int index)
     {
-    	initComponents(this,CardIdex);
+    	initComponents(this,index);
     }
 
 	@Override
@@ -121,6 +113,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 	     
 		  if (src == przycisk) 
 			    {
+			  System.out.println(CardIdex-1+" odrzucono");
 			    	window.getLogic().getPlayer(0).discardCardfromHand(CardIdex-1);
 			        window.repaint();
 			       this.setVisible(false);

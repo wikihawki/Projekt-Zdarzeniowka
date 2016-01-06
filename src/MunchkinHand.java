@@ -35,7 +35,7 @@ public class MunchkinHand extends MunchkinGroup
 	protected int isMouseCard(int x, int y,int Player)
 	{
 		int i;
-		System.out.println(size());
+		
        for(i =0;i<size();i++)
         {
 		if ((x >= handX-72/2+(i*72+i*10) && x <= (handX +72/2)+(i*72+i*10)) && (y >= handY-100 && y <= handY)) //Check if mouse is in this column's card area

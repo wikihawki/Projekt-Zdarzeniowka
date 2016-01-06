@@ -55,7 +55,7 @@ public class objGameLogic
 			sealDeck.addCard(karta);
 			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i);
 			treasureDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i);
+			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[0], null, null, i, i, i,i,i);
 			doorDeck.addCard(karta);
 
 
@@ -80,7 +80,7 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[0][rank] = createImage.getImage(this, "images/kd ("+rank+").jpg", 200000);
+				imgCards[0][rank] = createImage.getImage(this, "images/kd ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
@@ -92,7 +92,7 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[1][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000);
+				imgCards[1][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
@@ -112,8 +112,8 @@ public class objGameLogic
 			}
 
 	*/
-		//	imgCardBack[1]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-			
+			imgCardBack[0]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
+			imgCardBack[1]= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 
 
 
@@ -170,9 +170,9 @@ public class objGameLogic
     {
     	return CharacterImage;
     }
-    public Image getCardImage()
+    public Image getCardImage(int cardType , int cardId)
     {
-    	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
+    	return imgCards[cardType][cardId];
     }
 	public MunchkinGroup getSealDeck() {
 		return sealDeck;

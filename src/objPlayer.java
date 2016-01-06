@@ -177,6 +177,7 @@ public class objPlayer extends objEntity
 	}
 	public void discardCardfromHand(int index)
 	{
+		
 		environment.discardCard(hand.removeCard(index));
 	}
 	public TurnPhase getMyTurnPhase()

@@ -58,7 +58,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
 		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
 		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
-	     tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
+	     tempImg = logikaMunchkin.getHand(0).getCard(3).getImg();
         for(int i=0 ; i<=5;i++)
 		{
 		drawCard(grpOffScreen,tempImg,tempX+imgHeight/2,tempY+(i*10+i*imgWidth),2);
@@ -135,7 +135,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		drawCard(grpOffScreen,tempImg,tempX-200,tempY+400,4);
 		
 	}
-	
+
 	public void update (Graphics g)
 	{
 		paint(g);
@@ -164,7 +164,6 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
-        System.out.println();
 		DrawHand(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
@@ -203,5 +202,9 @@ public class MunchkinPaintAndLayout extends Canvas
 
 	}
      
+	public objGameLogic getLogic()
+	{
+		return logikaMunchkin;
+	}
 	
 }

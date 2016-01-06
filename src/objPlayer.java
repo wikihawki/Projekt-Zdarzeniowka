@@ -1,6 +1,6 @@
 
 
-public class objPlayer
+public class objPlayer implements objEntity
 {
 	public enum turnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOKFOR, LOOT,CHARITY}
 	private turnPhase myTurnPhase;
@@ -78,7 +78,7 @@ public class objPlayer
 			case MONSTER:
 				environment.getPlayedCards().removeLastCard();
 				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
-				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), environment.getPlayerIndex(this));
+				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), this);
 				break;
 			case DISASTER:
 
@@ -103,7 +103,7 @@ public class objPlayer
 			if(temp.getType()==objCard.Type.MONSTER)
 			{
 				environment.setCurrentFight(new objFight(new objMonster(temp.getName(), temp.getLevel(), temp.getReward(), temp.getTreasures(), temp.getSecondaryEffect()), this));
-				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), environment.getPlayerIndex(this));
+				environment.getEffectHandler().handleEffect(objCard.Type.MONSTER, temp.getEffect(), this);
 			}
 			else throw new IllegalArgumentException();
 		}

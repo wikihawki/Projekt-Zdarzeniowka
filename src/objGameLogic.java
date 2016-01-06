@@ -108,13 +108,23 @@ public class objGameLogic
 
 
 	}
-
+    public void resolveStackTopCard()
+    {
+    	objCard temp=playedCards.removeLastCard();
+    	effectHandler.handleEffect(temp.getType(), temp.getEffect(), playerNr);
+    	discardCard(temp);
+    }
     public objDoorCard showDoorCard()
 	{
 		objDoorCard temp=(objDoorCard) doorDeck.getCard(doorDeck.size()-1);
 		playedCards.addCard(temp);
 		return temp;
 	}
+    public void discardCard(objCard card)
+    {
+    	if(card.getClass()==objTreasureCard.class)treasureDiscard.addCard(card);
+    	if(card.getClass()==objDoorCard.class)doorDiscard.addCard(card);
+    }
 	public MunchkinHand getHand(int player)
 	{
 		return players.get(player).getHand();

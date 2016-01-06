@@ -6,7 +6,7 @@ public class objEffectHandler
 	{
 		environment=envi;
 	}
-	public void handleEffect(objCard.Type cardType, int effectNr, int playerNr)
+	public void handleEffect(objCard.Type cardType, int effectNr, objEntity target)
 	{
 		switch (cardType)
 		{
@@ -14,7 +14,7 @@ public class objEffectHandler
 			switch (effectNr)
 			{
 			case 1:
-				environment.getPlayer(playerNr).levelUp(-1);
+				((objPlayer)target).levelUp(-1);
 				break;
 			case 2:
 				break;

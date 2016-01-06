@@ -1,5 +1,5 @@
 
-public class objMonster
+public class objMonster implements objEntity
 {
 	private String name;
 	private int strength;

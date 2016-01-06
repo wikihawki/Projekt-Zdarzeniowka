@@ -1,15 +1,9 @@
 import java.awt.Image;
 
 
-public class objSealCard extends objCard {
-	
-	private int effect;
+public class objSealCard extends objCard
+{
 	public objSealCard(Type type, Image imgCard, String name, String discription, int effect) {
-		super(type, imgCard, name, discription);
-		this.effect=effect;
+		super(type, imgCard, name, discription, effect);
 	}
-	public int getEffect() {
-		return effect;
-	}
-
 }

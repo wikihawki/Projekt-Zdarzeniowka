@@ -2,38 +2,38 @@
 //Object representing a playing card
 import java.awt.*;
 
-public class objCard
+public class objCard implements objEntity
 {
 	public enum Type{MONSTER, DISASTER, OTHER, OTHERITEM, BOOTS, ARMOR, HEADGEAR, WEAPON, SEAL}
 	private String name="";
 	private String discription="";
 	private Type type;
-	
-	
-	private boolean isFaceDown = true;	
-	private Image imgCard = null;
-	
-	public objCard (Type type, Image imgCard, String name, String discription)
-	{
-		
+	private int effect;
 
+	private boolean isFaceDown = true;
+	private Image imgCard = null;
+
+	public objCard (Type type, Image imgCard, String name, String discription, int effect)
+	{
+
+		this.effect=effect;
 		this.type=type;
 		this.name=name;
 		this.imgCard = imgCard;
 		this.discription=discription;
-		
+
 	}
-	
-	public boolean isFaceDown () 
+
+	public boolean isFaceDown ()
 	{
 		return isFaceDown;
 	}
-	
+
 	public void setFaceDown (boolean isFaceDown)
 	{
 		this.isFaceDown = isFaceDown;
 	}
-	
+
 	public Image getImg ()
 	{
 		return imgCard;
@@ -50,8 +50,12 @@ public class objCard
 	public String getDiscription() {
 		return discription;
 	}
-	
+
+	public int getEffect() {
+		return effect;
+	}
 
 
-	
+
+
 }

@@ -3,7 +3,7 @@ import java.awt.*;
 public class objCard extends objEntity
 {
 	public enum Type{DOOR, TREASURE, SEAL}
-	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER,CLASS}
+	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER,CLASS,SEAL}
 	public enum Tag{SHARK, UNDEAD, BIG, NULL,FLAME}
 	private String name="";
 	private String discription="";
@@ -30,7 +30,7 @@ public class objCard extends objEntity
 		this.effect[1]=effect2;
 		this.rewardValue=reward;
 		this.treasures=treasures;
-		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER||type2==SecondaryType.CLASS))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER&&type2==SecondaryType.CLASS)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
+		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER||type2==SecondaryType.CLASS))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER&&type2!=SecondaryType.CLASS)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
 		{
 			this.type=type;
 			secondaryType=type2;

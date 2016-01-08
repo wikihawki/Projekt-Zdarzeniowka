@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 public class objPlayer extends objEntity
 {
 	public enum TurnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOT, CHARITY, FIGHT}
 	private TurnPhase myTurnPhase;
+	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private String name;
 	private boolean sex;
 	private int level;
@@ -129,7 +133,7 @@ public class objPlayer extends objEntity
 		case MONSTER:
 			if(environment.getCurrentFight()!=null)
 			{
-				if((environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK)||(environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK))
+				if((environment.getCurrentFight().isThere(objCard.Tag.UNDEAD)&&temp.getTag()==objCard.Tag.UNDEAD)||(environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK))
 					{
 					environment.getCurrentFight().addMonster(new objMonster(temp));
 					this.discardCardfromHand(cardNr);
@@ -218,6 +222,10 @@ public class objPlayer extends objEntity
 	{
 		return cardsInPlay.findCardsID(null, objCard.SecondaryType.CLASS);
 	}
+	public void moveFromPlayToCarried(Vector<Integer> cardIndexes)
+	{
+		for(int i=0; i<cardIndexes.size();i++)carriedCards.addCard(cardsInPlay.removeCard(cardIndexes.elementAt(i)));
+	}
 
 	public void beginTurn() throws IllegalStateException
 	{
@@ -295,7 +303,23 @@ public class objPlayer extends objEntity
 		myTurnPhase=TurnPhase.NOTMYTURN;
 	}
 
-
+	public synchronized void addListener(GameEventListener listener)
+	{
+		listeners.add(listener);
+	}
+	public synchronized void removeListener(GameEventListener listener)
+	{
+	    listeners.remove(listener);
+	}
+	private synchronized void fireEvent(GameEvent.EventType type)
+	{
+	    GameEvent event = new GameEvent(this, type);
+	    Iterator<GameEventListener> i = listeners.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameEventOccurred(event);;
+	    }
+	}
 
 
 

@@ -1,4 +1,4 @@
-Item:
+-------------->Item:
 1
 2
 3
@@ -10,7 +10,7 @@ Item:
 9
 10 +1 run Away
 11 -1 run Away
-Disaster
+-------------->Disaster
 1 Lose Level
 2 Lose HeadGear
 3 Open Seal
@@ -24,7 +24,7 @@ Disaster
 11Lose Footgear
 12Change Sex
 13Close Seal
-Monster
+-------------->Monster
 1 Open Seal
 2 Przegrywasz jeœli nikt Ci nie pomo¿e
 3 +3 przeciw facetom, +3 militia
@@ -47,7 +47,7 @@ Monster
 20 +3 Bloggers
 21 -3 Milira
 22 +1(dodatkowe) za ka¿d¹ pieczec
-23 +3 kid
+23 -3 kid
 24 +4 Militia and no Class
 25 Footgear liczy sie podwojnie
 26 +4 Bloggers
@@ -60,7 +60,8 @@ Monster
 33 flame counts double
 34 one hand fewer
 35 -3 blogger
-Other
+36 +5 jeœli bez zbroi, +3 kobiety
+-------------->Other
 
 
 
@@ -69,3 +70,5 @@ Other
 
 
 
+---------------->Continuous
+1 przegrywasz jesli nikt ci nie pomo¿e

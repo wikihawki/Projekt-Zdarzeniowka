@@ -1,13 +1,21 @@
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
-public class objEffectHandler
+
+public class objEffectHandler implements GameEventListener
 {
 	private objGameLogic environment;
+	private Map<Integer, objEntity> continuousEffects;
 	public objEffectHandler(objGameLogic envi)
 	{
 		environment=envi;
+		continuousEffects=new HashMap<Integer, objEntity>();
 	}
+
 	public void handleEffect(objCard.SecondaryType type,int effectNr, objEntity target)
 	{
 		switch (type)
@@ -105,9 +113,60 @@ public class objEffectHandler
 		case MONSTER:
 			switch (effectNr)
 			{
+			case 0:
+				break;
 			case 1:
+				environment.openSeal();
+				break;
+			case 2:
+				if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)target).setBonus(-1);
+				addContinuousEffect(1,target);
+				break;
+			case 3:
+				monsterBonus((objMonster)target, "Militia", -3);
+				monsterBonus((objMonster)target, true, 3);
+				addContinuousEffect(2,target);
+				break;
+			case 4:
+				environment.getCurrentFight().setHelperEscape(0);
+				environment.getCurrentFight().setMainPlayerEscape(0);
+				environment.getCurrentFight().setEscapeBonus(environment.getCurrentFight().getEscapeBonus()-1);
+				addContinuousEffect(3,target);
+				break;
+			case 5:
+				monsterBonus((objMonster)target, "Scientist", 4);
+				addContinuousEffect(4,target);
+				break;
+			case 6:
+			{
+				objPlayer temp =environment.getCurrentFight().getMainPlayer();
+				temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsID(null, objCard.Tag.FLAME));
+				addContinuousEffect(5, target);
+				break;
+			}
+			case 7:
+				monsterBonus((objMonster)target, "Kid", -3);
+				addContinuousEffect(6,target);
+				break;
+			case 8:
+				addContinuousEffect(7,target);
+				break;
+			case 9:
+				String[]temp=new String[2];
+				temp[0]="Scientist";
+				temp[1]="Militia";
+				monsterBonus((objMonster)target, temp, -3);
+				addContinuousEffect(8,target);
+				break;
+			case 10:
 
 				break;
+			case 11:
+
+				break;
+
+			default:
+				throw new IllegalArgumentException();
 			}
 			break;
 		case OTHER:
@@ -116,6 +175,45 @@ public class objEffectHandler
 		default:
 			break;
 		}
+	}
+	private void addContinuousEffect(int i, objEntity target)
+	{
+		continuousEffects.put(i, target);
+		continuousEffects.put(-i, null);
+	}
+	private void monsterBonus(objMonster target, String playerClass, int bonus)
+	{
+		objPlayer player1=environment.getCurrentFight().getMainPlayer();
+		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
+		Vector<objCard>classes=new Vector<objCard>();
+		if(player1.getClassCounter()==0) classes=player1.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS);
+		if(player2!=null)if(player2.getClassCounter()==0)classes.addAll(player2.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS));
+		if(classes.size()>0)
+		{
+			target.increaseStrength(bonus);
+			target.setEffectTookPlace(true);
+		}
+	}
+	private void monsterBonus(objMonster target, String[] playerClass, int bonus)
+	{
+		objPlayer player1=environment.getCurrentFight().getMainPlayer();
+		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
+		Vector<objCard>classes=new Vector<objCard>();
+		if(player1.getClassCounter()==0)for(int i=0;i<playerClass.length;i++)classes=player1.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS);
+		if(player2!=null)if(player2.getClassCounter()==0)for(int i=0;i<playerClass.length;i++)classes.addAll(player2.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS));
+		if(classes.size()>0)
+		{
+			target.increaseStrength(bonus);
+			target.setEffectTookPlace(true);
+		}
+	}
+	private void monsterBonus(objMonster target, boolean sex, int bonus)
+	{
+		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
+		boolean temp=false;
+		if(environment.getCurrentFight().getMainPlayer().getSex()==sex)temp=true;
+		if(player2!=null)if(player2.getSex()==sex)temp=true;
+		if(temp)target.increaseStrength(bonus);
 	}
 	public Class<?> getTargetClass(objCard.SecondaryType cardType, int effectNr)
 	{
@@ -204,5 +302,28 @@ public class objEffectHandler
 			break;
 		}
 		return false;
+	}
+
+	@Override
+	public void gameEventOccurred(GameEvent evt)
+	{
+		GameEvent.EventType eventType=evt.getEventType();
+		Iterator<Entry<Integer, objEntity>> iter=continuousEffects.entrySet().iterator();
+		while(iter.hasNext())
+		{
+			Entry<Integer, objEntity> pair = iter.next();
+
+			if(iter.next().getKey()>0)switch(iter.next().getKey())
+			{
+			case 1:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setBonus(-1);
+				break;
+			}
+			else
+			{
+				continuousEffects.remove(iter.next().getKey());
+				continuousEffects.remove(-iter.next().getKey());
+			}
+		}
 	}
 }

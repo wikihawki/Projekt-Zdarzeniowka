@@ -1,18 +1,24 @@
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 
 
 public class objGameLogic
 {
-
+	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private objPlayer[] players = new objPlayer[4];
+	public enum GameState{PLAY, OVER}
+	private GameState state;
 	private objCreateAppletImage createImage = new objCreateAppletImage();
-    private	Image[][] imgCards = new Image[3][80];
+    private	Image[][] imgCards = new Image[4][13];
     private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
+    private MunchkinGroup openedSeals;
     protected objInstruction currentInstruction, dragPaintInstruction;
     private Vector<objPlayedCard> playedCards;
     private objFight currentFight;
@@ -25,6 +31,7 @@ public class objGameLogic
 		doorDeck=new MunchkinGroup();
 		doorDiscard=new MunchkinGroup();
 		treasureDiscard=new MunchkinGroup();
+		openedSeals=new MunchkinGroup();
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
 		effectHandler=new objEffectHandler(this);
@@ -35,6 +42,7 @@ public class objGameLogic
 
 	public void newGame()
 	{
+		state=GameState.PLAY;
 		importCards();
 		setupPlayers();
 	}
@@ -50,6 +58,9 @@ public class objGameLogic
 			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[1], null, null, i, i, i,i,i, i);
 			doorDeck.addCard(karta);
 		}
+		sealDeck.suffle();
+		treasureDeck.suffle();
+		doorDeck.suffle();
 	}
 	private void setupPlayers()
 	{
@@ -151,11 +162,57 @@ public class objGameLogic
     }
     public void openSeal()
     {
-
+    	objCard temp=sealDeck.removeLastCard();
+    	openedSeals.addCard(temp);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),getCurrentPlayer());
+    	fireEvent(GameEvent.EventType.SEALOPEN);
+    	if(openedSeals.size()==7)
+    	{
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL);
+    		state=GameState.OVER;
+    	}
+    }
+    public void openSeal(objPlayer opener)
+    {
+    	objCard temp=sealDeck.removeLastCard();
+    	openedSeals.addCard(temp);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),opener);
+    	fireEvent(GameEvent.EventType.SEALOPEN);
+    	if(openedSeals.size()==7)state=GameState.OVER;
+    	{
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL);
+    		state=GameState.OVER;
+    	}
     }
     public void closeSeal()
     {
-
+    	sealDeck.addCard(openedSeals.removeLastCard());
+    	sealDeck.suffle();
+    	fireEvent(GameEvent.EventType.SEALCLOSED);
+    }
+    public MunchkinGroup getOpenedSeals()
+    {
+    	return openedSeals;
+    }
+    public void returnDoorsToDeck(Vector<objCard> cards)
+    {
+    	doorDeck.addStack(cards);
+    	doorDeck.suffle();
+    }
+    public void returnDoorsToDeck(objCard card)
+    {
+    	doorDeck.addCard(card);
+    	doorDeck.suffle();
+    }
+    public void returnTreasuresToDeck(Vector<objCard> cards)
+    {
+    	treasureDeck.addStack(cards);
+    	treasureDeck.suffle();
+    }
+    public void returnTreasuresToDeck(objCard card)
+    {
+    	treasureDeck.addCard(card);
+    	treasureDeck.suffle();
     }
     public Image getCharacterImage()
     {
@@ -203,6 +260,31 @@ public class objGameLogic
 
 	public objEffectHandler getEffectHandler() {
 		return effectHandler;
+	}
+	public synchronized void addListener(GameEventListener listener)
+	{
+		listeners.add(listener);
+	}
+	public synchronized void removeListener(GameEventListener listener)
+	{
+	    listeners.remove(listener);
+	}
+	private synchronized void fireEvent(GameEvent.EventType type)
+	{
+	    GameEvent event = new GameEvent(this, type);
+	    Iterator<GameEventListener> i = listeners.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameEventOccurred(event);;
+	    }
+	}
+	public void win(objPlayer winner)
+	{
+		if(winner.getLevel()>=10)state=GameState.OVER;
+	}
+	public GameState getState()
+	{
+		return state;
 	}
 
 

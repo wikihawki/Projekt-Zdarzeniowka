@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.util.Random;
 import java.util.Vector;
 
 public class MunchkinGroup
@@ -13,7 +14,16 @@ public class MunchkinGroup
 	public void MunchkinGroup ()
 	{
 	}
-
+	public void suffle()
+	{
+		Vector<objCard> temp=new Vector<objCard>();
+		Random gen=new Random();
+		for(int i=0;i<stack.size();)
+		{
+			temp.add(stack.remove(gen.nextInt(stack.size())));
+		}
+		stack=temp;
+	}
 	protected int getWidth ()
 	{
 

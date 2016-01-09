@@ -23,6 +23,8 @@ public class objGameLogic
     private	Image[][] imgCards = new Image[3][95];
     private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
+    private Image ButtonImage ;
+    private Image PressedButtonImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
     private MunchkinGroup openedSeals;
@@ -77,8 +79,11 @@ public class objGameLogic
 	{
 		for(int i =0 ; i<amount;i++)
 		{
-
-			players[i]=new objPlayer(null,true,this,i);
+			StringBuilder sb = new StringBuilder();
+			sb.append("");
+			sb.append(i+1);
+			String strI = sb.toString();
+			players[i]=new objPlayer(strI,true,this,i);
 		}
 	}
     private void importPictures ()
@@ -97,7 +102,7 @@ public class objGameLogic
 
 			}
 
-			for (int rank = 1; rank <= 50; rank++) //Loop 13 times (for ace - king)
+			for (int rank = 1; rank < 76; rank++) //Loop 13 times (for ace - king)
 
 
 			{
@@ -133,8 +138,8 @@ public class objGameLogic
 		
 
 		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 200000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
-
-
+		ButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
+		PressedButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige_pressed.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
 
 	}
     public void resolveStackTopCard()
@@ -263,9 +268,15 @@ public class objGameLogic
     	}
     	return doorDeck.removeLastCard();
     }
-    public Image getCardImage()
+    public Image getCardImage(objCard karta,int cardId)
     {
-    	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
+    	if(karta.getType()==objCard.Type.DOOR)
+    	{
+    		return imgCards[1][karta.getIdNr()];
+    	}else{
+    		
+    		return imgCards[0][karta.getIdNr()];
+    	}
     }
 
 	public MunchkinGroup getSealDeck() {
@@ -371,7 +382,52 @@ public class objGameLogic
 	    {
 	    	return imgCards[cardType][cardId];
 	    }
-
-
-
+     public Image getButtonImage()
+     {
+    	 return ButtonImage;
+     };
+     
+     public Image getPressedButtonImage()
+     {
+    	 return PressedButtonImage;
+     };
+     public boolean isAboveButton(int x , int y)
+     {
+    	 if ((x >= 415&& x <= 560 )&& (y >= 300 && y <= 345)) //Check if mouse is in this column's card area
+			{
+				return true;
+			
+	        }
+    	 return false;
+     }
+     protected int[] getNextPlayerId(int currentPlayerId)
+     {
+    
+    	
+     	switch(currentPlayerId)
+     	{
+     	case 0:
+     		int[] myIntArray1 = {1,2,3};
+     		 return  myIntArray1 ;
+     	
+     	case 1:
+     		int[] myIntArray2 = {2,3,0};
+    		 return  myIntArray2 ;
+     	
+     	case 2:
+     		int[] myIntArray3 = {3,0,1};
+    		 return  myIntArray3 ;
+     	
+     	case 3:
+     		int[] myIntArray4 = {0,1,2};
+    		 return  myIntArray4 ;
+     	default :
+     		break;
+     	
+     	}
+     	
+ 		int[] myIntArray4 = {0,1,2};
+		 return  myIntArray4 ;
+     	
+     }
 }

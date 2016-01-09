@@ -31,7 +31,7 @@ public class MunchkinHand extends MunchkinGroup
 		
        for(i =0;i<size();i++)
         {
-		if ((x >= handX-72/2+(i*72+i*10) && x <= (handX +72/2)+(i*72+i*10)) && (y >= handY-100 && y <= handY)) //Check if mouse is in this column's card area
+		if ((x >= 235-72/2+(i*72+i*10) && x <= (235 +72/2)+(i*72+i*10)) && (y >= 700-100 && y <= 700)) //Check if mouse is in this column's card area
 		{
 			return i+1;
 		}
@@ -45,16 +45,12 @@ public class MunchkinHand extends MunchkinGroup
 	protected int cardMouseIsOver (int y)
 	{
 		
-		int gap = handY;
+		int gap = 700;
 		objCard currentCard = null;
 					
 	return 0;
 	}
 	
-	protected objInstruction getPaintInstruction ()
-	{
-		return paintInstruction;
-	}
 
 	protected Image getFaceDownImage ()
 	{

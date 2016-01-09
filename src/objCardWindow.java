@@ -26,7 +26,8 @@ public class objCardWindow extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static objCardWindow myInstance;
     private MunchkinWindow window;
-    public static int CardIdex;
+    public static objCard Card;
+    private int CardPlace;
     public JLabel label;
     public  JPanel pnlButtons = new JPanel(new GridLayout(8, 1));
     public  JPanel pnlImage = new JPanel();
@@ -89,12 +90,13 @@ public class objCardWindow extends JFrame implements ActionListener{
             
         return myInstance;
     }    
-    public void setCardIndex(int index)
+    public void setCardIndex(objCard karta)
     {
-    	this.CardIdex=index;
+    	this.Card=karta;
     }
-    private void initComponents(JFrame frame, int index) {
-    	
+    private void initComponents(JFrame frame, objCard karta) {
+    	 this.Card=karta;
+    	 menageButtons(karta);
          setSize(400, 400);
          this.getContentPane().setBackground( new Color(231, 218, 167) );
          setTitle("Karta");
@@ -103,8 +105,13 @@ public class objCardWindow extends JFrame implements ActionListener{
          pnlButtons.setBackground( new Color(231, 218, 167) );
        //  setVisible(true);
    
-         
-         img  =scaleImage(205, 285,"src/images/kd (" +index+ ").jpg");
+         if(karta.getType()==objCard.Type.DOOR)
+     	{
+        	 img  =scaleImage(205, 285,"src/images/ks (" +karta.getIdNr()+ ").jpg");
+     	}else{
+     		 img  =scaleImage(205, 285,"src/images/kd (" +karta.getIdNr()+ ").jpg");
+     	}
+        
          ImageIcon icon=new ImageIcon((Image) img);
          label.setIcon(icon);
     }
@@ -125,18 +132,19 @@ public class objCardWindow extends JFrame implements ActionListener{
         }
         return bi;
     }
-    public int getCardIdex()
-    {
-     return CardIdex;
-    }
-    public void drawChanges(objCardWindow window,int index)
+    public void drawChanges(objCardWindow window,objCard karta)
     {
     	
-    	initComponents(this,index);
+    	initComponents(this,karta);
      
         
     }
-	@Override
+    public void setCardPklaceOnHand(int place)
+
+    {
+    	this.CardPlace=place;
+    }   
+    @Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
 
@@ -145,7 +153,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == odrzuc) 
 			    {
 			//  .out.println(CardIdex-1+" odrzucono");
-			    	window.getLogic().getPlayer(0).discardCardfromHand(CardIdex-1);
+			    	window.getLogic().getPlayer(0).discardCardfromHand(CardPlace-1);
 			        window.repaint();
 			       this.setVisible(false);
 		        }else 
@@ -160,10 +168,28 @@ public class objCardWindow extends JFrame implements ActionListener{
 		        }else 
 		  if (src == zaloz) 
 			    {
-			    	window.getLogic().getPlayer(0).discardCardfromHand(CardIdex-1);
+			    	window.getLogic().getPlayer(0).equipItem(Card, 0);
 			        window.repaint();
 			       this.setVisible(false);
 		        }
 		
 	}
+@SuppressWarnings("deprecation")
+   private void menageButtons(objCard karta)
+   {
+	if(karta.getType()==objCard.Type.TREASURE)
+	{
+		
+		zaloz.setVisible(false);
+		zaloz.setEnabled(false);;
+	}else
+	{
+		zaloz.setVisible(true);
+		zaloz.setEnabled(true);;
+	}
+}
+
+
+
+
 }

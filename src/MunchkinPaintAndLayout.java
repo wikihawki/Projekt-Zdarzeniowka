@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 public class MunchkinPaintAndLayout extends Canvas
 {
+
 	protected objGameLogic logikaMunchkin;
 	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
 	private final Color clrBackground = new Color(231, 218, 167);
@@ -16,6 +17,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected Image imgCardBack;
 	protected int imgHeight=100;
 	protected int imgWidth=72;
+	protected boolean buttonPressed=false;
 	public MunchkinPaintAndLayout ()
 	{
 		setupMenuSystem();
@@ -56,7 +58,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 		if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()).getHand().size()!=0)
 		{
-		tempImg =logikaMunchkin.getCardImage(0, logikaMunchkin.getPlayer(0).getHand().getCard(i).getIdNr());	
+		tempImg =logikaMunchkin.getCardImage(logikaMunchkin.getCurrentPlayer().getHand().getCard(i),i+1);	
 		}
 		drawCard(grpOffScreen,tempImg,235+(10*i+i*imgWidth),700-imgHeight/2,1);
 		}
@@ -108,8 +110,6 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	public void DrawCharacterImage(Graphics grpOffScreen)
 	{
-		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
-		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
 		Image tempImg = logikaMunchkin.getCharacterImage();
        // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 		drawCard(grpOffScreen,tempImg,250,500,1);
@@ -118,25 +118,19 @@ public class MunchkinPaintAndLayout extends Canvas
 
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
-		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
-	    
+	
 	   //  System.out.println("player 2"+" X "+(tempX+200)+" Y "+(tempY+100));
 		drawCard(grpOffScreen,tempImg,200,160,2);
 
 
 		//rysowanie dla pozycji gracza numer 3 u góry
-		 tempX = logikaMunchkin.getPlayerHandPositionX(3);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(3);
-	    
+		
 	   //  System.out.println("player 3"+" X "+(tempX+500)+" Y "+(tempY+200));
 		drawCard(grpOffScreen,tempImg,710,200,3);
 
 
 		//rysowanie dla pozycji gracza numer 4 po prawej stronie
-		 tempX = logikaMunchkin.getPlayerHandPositionX(4);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(4);
-	     
+		
 	    // System.out.println("player 4"+" X "+(tempX-150)+" Y "+(tempY+500));
 		drawCard(grpOffScreen,tempImg,760,500,4);
 
@@ -149,20 +143,21 @@ public class MunchkinPaintAndLayout extends Canvas
     	    g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     
     	    g.setColor(Color.black);
-    	   
-    	    g.drawString("Player 1", 350, 520);
+    	    g.drawString("Player "+logikaMunchkin.getCurrentPlayer().getName(), 350, 520);
     	    g.drawString("LVL", 350, 580);
-    	    
-    	    g.drawString("Player 2", 105, 290);
+    	    int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
+    	    ;
+    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[0]).getName(), 105, 290);
     	    g.drawString("LVL", 105, 350);
     	    
-    	    g.drawString("Player 3", 530, 155);
+    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[1]).getName(), 530, 155);
     	    g.drawString("LVL", 530, 215);
     	    
-    	    g.drawString("Player 4", 760, 325);
+    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[2]).getName(), 760, 325);
     	    g.drawString("LVL", 760, 385);
     	    
     }
+    
     public void DrawPlayerLVL(Graphics g)
     {
     	
@@ -180,7 +175,34 @@ public class MunchkinPaintAndLayout extends Canvas
         img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
         drawCard(g,img,835,405,1);
     }
-	public void update (Graphics g)
+    protected void DrawEndOfTurnButton(Graphics grpOffScreen)
+    {
+    	Image tempImg=null;
+     if(!buttonPressed)
+      {
+    		 tempImg = logikaMunchkin.getButtonImage();	
+    
+    		drawCard(grpOffScreen,tempImg,450,350,1);
+    		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+    	     
+    		grpOffScreen.setColor(Color.black);
+     	   
+    		grpOffScreen.drawString("Koniec Tury", 430, 330);
+        }else{
+    		
+    		tempImg = logikaMunchkin.getPressedButtonImage();	
+    	    
+    		drawCard(grpOffScreen,tempImg,450,350,1);
+    		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+    	     
+    		grpOffScreen.setColor(Color.black);
+     	   
+    		grpOffScreen.drawString("Koniec Tury", 430, 330);
+        }
+    }
+    
+
+    public void update (Graphics g)
 	{
 		paint(g);
 	}
@@ -212,6 +234,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		DrawPlayerLVL(grpOffScreen);
         DrawHand(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
+		DrawEndOfTurnButton(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);

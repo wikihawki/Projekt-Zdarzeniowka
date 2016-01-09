@@ -52,8 +52,8 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 			
 			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) //Check if the menu or menu items were clicked
 			{
-				CardsingletonFrame .setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
-				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1).getIdNr());
+				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
+				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1));
 			// singletonFrame.repaint();
 		     CardsingletonFrame.setVisible(true);
 	
@@ -69,7 +69,6 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	@Override
@@ -78,13 +77,45 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 		
 	}
 	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mousePressed(MouseEvent arg0)
+	{
+		if (arg0.getButton() == MouseEvent.BUTTON1)
+		{
+
+			int x = arg0.getX();
+			int y = arg0.getY();
+			System.out.println(buttonPressed);
+			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
+			{
+				 System.out.println("yup");
+				 buttonPressed=true;
+				 repaint();
+				 
+			}else 
+			{System.out.println("yup");
+				buttonPressed=false;
+				repaint();
+		    }
+		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		if (arg0.getButton() == MouseEvent.BUTTON1)
+		{
+
+			int x = arg0.getX();
+			int y = arg0.getY();
+			System.out.println(buttonPressed);
+			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
+			{
+				
+				 buttonPressed=false;
+				 repaint();
+				 
+			}else 
+			{
+		    }
+		}
 		
 	}
 	

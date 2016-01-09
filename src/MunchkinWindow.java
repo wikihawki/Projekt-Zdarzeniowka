@@ -8,22 +8,19 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private final int refreshRate = 5;
 	private int refreshCounter = 0;
 	private boolean updateDrag = false;
-	
-	public MunchkinWindow()
+	private MunchkinGUI GUI;
+	private objCardWindow CardsingletonFrame ;
+	private objCharacterWindow CharactersingletonFrame ;
+	public MunchkinWindow(MunchkinGUI gui)
 	{
-		
+		this.GUI=gui;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		
+		this.CardsingletonFrame   =  objCardWindow.getInstance(this,0);
+		this.CardsingletonFrame .setVisible(false);
+		this.CharactersingletonFrame   =  objCharacterWindow.getInstance(this,0);
+		this.CharactersingletonFrame .setVisible(false);
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		int x = arg0.getX();
@@ -47,12 +44,25 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 
 			int x = arg0.getX();
 			int y = arg0.getY();
-			
+			System.out.println("X "+x+" Y "+y);
 			if (menuSystem.checkMenuClicked(x,y)) //Check if the menu or menu items were clicked
 			{
 				performMenuAction(); //if so, perform the action of the menu item clicked
 			}
 			
+			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) //Check if the menu or menu items were clicked
+			{
+				CardsingletonFrame .setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
+				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1).getIdNr());
+			// singletonFrame.repaint();
+		     CardsingletonFrame.setVisible(true);
+	
+		     
+			}else 
+				if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
+				{
+					CharactersingletonFrame.setVisible(true);
+				}
 
 			
 		}

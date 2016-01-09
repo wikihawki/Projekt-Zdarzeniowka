@@ -7,53 +7,52 @@ public class MunchkinHand extends MunchkinGroup
 	private final Color clrSlotHolder = new Color(149, 146, 140);
 	private Image imgCardBack = null;
 	private objInstruction paintInstruction = new objInstruction(0,0);
+	protected int handX = 0, handY = 0;
+	private int Player;
 	
 	
 	
 	
-	
-	
-	public MunchkinHand (int startX, int startY)
+	public MunchkinHand (int handX, int handY,int player)
 	{
 		
-		this.startX = startX;
-		this.startY = startY;
-		
+		this.handX = handX;
+		this.handY = handY;
+		this.Player = player;
 	}
 	
-	protected int getStartX ()
+	protected int gethandX ()
 	{
-		return startX;
+		return handX;
 	}
-	
+	protected int gethandY ()
+	{return handY;}
 	protected void setCardBackImage (Image imgCardBack)
 	{
 		this.imgCardBack = imgCardBack;
 	}
 	
-	protected boolean isMouseOverColumn (int x, int y)
+	protected int isMouseCard(int x, int y,int Player)
 	{
+		int i;
 		
-		int colHeight = startY + 96;
-		
-		if (size() != 0)
+       for(i =0;i<size();i++)
+        {
+		if ((x >= handX-72/2+(i*72+i*10) && x <= (handX +72/2)+(i*72+i*10)) && (y >= handY-100 && y <= handY)) //Check if mouse is in this column's card area
 		{
-			colHeight = getWidth() + 30;
+			return i+1;
 		}
-		
-		if ((x >= startX && x <= (startX + 71)) && (y >= startY && y <= colHeight)) //Check if mouse is in this column's card area
-		{
-			return true;
-		}
-		
-		return false;
+}	
+
+	return 0;
+
 		
 	}
 		
 	protected int cardMouseIsOver (int y)
 	{
 		
-		int gap = startY;
+		int gap = handY;
 		objCard currentCard = null;
 					
 	return 0;
@@ -69,4 +68,6 @@ public class MunchkinHand extends MunchkinGroup
 		return imgCardBack;
 	}		
 	
+	public int getPlayer()
+	{return Player;}
 }

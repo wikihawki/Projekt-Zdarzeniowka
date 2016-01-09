@@ -22,12 +22,15 @@ public class MunchkinGUI {
 	{
 		JPanel panRoot = new JPanel(new BorderLayout());
 		
-		mainWindow = new MunchkinWindow();
+		mainWindow = new MunchkinWindow(this);
 		mainWindow.setSize(new Dimension(970, 700));
 		mainWindow.setBackground(new Color(231, 218, 167));
 		
 		mt = new MediaTracker(mainApp);
-	
+		JLabel lab1 = new JLabel("User Name", JLabel.CENTER);
+	//	panRoot.setLayout(new FlowLayout()); 
+
+	   
 		
 		panRoot.add(mainWindow, BorderLayout.CENTER);
 		
@@ -36,6 +39,6 @@ public class MunchkinGUI {
 	}
 	
 	
-	
+
 
 }

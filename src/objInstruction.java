@@ -21,13 +21,13 @@ public class objInstruction
 		this.polaGraczyY.add(700);
 		// Pozycja rêki gracza 2
 		this.polaGraczyX.add(0);
-		this.polaGraczyY.add(70);
+		this.polaGraczyY.add(130);
 		// Pozycja rêki gracza 3
 		this.polaGraczyX.add(235);
 		this.polaGraczyY.add(0);
 		// Pozycja rêki gracza 4
 		this.polaGraczyX.add(910);
-		this.polaGraczyY.add(50);
+		this.polaGraczyY.add(150);
 		// Pozycja Decku kart drzwi
 		this.polaGraczyX.add(450);
 		this.polaGraczyY.add(250);

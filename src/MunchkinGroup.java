@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.util.Random;
 import java.util.Vector;
 
 public class MunchkinGroup
@@ -13,7 +14,20 @@ public class MunchkinGroup
 	public void MunchkinGroup ()
 	{
 	}
-
+	public void suffle()
+	{
+		Vector<objCard> temp=new Vector<objCard>();
+		Random gen=new Random();
+		for(;0<stack.size();)
+		{
+			temp.add(stack.remove(gen.nextInt(stack.size())));
+		}
+		stack=temp;
+	}
+	protected int getCardIndex(objCard card)
+	{
+		return stack.lastIndexOf(card);
+	}
 	protected int getWidth ()
 	{
 
@@ -38,7 +52,7 @@ public class MunchkinGroup
 
 	protected objCard removeCard (int index)
 	{
-		//System.out.println("Id karty odrzuconej"+stack.get(index).getIdNr());
+
 		objCard card = stack.remove(index);
 
 
@@ -62,6 +76,46 @@ public class MunchkinGroup
 		{
 			objCard card=getCard(i);
 			if((card.getName()==name || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(card);
+		}
+		return temp;
+	}
+	protected Vector<objCard> findCards(String name, objCard.Tag type)
+	{
+		Vector<objCard> temp= new Vector<objCard>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(card);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsIndex(String name, objCard.Type type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getType()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsIndex(String name, objCard.SecondaryType type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsIndex(String name, objCard.Tag type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(i);
 		}
 		return temp;
 	}
@@ -91,7 +145,7 @@ public class MunchkinGroup
 		return stack.elementAt(index);
 	}
 
-	public Vector getStack (int startIndex)
+	public Vector<objCard> getStack (int startIndex)
 	{
 
 		Vector vecStack = new Vector();

@@ -1,16 +1,22 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
 
 public class objFight
 {
+	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private Vector<objMonster> monsters;
 	private objPlayer mainPlayer;
 	private objPlayer helperPlayer;
 	private int playersStrength;
-	private int sidesBonuses;
+	private int monstersBonus;
+	private int playersBonus;
 	private int treasuresForHelper;
 	private int escapeBonus;
+	private int mainPlayerEscape, helperEscape;
 	objGameLogic parent;
 	public objFight(objMonster monster, objPlayer player, objGameLogic parent)
 	{
@@ -23,7 +29,7 @@ public class objFight
 	}
 	public void resolveBattle()
 	{
-		if(getMonstersStrength() < getPlayersStrength())
+		if(getMonstersStrength() < getPlayersStrength()&&getMonstersStrength()>=0)
 		{
 			int levels=0,treasures=0;
 			for(int i=0; i<this.monsters.size();i++)
@@ -50,32 +56,28 @@ public class objFight
 		}
 		else
 		{
-
-			for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, mainPlayer))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getMyCard().getEffect(1), mainPlayer);
-			if(helperPlayer!=null)for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, helperPlayer))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getMyCard().getEffect(1), helperPlayer);
+			for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, true))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
+			if(helperPlayer!=null)for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
 		}
+		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
 	}
-	private boolean tryToRunAway(int monsterNr, objPlayer player)
+	private boolean tryToRunAway(int monsterNr, boolean which)
 	{
+		if(which)fireEvent(GameEvent.EventType.RUNAWAY,mainPlayer);
+		else fireEvent(GameEvent.EventType.RUNAWAY, helperPlayer);
 		Random gen= new Random();
 		int result=gen.nextInt(6)+1;
 		objMonster temp=monsters.elementAt(monsterNr);
 		result+=temp.getEscapeBonus();
-		Vector<objCard> cards= player.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
-		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
-		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
-		cards.addAll(player.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
-		for(int i=0;i<cards.size();i++)
-		{
-			if(cards.elementAt(i).getEffect(1)==10)result++;
-			if(cards.elementAt(i).getEffect(1)==11)result--;
-		}
+		if(which)result+=mainPlayerEscape;
+		else result+=helperEscape;
 		return (result>=5);
 	}
-	public void addhelper(objPlayer helper, int treasuresReward) throws IllegalStateException
+	public void addHelper(objPlayer helper, int treasuresReward) throws IllegalStateException
 	{
 		if(helperPlayer==null)
 		{
+			this.fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 			setHelperPlayer(helper);
 			treasuresForHelper=treasuresReward;
 		}
@@ -83,40 +85,70 @@ public class objFight
 	}
 	public void addBonus(int bonus)
 	{
-		sidesBonuses+=bonus;
+		if(bonus>0)playersBonus+=bonus;
+		else monstersBonus-=bonus;
 	}
-	public int getSidesBonuses()
+	public void playerChanged()
 	{
-		return sidesBonuses;
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 	}
-	public int getMonstersStrength()
+	public int getMonstersBonus()
 	{
-		int monsters=0;
-		for(int i=0; i<this.monsters.size();i++)monsters+=this.monsters.elementAt(i).getStrength();
+		return monstersBonus;
+	}
+	public int getPlayerBonus()
+	{
+		return playersBonus;
+	}
+	public int getMonstersStrength() //-1 automatyczne zwyciestwo potworow
+	{
+		int monsters=monstersBonus;
+		for(int i=0; i<this.monsters.size();i++)
+		{
+			int temp=this.monsters.elementAt(i).getStrength();
+			if(temp==-1)return -1;
+			monsters+=temp;
+		}
 		return monsters;
 	}
 	public int getPlayersStrength()
 	{
 		return playersStrength;
 	}
-	public void updatePlayersStrength()
+	public void updatePlayers()
 	{
 		playersStrength=mainPlayer.getLevel();
+		playersStrength+=playersBonus;
 		Vector<objCard> temp= mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
+		for(int i=0;i<temp.size();i++)
+		{
+			if(temp.elementAt(i).getEffect(1)==10)mainPlayerEscape++;
+			if(temp.elementAt(i).getEffect(1)==11)mainPlayerEscape--;
+		}
 		if(helperPlayer!=null)
 		{
 			playersStrength+=helperPlayer.getLevel();
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR));
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.WEAPON));
-			temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+			Vector<objCard> temp2=helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
+			for(int i=0;i<temp.size();i++)
+			{
+				if(temp2.elementAt(i).getEffect(1)==10)helperEscape++;
+				if(temp2.elementAt(i).getEffect(1)==11)helperEscape--;
+			}
 		}
 		for(int i=0;i<temp.size();i++)playersStrength+=(temp.elementAt(i)).getBonus();
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 	}
 	public objPlayer getMainPlayer()
 	{
@@ -142,6 +174,11 @@ public class objFight
 	{
 		monsters.add(e);
 	}
+	public boolean removeMonster(objMonster monster)
+	{
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, monster);
+		return monsters.remove(monster);
+	}
 	public int getTreasuresForHelper()
 	{
 		return treasuresForHelper;
@@ -154,6 +191,47 @@ public class objFight
 	{
 		this.escapeBonus = escapeBonus;
 	}
+	public boolean isThere(objCard.Tag tag)
+	{
+		boolean temp=false;
+		for(int i=0; i<monsters.size();i++)if(monsters.elementAt(i).getMyCard().getTag()==tag)temp=true;
+		return temp;
 
+	}
+	public boolean isThere(int effect)
+	{
+		boolean temp=false;
+		for(int i=0; i<monsters.size();i++)if(monsters.elementAt(i).getMyCard().getEffect(0)==effect)temp=true;
+		return temp;
 
+	}
+	public synchronized void addListener(GameEventListener listener)
+	{
+		listeners.add(listener);
+	}
+	public synchronized void removeListener(GameEventListener listener)
+	{
+	    listeners.remove(listener);
+	}
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
+	{
+	    GameEvent event = new GameEvent(this, type, target);
+	    Iterator<GameEventListener> i = listeners.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameEventOccurred(event);;
+	    }
+	}
+	public int getMainPlayerEscape() {
+		return mainPlayerEscape;
+	}
+	public int getHelperEscape() {
+		return helperEscape;
+	}
+	public void setMainPlayerEscape(int mainPlayerEscape) {
+		this.mainPlayerEscape = mainPlayerEscape;
+	}
+	public void setHelperEscape(int helperEscape) {
+		this.helperEscape = helperEscape;
+	}
 }

@@ -2,24 +2,29 @@
 public class objMonster extends objEntity
 {
 	private String name;
-	private int strength;
+	private int bonus;
 	private int levelReward;
 	private int treasures;
 	private int escapeBonus;
 	private objCard myCard;
+	private int badStuff;
+	private boolean effectTookPlace;
 	public objMonster(objCard card)
 	{
 		myCard=card;
 		setName(card.getName());
-		this.strength=card.getLevel();
+		this.bonus=0;
 		levelReward=card.getReward();
 		this.treasures=card.getTreasures();
+		badStuff=card.getEffect(1);
+		effectTookPlace=false;
 	}
 	public String getName() {
 		return name;
 	}
 	public int getStrength() {
-		return strength;
+		if(bonus==-1)return -1;
+		return bonus+myCard.getLevel();
 	}
 	public int getLevelReward() {
 		return levelReward;
@@ -32,7 +37,11 @@ public class objMonster extends objEntity
 	}
 	public int increaseStrength(int amount)
 	{
-		return (strength+=amount);
+		return (bonus+=amount);
+	}
+	public void setBonus(int bonus)
+	{
+		this.bonus=bonus;
 	}
 	public int increaseTreasures(int amount)
 	{
@@ -46,6 +55,18 @@ public class objMonster extends objEntity
 	}
 	public void setEscapeBonus(int escapeBonus) {
 		this.escapeBonus = escapeBonus;
+	}
+	public int getBadStuff() {
+		return badStuff;
+	}
+	public void setBadStuff(int badStuff) {
+		this.badStuff = badStuff;
+	}
+	public boolean isEffectTookPlace() {
+		return effectTookPlace;
+	}
+	public void setEffectTookPlace(boolean effectTookPlace) {
+		this.effectTookPlace = effectTookPlace;
 	}
 
 }

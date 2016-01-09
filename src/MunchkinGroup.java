@@ -38,7 +38,7 @@ public class MunchkinGroup
 
 	protected objCard removeCard (int index)
 	{
-		System.out.println("Id karty odrzuconej"+stack.get(index).getIdNr());
+		//System.out.println("Id karty odrzuconej"+stack.get(index).getIdNr());
 		objCard card = stack.remove(index);
 
 

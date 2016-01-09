@@ -20,14 +20,6 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	       singletonFrame.setVisible(false);
 		
 	}	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		int x = arg0.getX();
@@ -61,7 +53,7 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 			{
 			 singletonFrame.setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
 			 singletonFrame.drawChanges(singletonFrame,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1).getIdNr());
-			 singletonFrame.repaint();
+			// singletonFrame.repaint();
 		     singletonFrame.setVisible(true);
 	
 		     

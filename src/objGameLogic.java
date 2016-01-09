@@ -46,13 +46,15 @@ public class objGameLogic
 		effectHandler=new objEffectHandler(this);
 		currPlayer=0;
 		importPictures();
-		newGame();
+		newGame(4);
 	}
 
-	public void newGame()
+	public void newGame(int amount)
 	{
+		state=GameState.PLAY;
+		playersNumber=amount;
 		importCards();
-		setupPlayers();
+		setupPlayers(amount);
 	}
 	private void importCards()
 	{
@@ -71,9 +73,9 @@ public class objGameLogic
 
 		}
 	}
-	private void setupPlayers()
+	private void setupPlayers(int amount)
 	{
-		for(int i =0 ; i<4;i++)
+		for(int i =0 ; i<amount;i++)
 		{
 
 			players[i]=new objPlayer(null,true,currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),this);
@@ -137,10 +139,9 @@ public class objGameLogic
 	}
     public void resolveStackTopCard()
     {
-    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
+    	objPlayedCard temp=playedCards.get(playedCards.size()-1);
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
-    	discardCard(temp.getPlayedCard());
     }
     public void addCardToStack(objCard card, objEntity target)
     {
@@ -148,7 +149,7 @@ public class objGameLogic
     }
     public objCard showDoorCard()
 	{
-		objCard temp=doorDeck.getCard(doorDeck.size()-1);
+		objCard temp=drawDoor();
 		if(temp.getSecondaryType()==objCard.SecondaryType.DISASTER)
 		{
 			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)

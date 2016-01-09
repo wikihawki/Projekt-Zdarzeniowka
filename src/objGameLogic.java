@@ -366,7 +366,10 @@ public class objGameLogic
 		return 0;
 	}
 
-
+	 public Image getCardImage(int cardType , int cardId)
+	    {
+	    	return imgCards[cardType][cardId];
+	    }
 
 
 

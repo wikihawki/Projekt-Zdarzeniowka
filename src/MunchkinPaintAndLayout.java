@@ -177,7 +177,17 @@ public class MunchkinPaintAndLayout extends Canvas
     	
     	BufferedImage img;
         img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
-        drawCard(g,img,350,300,1);
+        drawCard(g,img,425,595,1);
+        
+    
+        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        drawCard(g,img,180,370,1);
+        
+        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        drawCard(g,img,605,235,1);
+        
+        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        drawCard(g,img,835,405,1);
     }
 	public void update (Graphics g)
 	{

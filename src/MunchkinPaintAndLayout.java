@@ -2,7 +2,11 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 public class MunchkinPaintAndLayout extends Canvas
 {
 	protected objGameLogic logikaMunchkin;
@@ -146,7 +150,35 @@ public class MunchkinPaintAndLayout extends Canvas
 		drawCard(grpOffScreen,tempImg,tempX-150,tempY+500,4);
 
 	}
-    
+    public void DrawPlayerNames(Graphics g)
+    {
+    	 Dimension d = this.getPreferredSize();
+    	    int fontSize = 20;
+
+    	    g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+    	     
+    	    g.setColor(Color.black);
+    	   
+    	    g.drawString("Player 1", 350, 520);
+    	    g.drawString("LVL", 350, 580);
+    	    
+    	    g.drawString("Player 2", 105, 290);
+    	    g.drawString("LVL", 105, 350);
+    	    
+    	    g.drawString("Player 3", 530, 155);
+    	    g.drawString("LVL", 530, 215);
+    	    
+    	    g.drawString("Player 4", 760, 325);
+    	    g.drawString("LVL", 760, 385);
+    	    
+    }
+    public void DrawPlayerLVL(Graphics g)
+    {
+    	
+    	BufferedImage img;
+        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        drawCard(g,img,350,300,1);
+    }
 	public void update (Graphics g)
 	{
 		paint(g);
@@ -175,7 +207,8 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);
 		}
-
+		DrawPlayerNames(grpOffScreen);
+		DrawPlayerLVL(grpOffScreen);
         DrawHand(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
@@ -213,7 +246,23 @@ public class MunchkinPaintAndLayout extends Canvas
 	       g2d.drawImage( imgCard, at, this);
 
 	}
-
+	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
+        BufferedImage bi = null;
+        ImageIcon ii ;
+        ii=null;
+        try {
+          ii = new ImageIcon(ImageIO.read(new File(filename)));//path to image
+            bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = (Graphics2D) bi.createGraphics();
+            g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+            g2d.drawImage(ii.getImage(), 0, 0, WIDTH, HEIGHT, null);
+        } catch (Exception e) {
+        	System.out.println("blad");
+            e.printStackTrace();
+            return null;
+        }
+        return bi;
+    }
 	public objGameLogic getLogic()
 	{
 		return logikaMunchkin;

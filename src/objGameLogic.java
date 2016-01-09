@@ -276,10 +276,10 @@ public class objGameLogic
     {
     	if(karta.getType()==objCard.Type.DOOR)
     	{
-    		return imgCards[1][karta.getIdNr()];
+    		return imgCards[0][karta.getIdNr()];
     	}else{
     		
-    		return imgCards[0][karta.getIdNr()];
+    		return imgCards[1][karta.getIdNr()];
     	}
     }
 

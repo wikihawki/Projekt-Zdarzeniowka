@@ -95,7 +95,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     	this.Card=karta;
     }
     private void initComponents(JFrame frame, objCard karta) {
-    	 this.Card=karta;
+    	Card=karta;
     	 menageButtons(karta);
          setSize(400, 400);
          this.getContentPane().setBackground( new Color(231, 218, 167) );
@@ -107,13 +107,14 @@ public class objCardWindow extends JFrame implements ActionListener{
    
          if(karta.getType()==objCard.Type.DOOR)
      	{
-        	 img  =scaleImage(205, 285,"src/images/ks (" +karta.getIdNr()+ ").jpg");
+        	 img  =scaleImage(205, 285,"src/images/kd (" +karta.getIdNr()+ ").jpg");
      	}else{
-     		 img  =scaleImage(205, 285,"src/images/kd (" +karta.getIdNr()+ ").jpg");
+     		 img  =scaleImage(205, 285,"src/images/ks (" +karta.getIdNr()+ ").jpg");
      	}
         
          ImageIcon icon=new ImageIcon((Image) img);
          label.setIcon(icon);
+         
     }
     public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
@@ -180,12 +181,12 @@ public class objCardWindow extends JFrame implements ActionListener{
 	if(karta.getType()==objCard.Type.TREASURE)
 	{
 		
-		zaloz.setVisible(false);
-		zaloz.setEnabled(false);;
-	}else
-	{
 		zaloz.setVisible(true);
 		zaloz.setEnabled(true);;
+	}else
+	{
+		zaloz.setVisible(false);
+		zaloz.setEnabled(false);;
 	}
 }
 

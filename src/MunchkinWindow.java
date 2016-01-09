@@ -61,6 +61,9 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 			}else 
 				if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
 				{
+					
+					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y));
+					CharactersingletonFrame.repaint();
 					CharactersingletonFrame.setVisible(true);
 				}
 

@@ -14,12 +14,14 @@ public class objCharacterWindow extends JFrame implements MouseListener{
 	private static final long serialVersionUID = 1L;
 private MunchkinWindow MainWindow;
 private static objCharacterWindow myInstance;
+private objPlayer Player;
 private  JPanel pnlUpper = new JPanel(new GridLayout(1, 3));
 private  JPanel pnlMiddle = new JPanel(new GridLayout(1, 3));
 private  JPanel pnlBottom = new JPanel(new GridLayout(1, 3));
 private ArrayList<JLabel> PaneleEkwipunku=new ArrayList<JLabel>();
 private objEquipmentSlotWindow okienko ;
-
+private String PlayerName="";
+private int PlayerLVL=1;
 
 
 
@@ -65,9 +67,10 @@ public void setLabelImages(int i)
 switch(i)
 {
 case 0:
+	
 	PaneleEkwipunku.get(i).setLayout(new GridLayout(8, 1));
 	PaneleEkwipunku.get(i).setFont(new Font("", Font.ITALIC, 20));
-	PaneleEkwipunku.get(i).setText("Player 1 \n LVL 1");
+	PaneleEkwipunku.get(i).setText(PlayerName+"\n LVL "+PlayerLVL);
 	
 
 	break;
@@ -218,4 +221,15 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 	{
 		return MainWindow;
 	}
+    public void setPlyer(int PlayerId)
+    {
+    System.out.println(PlayerId);
+	Player=MainWindow.getLogic().getPlayer(PlayerId-1);
+	PlayerName=Player.getName();
+	PlayerLVL=Player.getLevel();
+	PaneleEkwipunku.get(0).setLayout(new GridLayout(8, 1));
+	PaneleEkwipunku.get(0).setFont(new Font("", Font.ITALIC, 20));
+	PaneleEkwipunku.get(0).setText("Player "+PlayerName+"\n LVL "+PlayerLVL);
+	
+    };
 }

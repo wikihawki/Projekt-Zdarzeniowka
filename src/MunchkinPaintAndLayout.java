@@ -50,13 +50,13 @@ public class MunchkinPaintAndLayout extends Canvas
 	public void DrawHand(Graphics grpOffScreen)
 	{
 		Image tempImg =null;
-
+		 int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
 		//rysowanie dla pozycji gracza numer 1
 	
 	
-		for(int i=0 ; i<logikaMunchkin.getPlayer(0).getHand().size();i++)
+		for(int i=0 ; i<logikaMunchkin.getCurrentPlayer().getHand().size();i++)
 		{
-		if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()).getHand().size()!=0)
+		if(logikaMunchkin.getCurrentPlayer().getHand().size()!=0)
 		{
 		tempImg =logikaMunchkin.getCardImage(logikaMunchkin.getCurrentPlayer().getHand().getCard(i),i+1);	
 		}
@@ -64,48 +64,29 @@ public class MunchkinPaintAndLayout extends Canvas
 		}
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
-       for(int i=0 ; i<logikaMunchkin.getPlayer(1).getHand().size();i++)
+       for(int i=0 ; i<logikaMunchkin.getPlayer(tmp[0]).getHand().size();i++)
 		{
-    	if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+1).getHand().size()!=0)
-    	tempImg = logikaMunchkin.getPlayer(1).getHand().getCard(i).getImg();	
+    	if(logikaMunchkin.getPlayer(tmp[0]).getHand().size()!=0)
+    	tempImg = logikaMunchkin.getPlayer(tmp[0]).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,imgHeight/2,70+(i*10+i*imgWidth),2);
 		}
 
 		//rysowanie dla pozycji gracza numer 3 u góry
-         for(int i=0 ; i<logikaMunchkin.getPlayer(2).getHand().size();i++)
+         for(int i=0 ; i<logikaMunchkin.getPlayer(tmp[1]).getHand().size();i++)
 		 {
-         if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+2).getHand().size()!=0)
-         tempImg = logikaMunchkin.getPlayer(2).getHand().getCard(i).getImg();	
+         if(logikaMunchkin.getPlayer(tmp[1]).getHand().size()!=0)
+         tempImg = logikaMunchkin.getPlayer(tmp[1]).getHand().getCard(i).getImg();	
 		  drawCard(grpOffScreen,tempImg,235+(10*i+i*imgWidth),imgHeight/2,3);
 		 }
 
 		//rysowanie dla pozycji gracza numer 4 po prawej stronie
-     for(int i=0 ; i<logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+3).getHand().size();i++)
+     for(int i=0 ; i<logikaMunchkin.getPlayer(tmp[2]).getHand().size();i++)
 		{
-    	 if(logikaMunchkin.getPlayer(3).getHand().size()!=0)
-          tempImg = logikaMunchkin.getPlayer(3).getHand().getCard(i).getImg();	
+    	 if(logikaMunchkin.getPlayer(tmp[2]).getHand().size()!=0)
+          tempImg = logikaMunchkin.getPlayer(tmp[2]).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,910,70+(i*10+i*imgWidth),4);
 		}
-     /*
-     //rysowanie decku karty drzwi
-     tempX = logikaMunchkin.getPlayerHandPositionX(5);
-	  tempY = logikaMunchkin.getPlayerHandPositionY(5);
-	  tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
-	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
-
-     //rysowanie decku karty skarbu
-     tempX = logikaMunchkin.getPlayerHandPositionX(6);
-	  tempY = logikaMunchkin.getPlayerHandPositionY(6);
-	  tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
-	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
-
-     //rysowanie decku karty foczek
-     tempX = logikaMunchkin.getPlayerHandPositionX(7);
-	  tempY = logikaMunchkin.getPlayerHandPositionY(7);
-	  tempImg = logikaMunchkin.getHand(0).getLastCard().getImg();
-	  drawCard(grpOffScreen,tempImg,tempX,tempY,1);
-
-		*/
+    
 
 	}
 	public void DrawCharacterImage(Graphics grpOffScreen)
@@ -146,7 +127,7 @@ public class MunchkinPaintAndLayout extends Canvas
     	    g.drawString("Player "+logikaMunchkin.getCurrentPlayer().getName(), 350, 520);
     	    g.drawString("LVL", 350, 580);
     	    int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
-    	    ;
+    	    
     	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[0]).getName(), 105, 290);
     	    g.drawString("LVL", 105, 350);
     	    
@@ -165,7 +146,6 @@ public class MunchkinPaintAndLayout extends Canvas
 		drawCard(g,tempImg,250,340,1);
     	
     }
-    
     public void DrawTreasureStack(Graphics g)
     {
     	Image tempImg =null;
@@ -185,19 +165,19 @@ public class MunchkinPaintAndLayout extends Canvas
     }
     public void DrawPlayerLVL(Graphics g)
     {
-    	
+    	 int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
     	BufferedImage img;
-        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getCurrentPlayer().getLevel()+".jpg");
         drawCard(g,img,425,595,1);
         
     
-        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getPlayer(tmp[0]).getLevel()+".jpg");
         drawCard(g,img,180,370,1);
         
-        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getPlayer(tmp[1]).getLevel()+".jpg");
         drawCard(g,img,605,235,1);
         
-        img  =scaleImage(50, 50,"src/images/LVL/"+1+".jpg");
+        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getPlayer(tmp[2]).getLevel()+".jpg");
         drawCard(g,img,835,405,1);
     }
     protected void DrawEndOfTurnButton(Graphics grpOffScreen)

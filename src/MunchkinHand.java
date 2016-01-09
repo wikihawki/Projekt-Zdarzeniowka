@@ -6,27 +6,20 @@ public class MunchkinHand extends MunchkinGroup
 	
 	private final Color clrSlotHolder = new Color(149, 146, 140);
 	private Image imgCardBack = null;
-	private objInstruction paintInstruction = new objInstruction(0,0);
-	protected int handX = 0, handY = 0;
+
 	private int Player;
 	
 	
 	
 	
-	public MunchkinHand (int handX, int handY,int player)
+	public MunchkinHand (int player)
 	{
 		
-		this.handX = handX;
-		this.handY = handY;
+
 		this.Player = player;
 	}
 	
-	protected int gethandX ()
-	{
-		return handX;
-	}
-	protected int gethandY ()
-	{return handY;}
+
 	protected void setCardBackImage (Image imgCardBack)
 	{
 		this.imgCardBack = imgCardBack;

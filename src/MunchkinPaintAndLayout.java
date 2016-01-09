@@ -50,13 +50,11 @@ public class MunchkinPaintAndLayout extends Canvas
 		Image tempImg =null;
 
 		//rysowanie dla pozycji gracza numer 1
-		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
-		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
-		
+	
 	
 		for(int i=0 ; i<logikaMunchkin.getPlayer(0).getHand().size();i++)
 		{
-		if(logikaMunchkin.getPlayer(0).getHand().size()!=0)
+		if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()).getHand().size()!=0)
 		{
 		tempImg =logikaMunchkin.getCardImage(0, logikaMunchkin.getPlayer(0).getHand().getCard(i).getIdNr());	
 		}
@@ -64,30 +62,23 @@ public class MunchkinPaintAndLayout extends Canvas
 		}
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
-		 tempX = logikaMunchkin.getPlayerHandPositionX(2);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(2);
-		
        for(int i=0 ; i<logikaMunchkin.getPlayer(1).getHand().size();i++)
 		{
-    	if(logikaMunchkin.getPlayer(1).getHand().size()!=0)
+    	if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+1).getHand().size()!=0)
     	tempImg = logikaMunchkin.getPlayer(1).getHand().getCard(i).getImg();	
 		drawCard(grpOffScreen,tempImg,imgHeight/2,70+(i*10+i*imgWidth),2);
 		}
 
 		//rysowanie dla pozycji gracza numer 3 u góry
-		 tempX = logikaMunchkin.getPlayerHandPositionX(3);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(3);
          for(int i=0 ; i<logikaMunchkin.getPlayer(2).getHand().size();i++)
 		 {
-         if(logikaMunchkin.getPlayer(2).getHand().size()!=0)
+         if(logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+2).getHand().size()!=0)
          tempImg = logikaMunchkin.getPlayer(2).getHand().getCard(i).getImg();	
 		  drawCard(grpOffScreen,tempImg,235+(10*i+i*imgWidth),imgHeight/2,3);
 		 }
 
 		//rysowanie dla pozycji gracza numer 4 po prawej stronie
-		 tempX = logikaMunchkin.getPlayerHandPositionX(4);
-		 tempY = logikaMunchkin.getPlayerHandPositionY(4);
-     for(int i=0 ; i<logikaMunchkin.getPlayer(3).getHand().size();i++)
+     for(int i=0 ; i<logikaMunchkin.getPlayer(logikaMunchkin.getCurrentPlayer().getPlayerId()+3).getHand().size();i++)
 		{
     	 if(logikaMunchkin.getPlayer(3).getHand().size()!=0)
           tempImg = logikaMunchkin.getPlayer(3).getHand().getCard(i).getImg();	

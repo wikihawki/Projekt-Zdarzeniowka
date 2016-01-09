@@ -7,6 +7,7 @@ import java.util.Vector;
 public class objPlayer extends objEntity
 {
 	public enum TurnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOT, CHARITY, FIGHT}
+	private int PlayerId;
 	private TurnPhase myTurnPhase;
 	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private String name;
@@ -19,8 +20,9 @@ public class objPlayer extends objEntity
 	private objGameLogic environment;
 	private int levelUpsCounter;
 	private int money;
-	public objPlayer(String name, boolean sex, int handX, int handY, objGameLogic envi)
+	public objPlayer(String name, boolean sex, objGameLogic envi,int MiejsceWKolejce)
 	{
+		this.PlayerId=MiejsceWKolejce;
 		setFreeHandCounter(2);
 		setFootgearCounter(1);
 		setArmorCounter(1);
@@ -30,7 +32,7 @@ public class objPlayer extends objEntity
 		cardsInPlay=new MunchkinGroup();
 		carriedCards=new MunchkinGroup();
 		this.sex=sex;
-		hand=new MunchkinHand(handX, handY, 0);
+		hand=new MunchkinHand( 0);
 		environment=envi;
 		drawTreasure(4);
 		drawDoor(4);
@@ -452,7 +454,10 @@ public class objPlayer extends objEntity
 	}
 
 
-
+public int getPlayerId()
+{
+	return PlayerId;
+}
 
 
 

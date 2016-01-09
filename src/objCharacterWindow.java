@@ -1,29 +1,32 @@
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.*;
 import java.io.File;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class objCharacterWindow extends JFrame implements ActionListener{
+public class objCharacterWindow extends JFrame implements MouseListener{
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 private MunchkinWindow MainWindow;
 private static objCharacterWindow myInstance;
 private  JPanel pnlUpper = new JPanel(new GridLayout(1, 3));
 private  JPanel pnlMiddle = new JPanel(new GridLayout(1, 3));
 private  JPanel pnlBottom = new JPanel(new GridLayout(1, 3));
 private ArrayList<JLabel> PaneleEkwipunku=new ArrayList<JLabel>();
+private objEquipmentSlotWindow okienko ;
+
+
+
+
 public objCharacterWindow(MunchkinWindow Window,int index)
 {
+	this.okienko=objEquipmentSlotWindow.getInstance(this);
+	okienko.setVisible(false);
 	this.getContentPane().setBackground( new Color(231, 218, 167) );
 	this.MainWindow=Window;
 	this.setLayout(new GridLayout(3,3));
@@ -36,6 +39,7 @@ public objCharacterWindow(MunchkinWindow Window,int index)
     {
     	JLabel tmp = new JLabel();
     	PaneleEkwipunku.add(tmp);
+    	PaneleEkwipunku.get(i).addMouseListener(this);
     	setLabelImages(i);
     	add(PaneleEkwipunku.get(i));
     }
@@ -44,37 +48,50 @@ public objCharacterWindow(MunchkinWindow Window,int index)
     
 }
 
-public void setLabelImages(int i)
+
+
+
+private ImageIcon getEqupmentIcon(int i)
 {
 	BufferedImage img;
-    img  =scaleImage(150, 250,"src/images/Ekwipunek/ekw(" +i+ ").jpg");
+    img  =scaleImage(150, 250,"src/images/Ekwipunek/ekw("+i+").jpg");
     ImageIcon icon=new ImageIcon((Image) img);
+	return icon;
+}
+public void setLabelImages(int i)
+{
+
     
 switch(i)
 {
-case 1:
+case 0:
+	PaneleEkwipunku.get(i).setLayout(new GridLayout(8, 1));
+	PaneleEkwipunku.get(i).setFont(new Font("", Font.ITALIC, 20));
+	PaneleEkwipunku.get(i).setText("Player 1 \n LVL 1");
 	
+
+	break;
+case 1:
+	PaneleEkwipunku.get(i).setIcon( getEqupmentIcon(i+1));
 	break;
 case 2:
-	PaneleEkwipunku.get(i).setIcon(icon);
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
 	break;
 case 3:
-	PaneleEkwipunku.get(i).setIcon(icon);
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
 	break;
 case 4:
-	PaneleEkwipunku.get(i).setIcon(icon);
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
 	break;
 case 5:
-	PaneleEkwipunku.get(i).setIcon(icon);
 	break;
 case 6:
 	break;
 case 7:
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
 	break;
 case 8:
-	PaneleEkwipunku.get(i).setIcon(icon);
-	break;
-case 9:
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
 	break;
 default:
 	break;
@@ -82,18 +99,12 @@ default:
 
 }
 }
-
 public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
     if (myInstance == null)
         myInstance = new objCharacterWindow(Window,index);
         
     return myInstance;
 }    
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
         ImageIcon ii ;
@@ -111,4 +122,100 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
         }
         return bi;
     }
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
+
+			int x = e.getX();
+			int y = e.getY();
+			System.out.println("X "+x+" Y "+y);
+			for(int i =0;i<9;i++)
+{
+			if (e.getSource() == PaneleEkwipunku.get(i)) //Check if the menu or menu items were clicked
+			{
+				switch(i)
+				{
+				case 0:
+					System.out.println(i);
+					break;
+				case 1:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 2:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 3:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 4:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 5:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 6:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 7:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				case 8:
+					System.out.println(i);
+					setVisible(false);
+					okienko.setVisible(true);
+					break;
+				default:
+					break;
+					
+
+				}
+			}
+}
+		
+			
+		}
+		
+		
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	public MunchkinWindow getMainWindow()
+	{
+		return MainWindow;
+	}
 }

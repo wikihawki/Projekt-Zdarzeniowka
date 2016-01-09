@@ -231,7 +231,7 @@ public class objEffectHandler implements GameEventListener
 			case 36:
 				monsterBonus((objMonster)target, objCard.SecondaryType.ARMOR, -3);
 				monsterBonus((objMonster)target, false, 3);
-				addContinuousEffect(2,target);
+				addContinuousEffect(16,target);
 				break;
 			case 37:
 				handleEffect(objCard.SecondaryType.MONSTER, 42, target);
@@ -272,13 +272,64 @@ public class objEffectHandler implements GameEventListener
 			}
 			break;
 		case OTHER:
+			switch(effectNr)
+			{
+			case 1:
+				if(target!=null)
+				{
+					if(((objCard)target).getSecondaryType()==objCard.SecondaryType.DISASTER)
+					{
+						if(environment.getPlayedCards().lastElement().getPlayedCard()==target)
+						{
+							environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
+						}
+					}
+					else throw new IllegalArgumentException();
+				}
+				else environment.closeSeal();
+				break;
+			case 2:
 
+				break;
+			case 3:
+
+				break;
+			case 4:
+
+				break;
+			case 5:
+
+				break;
+			}
 			break;
 		case SEAL:
 			break;
 		default:
+			switch(effectNr)
+			{
+			case 1:
+				if(!continuousEffects.containsKey(20))environment.openSeal();
+				addContinuousEffect(20, target);
+				break;
+			case 2:
+				changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", true);
+				break;
+			case 3:
+				changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", false);
+				break;
+			case 4:
+				//urzycie procy
+				break;
+			case 5:
+
+				break;
+			}
 			break;
 		}
+	}
+	private void changeCard(objCard target, objPlayer player, String playerClass, boolean flag)// false --->nie dla klasy true ---> tylko dla klsy
+	{
+		if(flag==(player.getCardsInPlay().findCards("Kid", objCard.SecondaryType.CLASS).size()==0))player.moveFromPlayToCarried(environment.getCurrentPlayer().getCardsInPlay().getCardIndex((objCard)target));
 	}
 	private void removeCardFromStack()
 	{

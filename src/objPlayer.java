@@ -275,6 +275,10 @@ public class objPlayer extends objEntity
 	{
 		for(int i=0; i<cardIndexes.size();i++)carriedCards.addCard(cardsInPlay.removeCard(cardIndexes.elementAt(i)));
 	}
+	public void moveFromPlayToCarried(int cardIndex)
+	{
+		carriedCards.addCard(cardsInPlay.removeCard(cardIndex));
+	}
 	public void moveFromCarriedToPlay(int cardIndex)
 	{
 		objCard temp=carriedCards.removeCard(cardIndex);

@@ -180,7 +180,7 @@ public class MunchkinPaintAndLayout extends Canvas
     	Image tempImg =null;
 		tempImg =logikaMunchkin.getSealImage();	
 
-		drawCard(g,tempImg,400,340,1);
+		drawCard(g,tempImg,550,340,1);
     	
     }
     public void DrawPlayerLVL(Graphics g)

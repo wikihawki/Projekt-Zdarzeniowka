@@ -135,7 +135,7 @@ public class objGameLogic
 			imgCardBack[1]= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			Door= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
 			Treasure= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
-			Seal= createImage.getImage(this, "images/seal back.jpg", 200000).getScaledInstance(125,125, Image.SCALE_DEFAULT);
+			Seal= createImage.getImage(this, "images/seal back.jpg",600000).getScaledInstance(150,150, Image.SCALE_DEFAULT);
 
 		//	mt.addImage(imgCardBack[card], 0);
 

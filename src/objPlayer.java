@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+
 public class objPlayer extends objEntity
 {
 	public enum TurnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOT, CHARITY, FIGHT}
@@ -16,6 +17,8 @@ public class objPlayer extends objEntity
 	private MunchkinGroup carriedCards;
 	private int freeHandCounter, footgearCounter, armorCounter, classCounter,headgearCounter;
 	private objGameLogic environment;
+	private int levelUpsCounter;
+	private int money;
 	public objPlayer(String name, boolean sex, int handX, int handY, objGameLogic envi)
 	{
 		setFreeHandCounter(2);
@@ -31,6 +34,8 @@ public class objPlayer extends objEntity
 		environment=envi;
 		drawTreasure(4);
 		drawDoor(4);
+		levelUpsCounter=0;
+		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
 	}
 
@@ -40,6 +45,11 @@ public class objPlayer extends objEntity
 	}
 	public int levelUp(int amount)
 	{
+		if(amount>0)
+		{
+			levelUpsCounter+=amount;
+			fireEvent(GameEvent.EventType.LEVELUP, this);
+		}
 		if(amount>-level)return level+=amount;
 		else throw new IllegalArgumentException();
 	}
@@ -107,7 +117,8 @@ public class objPlayer extends objEntity
 
 	public void drawTreasure(int amount)
 	{
-		for(int i=0;i<amount;i++)hand.addCard(environment.getTreasureDeck().removeLastCard());
+		objCard temp;
+		for(int i=0;i<amount;i++)if((temp=environment.drawTreasure())!=null)hand.addCard(temp);
 	}
 	public void drawDoor(int amount)
 	{
@@ -115,84 +126,122 @@ public class objPlayer extends objEntity
 	}
 	public void playCard(int cardNr, objEntity target)
 	{
-		objCard temp =hand.getCard(cardNr);
+		objCard temp =hand.removeCard(cardNr);
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
+			armorCounter=equipItem(temp,armorCounter);
 			break;
 		case BOOTS:
-			hand.removeCard(cardNr);
 			footgearCounter=equipItem(temp,footgearCounter);
 			break;
 		case HAT:
-			hand.removeCard(cardNr);
 			headgearCounter=equipItem(temp,headgearCounter);
 			break;
 		case ITEMENCHANCER:
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANCER, temp.getEffect(0), target);
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANCER, temp.getEffect(1), target);
 			break;
 		case MONSTER:
 			if(environment.getCurrentFight()!=null)
 			{
-				if((environment.getCurrentFight().isThere(objCard.Tag.UNDEAD)&&temp.getTag()==objCard.Tag.UNDEAD)||(environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK))
+
+				if((environment.getCurrentFight().isThere(objCard.Tag.UNDEAD)&&temp.getTag()==objCard.Tag.UNDEAD)||(environment.getCurrentFight().isThere(objCard.Tag.SHARK)&&temp.getTag()==objCard.Tag.SHARK)||temp.getTag()!=objCard.Tag.UNDEAD&&environment.getCurrentFight().isThere(12)||temp.getEffect(0)==17)
 					{
 					environment.getCurrentFight().addMonster(new objMonster(temp));
-					this.discardCardfromHand(cardNr);
 					}
 				else throw new IllegalArgumentException();
 			}
+			else throw new IllegalStateException();
 			break;
 		case DISASTER:
 		case OTHER:
 			environment.addCardToStack(temp, target);
 			break;
 		case OTHERITEM:
-			hand.removeCard(cardNr);
-			cardsInPlay.addCard(temp);
+			carriedCards.addCard(temp);
 			break;
 		case ONEHANDWEAPON:
-			hand.removeCard(cardNr);
 			freeHandCounter=equipItem(temp,freeHandCounter);
 			break;
 		case TWOHANDWEAPON:
-			hand.removeCard(cardNr);
 			freeHandCounter=equipItem(temp,freeHandCounter,2);
 			break;
-		default:
+		case CLASS:
+			if(classCounter>0)
+			{
+				classCounter--;
+			}
+			else
+			{
+				if(((objCard)target).getSecondaryType()==objCard.SecondaryType.CLASS)
+				{
+					int index=cardsInPlay.getCardIndex(temp);
+					if(index!=-1)discardCardFromPlay(index);
+					else throw new IllegalArgumentException();
+				}
+				else throw new IllegalArgumentException();
+			}
+			cardsInPlay.addCard(temp);
+			if(environment.getEffectHandler().getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0),this);
+			if(environment.getEffectHandler().getTargetClass(temp.getSecondaryType(), temp.getEffect(1))==objPlayer.class)environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1),this);
+			break;
+		case SEAL:
 			break;
 
 		}
 	}
 	public int equipItem(objCard temp, int counter)
 	{
-		if(counter>0)
+		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			cardsInPlay.addCard(temp);
-			counter--;
+			if(counter>0)
+			{
+				cardsInPlay.addCard(temp);
+				counter--;
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
+			}
+			else carriedCards.addCard(temp);
+			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
+			return counter;
 		}
-		else carriedCards.addCard(temp);
-		return counter;
+		throw new IllegalStateException();
 	}
 	public int equipItem(objCard temp, int counter, int amount)
 	{
-		if(counter>0)
+		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			cardsInPlay.addCard(temp);
-			counter-=amount;
+			if(counter>0)
+			{
+				cardsInPlay.addCard(temp);
+				counter=-amount;
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
+				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
+			}
+			else carriedCards.addCard(temp);
+			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
+			return counter;
 		}
-		else carriedCards.addCard(temp);
-		return counter;
+		throw new IllegalStateException();
 	}
 	public void discardCardfromHand(int index)
 	{
-		environment.discardCard(hand.removeCard(index));
+		objCard temp=hand.removeCard(index);
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
-	public void discardCardfromPlay(int index)
+	public void discardCardFromPlay(int index)
 	{
-		environment.discardCard(cardsInPlay.removeCard(index));
+		objCard temp=cardsInPlay.removeCard(index);
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
 	public void discardCarriedCard(int index)
 	{
-		environment.discardCard(carriedCards.removeCard(index));
+		objCard temp=carriedCards.removeCard(index);
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
 	public boolean isThereBigItem()
 	{
@@ -202,29 +251,84 @@ public class objPlayer extends objEntity
 	}
 	public Vector<Integer> findArmor()
 	{
-		return cardsInPlay.findCardsID(null, objCard.SecondaryType.ARMOR);
+		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.ARMOR);
 	}
 	public Vector<Integer> findHat()
 	{
-		return cardsInPlay.findCardsID(null, objCard.SecondaryType.HAT);
+		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.HAT);
 	}
 	public Vector<Integer> findBoots()
 	{
-		return cardsInPlay.findCardsID(null, objCard.SecondaryType.BOOTS);
+		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.BOOTS);
 	}
 	public Vector<Integer> findWeapon()
 	{
-		Vector<Integer> temp=cardsInPlay.findCardsID(null, objCard.SecondaryType.ONEHANDWEAPON);
-		temp=cardsInPlay.findCardsID(null, objCard.SecondaryType.TWOHANDWEAPON);
+		Vector<Integer> temp=cardsInPlay.findCardsIndex(null, objCard.SecondaryType.ONEHANDWEAPON);
+		temp=cardsInPlay.findCardsIndex(null, objCard.SecondaryType.TWOHANDWEAPON);
 		return temp;
 	}
 	public Vector<Integer> findClass()
 	{
-		return cardsInPlay.findCardsID(null, objCard.SecondaryType.CLASS);
+		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.CLASS);
 	}
 	public void moveFromPlayToCarried(Vector<Integer> cardIndexes)
 	{
 		for(int i=0; i<cardIndexes.size();i++)carriedCards.addCard(cardsInPlay.removeCard(cardIndexes.elementAt(i)));
+	}
+	public void moveFromCarriedToPlay(int cardIndex)
+	{
+		objCard temp=carriedCards.removeCard(cardIndex);
+		switch (temp.getSecondaryType())
+		{
+		case ARMOR:
+			armorCounter=equipItem(temp,armorCounter);
+			break;
+		case BOOTS:
+			footgearCounter=equipItem(temp,footgearCounter);
+			break;
+		case HAT:
+			headgearCounter=equipItem(temp,headgearCounter);
+			break;
+		case ONEHANDWEAPON:
+			freeHandCounter=equipItem(temp,freeHandCounter);
+			break;
+		case TWOHANDWEAPON:
+			freeHandCounter=equipItem(temp,freeHandCounter,2);
+			break;
+		default:
+			break;
+		}
+		fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
+	}
+	public void sellTreasureFromCarried(int index)
+	{
+		objCard temp =carriedCards.removeCard(index);
+		money+=temp.getValue();
+		if(money>1000)
+		{
+			levelUp(1);
+			money-=1000;
+		}
+	}
+	public void sellTreasureFromPlayed(int index)
+	{
+		objCard temp =carriedCards.removeCard(index);
+		money+=temp.getValue();
+		if(money>1000)
+		{
+			levelUp(1);
+			money-=1000;
+		}
+	}
+	public Vector<Integer> findItemsInPlay()
+	{
+		Vector<Integer> temp= getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.ARMOR);
+		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.BOOTS));
+		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.HAT));
+		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.ONEHANDWEAPON));
+		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.TWOHANDWEAPON));
+		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.OTHERITEM));
+		return temp;
 	}
 
 	public void beginTurn() throws IllegalStateException
@@ -280,12 +384,13 @@ public class objPlayer extends objEntity
 		{
 			myTurnPhase=TurnPhase.LOOT;
 			this.drawDoor(1);
+			charity();
 		}
 		else throw new IllegalStateException();
 	}
 	public void charity()
 	{
-		if(myTurnPhase==TurnPhase.FIGHT||myTurnPhase==TurnPhase.LOOT)
+		if(myTurnPhase==TurnPhase.FIGHT||myTurnPhase==TurnPhase.LOOT||myTurnPhase==TurnPhase.KICKDOOR)
 		{
 			myTurnPhase=TurnPhase.CHARITY;
 		}
@@ -295,12 +400,29 @@ public class objPlayer extends objEntity
 		if(myTurnPhase==TurnPhase.CHARITY&&hand.size()<=5)
 		{
 			myTurnPhase=TurnPhase.NOTMYTURN;
+			if(levelUpsCounter>=3)environment.closeSeal();
+			levelUpsCounter=0;
+			money=0;
+			fireEvent(GameEvent.EventType.TOUREND, this);
 		}
 		else throw new IllegalStateException();
 	}
 	public void endImmediately()
 	{
 		myTurnPhase=TurnPhase.NOTMYTURN;
+		if(levelUpsCounter>=3)environment.closeSeal();
+		levelUpsCounter=0;
+		money=0;
+		fireEvent(GameEvent.EventType.TOUREND, this);
+	}
+
+	public void die()
+	{
+		for(int i=0;i <hand.size();i++)discardCardfromHand(i);
+		for(int i=0;i <carriedCards.size();i++)if(carriedCards.getCard(i).getEffect(0)!=4||cardsInPlay.getCard(i).getSecondaryType()!=objCard.SecondaryType.OTHER)discardCarriedCard(i);
+		for(int i=0;i <cardsInPlay.size();i++)discardCardFromPlay(i);
+		environment.getEffectHandler().addContinuousEffect(30, this);
+		endImmediately();
 	}
 
 	public synchronized void addListener(GameEventListener listener)
@@ -311,15 +433,21 @@ public class objPlayer extends objEntity
 	{
 	    listeners.remove(listener);
 	}
-	private synchronized void fireEvent(GameEvent.EventType type)
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
 	{
-	    GameEvent event = new GameEvent(this, type);
+	    GameEvent event = new GameEvent(this, type, target);
 	    Iterator<GameEventListener> i = listeners.iterator();
 	    while(i.hasNext())
 	    {
 	    	i.next().gameEventOccurred(event);;
 	    }
 	}
+
+	public int getMoney() {
+		return money;
+	}
+
+
 
 
 

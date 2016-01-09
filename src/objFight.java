@@ -59,10 +59,12 @@ public class objFight
 			for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, true))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
 			if(helperPlayer!=null)for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
 		}
-		this.fireEvent(GameEvent.EventType.FIGHTOVER);
+		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
 	}
 	private boolean tryToRunAway(int monsterNr, boolean which)
 	{
+		if(which)fireEvent(GameEvent.EventType.RUNAWAY,mainPlayer);
+		else fireEvent(GameEvent.EventType.RUNAWAY, helperPlayer);
 		Random gen= new Random();
 		int result=gen.nextInt(6)+1;
 		objMonster temp=monsters.elementAt(monsterNr);
@@ -75,7 +77,7 @@ public class objFight
 	{
 		if(helperPlayer==null)
 		{
-			this.fireEvent(GameEvent.EventType.FIGHTCHANGED);
+			this.fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 			setHelperPlayer(helper);
 			treasuresForHelper=treasuresReward;
 		}
@@ -88,7 +90,7 @@ public class objFight
 	}
 	public void playerChanged()
 	{
-		fireEvent(GameEvent.EventType.FIGHTCHANGED);
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 	}
 	public int getMonstersBonus()
 	{
@@ -121,8 +123,9 @@ public class objFight
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
-		temp.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
 		for(int i=0;i<temp.size();i++)
 		{
 			if(temp.elementAt(i).getEffect(1)==10)mainPlayerEscape++;
@@ -137,6 +140,7 @@ public class objFight
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
 			for(int i=0;i<temp.size();i++)
 			{
 				if(temp2.elementAt(i).getEffect(1)==10)helperEscape++;
@@ -144,7 +148,7 @@ public class objFight
 			}
 		}
 		for(int i=0;i<temp.size();i++)playersStrength+=(temp.elementAt(i)).getBonus();
-		fireEvent(GameEvent.EventType.FIGHTCHANGED);
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 	}
 	public objPlayer getMainPlayer()
 	{
@@ -170,6 +174,11 @@ public class objFight
 	{
 		monsters.add(e);
 	}
+	public boolean removeMonster(objMonster monster)
+	{
+		fireEvent(GameEvent.EventType.FIGHTCHANGED, monster);
+		return monsters.remove(monster);
+	}
 	public int getTreasuresForHelper()
 	{
 		return treasuresForHelper;
@@ -189,6 +198,13 @@ public class objFight
 		return temp;
 
 	}
+	public boolean isThere(int effect)
+	{
+		boolean temp=false;
+		for(int i=0; i<monsters.size();i++)if(monsters.elementAt(i).getMyCard().getEffect(0)==effect)temp=true;
+		return temp;
+
+	}
 	public synchronized void addListener(GameEventListener listener)
 	{
 		listeners.add(listener);
@@ -197,9 +213,9 @@ public class objFight
 	{
 	    listeners.remove(listener);
 	}
-	private synchronized void fireEvent(GameEvent.EventType type)
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
 	{
-	    GameEvent event = new GameEvent(this, type);
+	    GameEvent event = new GameEvent(this, type, target);
 	    Iterator<GameEventListener> i = listeners.iterator();
 	    while(i.hasNext())
 	    {

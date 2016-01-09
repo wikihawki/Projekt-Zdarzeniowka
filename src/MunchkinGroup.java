@@ -18,11 +18,15 @@ public class MunchkinGroup
 	{
 		Vector<objCard> temp=new Vector<objCard>();
 		Random gen=new Random();
-		for(int i=0;i<stack.size();)
+		for(;0<stack.size();)
 		{
 			temp.add(stack.remove(gen.nextInt(stack.size())));
 		}
 		stack=temp;
+	}
+	protected int getCardIndex(objCard card)
+	{
+		return stack.lastIndexOf(card);
 	}
 	protected int getWidth ()
 	{
@@ -85,7 +89,7 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
-	protected Vector<Integer> findCardsID(String name, objCard.Type type)
+	protected Vector<Integer> findCardsIndex(String name, objCard.Type type)
 	{
 		Vector<Integer> temp= new Vector<Integer>();
 		for(int i=0; i<size();i++)
@@ -95,7 +99,7 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
-	protected Vector<Integer> findCardsID(String name, objCard.SecondaryType type)
+	protected Vector<Integer> findCardsIndex(String name, objCard.SecondaryType type)
 	{
 		Vector<Integer> temp= new Vector<Integer>();
 		for(int i=0; i<size();i++)
@@ -105,7 +109,7 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
-	protected Vector<Integer> findCardsID(String name, objCard.Tag type)
+	protected Vector<Integer> findCardsIndex(String name, objCard.Tag type)
 	{
 		Vector<Integer> temp= new Vector<Integer>();
 		for(int i=0; i<size();i++)

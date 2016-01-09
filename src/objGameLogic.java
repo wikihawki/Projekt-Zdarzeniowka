@@ -22,6 +22,7 @@ public class objGameLogic
     protected objInstruction currentInstruction, dragPaintInstruction;
     private Vector<objPlayedCard> playedCards;
     private objFight currentFight;
+    private int playersNumber;
     private objEffectHandler effectHandler;
     private int currPlayer;
 	public objGameLogic()
@@ -37,14 +38,15 @@ public class objGameLogic
 		effectHandler=new objEffectHandler(this);
 		currPlayer=0;
 		importPictures();
-		newGame();
+		newGame(4);
 	}
 
-	public void newGame()
+	public void newGame(int amount)
 	{
 		state=GameState.PLAY;
+		playersNumber=amount;
 		importCards();
-		setupPlayers();
+		setupPlayers(amount);
 	}
 	private void importCards()
 	{
@@ -62,9 +64,9 @@ public class objGameLogic
 		treasureDeck.suffle();
 		doorDeck.suffle();
 	}
-	private void setupPlayers()
+	private void setupPlayers(int amount)
 	{
-		for(int i =0 ; i<4;i++)
+		for(int i =0 ; i<amount;i++)
 		{
 
 			players[i]=new objPlayer(null,true,currentInstruction.getPlayerHandPositionX(i),currentInstruction.getPlayerHandPositionY(i),this);
@@ -120,10 +122,9 @@ public class objGameLogic
 	}
     public void resolveStackTopCard()
     {
-    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
+    	objPlayedCard temp=playedCards.get(playedCards.size()-1);
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
-    	discardCard(temp.getPlayedCard());
     }
     public void addCardToStack(objCard card, objEntity target)
     {
@@ -131,11 +132,12 @@ public class objGameLogic
     }
     public objCard showDoorCard()
 	{
-		objCard temp=doorDeck.getCard(doorDeck.size()-1);
+		objCard temp=drawDoor();
 		if(temp.getSecondaryType()==objCard.SecondaryType.DISASTER)
 		{
 			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)
 				playedCards.add(new objPlayedCard(temp,players[currPlayer]));
+			else playedCards.add(new objPlayedCard(temp,null));
 		}
 		return temp;
 	}
@@ -165,10 +167,10 @@ public class objGameLogic
     	objCard temp=sealDeck.removeLastCard();
     	openedSeals.addCard(temp);
     	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),getCurrentPlayer());
-    	fireEvent(GameEvent.EventType.SEALOPEN);
+    	fireEvent(GameEvent.EventType.SEALOPEN, null);
     	if(openedSeals.size()==7)
     	{
-    		fireEvent(GameEvent.EventType.SEVENTHSEAL);
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL, null);
     		state=GameState.OVER;
     	}
     }
@@ -177,10 +179,11 @@ public class objGameLogic
     	objCard temp=sealDeck.removeLastCard();
     	openedSeals.addCard(temp);
     	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),opener);
-    	fireEvent(GameEvent.EventType.SEALOPEN);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(1),opener);
+    	fireEvent(GameEvent.EventType.SEALOPEN, null);
     	if(openedSeals.size()==7)state=GameState.OVER;
     	{
-    		fireEvent(GameEvent.EventType.SEVENTHSEAL);
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL, null);
     		state=GameState.OVER;
     	}
     }
@@ -188,7 +191,8 @@ public class objGameLogic
     {
     	sealDeck.addCard(openedSeals.removeLastCard());
     	sealDeck.suffle();
-    	fireEvent(GameEvent.EventType.SEALCLOSED);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
+    	fireEvent(GameEvent.EventType.SEALCLOSED,null);
     }
     public MunchkinGroup getOpenedSeals()
     {
@@ -218,7 +222,34 @@ public class objGameLogic
     {
     	return CharacterImage;
     }
-
+    public objCard drawTreasure()
+    {
+    	if(treasureDeck.size()==0)
+    	{
+    		if(treasureDiscard.size()>0)
+    		{
+    			MunchkinGroup help=treasureDiscard;
+    			treasureDiscard=treasureDeck;
+    			treasureDeck=help;
+    		}
+    		else return null;
+    	}
+    	return treasureDeck.removeLastCard();
+    }
+    public objCard drawDoor()
+    {
+    	if(doorDeck.size()==0)
+    	{
+    		if(doorDiscard.size()>0)
+    		{
+    			MunchkinGroup help=doorDiscard;
+    			doorDiscard=doorDeck;
+    			doorDeck=help;
+    		}
+    		else return null;
+    	}
+    	return doorDeck.removeLastCard();
+    }
     public Image getCardImage()
     {
     	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
@@ -269,9 +300,9 @@ public class objGameLogic
 	{
 	    listeners.remove(listener);
 	}
-	private synchronized void fireEvent(GameEvent.EventType type)
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
 	{
-	    GameEvent event = new GameEvent(this, type);
+	    GameEvent event = new GameEvent(this, type, target);
 	    Iterator<GameEventListener> i = listeners.iterator();
 	    while(i.hasNext())
 	    {
@@ -286,6 +317,11 @@ public class objGameLogic
 	{
 		return state;
 	}
+
+	public int getPlayersNumber() {
+		return playersNumber;
+	}
+
 
 
 }

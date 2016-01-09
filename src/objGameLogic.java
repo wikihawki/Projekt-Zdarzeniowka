@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
@@ -12,19 +13,27 @@ import javax.swing.*;
 
 public class objGameLogic
 {
-
+	
+	
+	private ArrayList<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private objPlayer[] players = new objPlayer[4];
+	public enum GameState{PLAY, OVER}
+	private GameState state;
 	private objCreateAppletImage createImage = new objCreateAppletImage();
     private	Image[][] imgCards = new Image[3][95];
     private Image[] imgCardBack = new Image[3];
     private Image CharacterImage ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
+    private MunchkinGroup openedSeals;
     protected objInstruction currentInstruction, dragPaintInstruction;
     private Vector<objPlayedCard> playedCards;
     private objFight currentFight;
+    private int playersNumber;
     private objEffectHandler effectHandler;
     private int currPlayer;
+
+
 	public objGameLogic()
 	{
 		sealDeck=new MunchkinGroup();
@@ -51,11 +60,11 @@ public class objGameLogic
 		{
 
 
-			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i);
+			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i,i);
 			sealDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i);
+			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i,i);
 			treasureDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[0], null, null, i, i, i,i,i);
+			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[0], null, null, i, i, i,i,i,i);
 			doorDeck.addCard(karta);
 
 
@@ -165,14 +174,99 @@ public class objGameLogic
     {
     	return currentInstruction.getPlayerHandPositionY(Player-1);
     }
+    public void openSeal()
+    {
+    	objCard temp=sealDeck.removeLastCard();
+    	openedSeals.addCard(temp);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),getCurrentPlayer());
+    	fireEvent(GameEvent.EventType.SEALOPEN, null);
+    	if(openedSeals.size()==7)
+    	{
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL, null);
+    		state=GameState.OVER;
+    	}
+    }
+    public void openSeal(objPlayer opener)
+    {
+    	objCard temp=sealDeck.removeLastCard();
+    	openedSeals.addCard(temp);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),opener);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(1),opener);
+    	fireEvent(GameEvent.EventType.SEALOPEN, null);
+    	if(openedSeals.size()==7)state=GameState.OVER;
+    	{
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL, null);
+    		state=GameState.OVER;
+    	}
+    }
+    public void closeSeal()
+    {
+    	sealDeck.addCard(openedSeals.removeLastCard());
+    	sealDeck.suffle();
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
+    	fireEvent(GameEvent.EventType.SEALCLOSED,null);
+    }
+    public MunchkinGroup getOpenedSeals()
+    {
+    	return openedSeals;
+    }
+    public void returnDoorsToDeck(Vector<objCard> cards)
+    {
+    	doorDeck.addStack(cards);
+    	doorDeck.suffle();
+    }
+    public void returnDoorsToDeck(objCard card)
+    {
+    	doorDeck.addCard(card);
+    	doorDeck.suffle();
+    }
+    public void returnTreasuresToDeck(Vector<objCard> cards)
+    {
+    	treasureDeck.addStack(cards);
+    	treasureDeck.suffle();
+    }
+    public void returnTreasuresToDeck(objCard card)
+    {
+    	treasureDeck.addCard(card);
+    	treasureDeck.suffle();
+    }
     public Image getCharacterImage()
     {
     	return CharacterImage;
     }
-    public Image getCardImage(int cardType , int cardId)
+    public objCard drawTreasure()
     {
-    	return imgCards[cardType][cardId];
+    	if(treasureDeck.size()==0)
+    	{
+    		if(treasureDiscard.size()>0)
+    		{
+    			MunchkinGroup help=treasureDiscard;
+    			treasureDiscard=treasureDeck;
+    			treasureDeck=help;
+    		}
+    		else return null;
+    	}
+    	return treasureDeck.removeLastCard();
     }
+    public objCard drawDoor()
+    {
+    	if(doorDeck.size()==0)
+    	{
+    		if(doorDiscard.size()>0)
+    		{
+    			MunchkinGroup help=doorDiscard;
+    			doorDiscard=doorDeck;
+    			doorDeck=help;
+    		}
+    		else return null;
+    	}
+    	return doorDeck.removeLastCard();
+    }
+    public Image getCardImage()
+    {
+    	return createImage.getImage(this, "images/munchkinPostac.png", 2000000).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
+    }
+
 	public MunchkinGroup getSealDeck() {
 		return sealDeck;
 	}
@@ -185,9 +279,11 @@ public class objGameLogic
 	public Vector<objPlayedCard> getPlayedCards() {
 		return playedCards;
 	}
+
 	public objFight getCurrentFight() {
 		return currentFight;
 	}
+
 	public void setCurrentFight(objFight currentFight) {
 		this.currentFight = currentFight;
 	}
@@ -208,30 +304,46 @@ public class objGameLogic
 	public objEffectHandler getEffectHandler() {
 		return effectHandler;
 	}
-
-	public int isMouseOnCharacter(int x,int y)
+	public synchronized void addListener(GameEventListener listener)
 	{
-		int i;
-		
-	       
-			if ((x >= 200&& x <= 355 )&& (y >= 447 && y <= 597)) //Check if mouse is in this column's card area
-			{
-				return 1;
-			
-	        }else 
-	        if((x >= 100&& x <= 250 )&& (y >= 140 && y <= 270))
-	        {
-	        	return 2;
-	        }else 
-		    if((x >= 630&& x <= 780 )&& (y >= 100 && y <= 250))
-		    {
-		        return 3;
-		    }else 
-	        if((x >= 715&& x <= 850 )&& (y >= 450 && y <= 580))
-		     {
-			   return 4;
-		     }
-
-		return 0;
+		listeners.add(listener);
 	}
+	public synchronized void removeListener(GameEventListener listener)
+	{
+	    listeners.remove(listener);
+	}
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
+	{
+	    GameEvent event = new GameEvent(this, type, target);
+	    Iterator<GameEventListener> i = listeners.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameEventOccurred(event);;
+	    }
+	}
+	public void win(objPlayer winner)
+	{
+		if(winner.getLevel()>=10)state=GameState.OVER;
+	}
+	public GameState getState()
+	{
+		return state;
+	}
+
+	public int getPlayersNumber() {
+		return playersNumber;
+	}
+
+  
+    public objPlayer getCurrentPlayer()
+    {
+    	return players[currPlayer];
+    }
+
+
+
+
+
+
+
 }

@@ -9,16 +9,17 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private int refreshCounter = 0;
 	private boolean updateDrag = false;
 	private MunchkinGUI GUI;
-	private objCardWindow singletonFrame ;
+	private objCardWindow CardsingletonFrame ;
+	private objCharacterWindow CharactersingletonFrame ;
 	public MunchkinWindow(MunchkinGUI gui)
 	{
 		this.GUI=gui;
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		singletonFrame  =  objCardWindow.getInstance(this,0);
-	      
-	       singletonFrame.setVisible(false);
-		
+		this.CardsingletonFrame   =  objCardWindow.getInstance(this,0);
+		this.CardsingletonFrame .setVisible(false);
+		this.CharactersingletonFrame   =  objCharacterWindow.getInstance(this,0);
+		this.CharactersingletonFrame .setVisible(false);
 	}	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
@@ -43,7 +44,7 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 
 			int x = arg0.getX();
 			int y = arg0.getY();
-			
+			System.out.println("X "+x+" Y "+y);
 			if (menuSystem.checkMenuClicked(x,y)) //Check if the menu or menu items were clicked
 			{
 				performMenuAction(); //if so, perform the action of the menu item clicked
@@ -51,13 +52,17 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 			
 			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) //Check if the menu or menu items were clicked
 			{
-			 singletonFrame.setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
-			 singletonFrame.drawChanges(singletonFrame,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1).getIdNr());
+				CardsingletonFrame .setCardIndex(logikaMunchkin.getHand(0).isMouseCard(x, y,0));	
+				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1).getIdNr());
 			// singletonFrame.repaint();
-		     singletonFrame.setVisible(true);
+		     CardsingletonFrame.setVisible(true);
 	
 		     
-			}
+			}else 
+				if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
+				{
+					CharactersingletonFrame.setVisible(true);
+				}
 
 			
 		}

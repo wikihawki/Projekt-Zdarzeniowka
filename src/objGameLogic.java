@@ -165,7 +165,6 @@ public class objGameLogic
     {
     	return currentInstruction.getPlayerHandPositionY(Player-1);
     }
-
     public Image getCharacterImage()
     {
     	return CharacterImage;
@@ -186,11 +185,9 @@ public class objGameLogic
 	public Vector<objPlayedCard> getPlayedCards() {
 		return playedCards;
 	}
-
 	public objFight getCurrentFight() {
 		return currentFight;
 	}
-
 	public void setCurrentFight(objFight currentFight) {
 		this.currentFight = currentFight;
 	}
@@ -212,4 +209,29 @@ public class objGameLogic
 		return effectHandler;
 	}
 
+	public int isMouseOnCharacter(int x,int y)
+	{
+		int i;
+		
+	       
+			if ((x >= 200&& x <= 355 )&& (y >= 447 && y <= 597)) //Check if mouse is in this column's card area
+			{
+				return 1;
+			
+	        }else 
+	        if((x >= 100&& x <= 250 )&& (y >= 140 && y <= 270))
+	        {
+	        	return 2;
+	        }else 
+		    if((x >= 630&& x <= 780 )&& (y >= 100 && y <= 250))
+		    {
+		        return 3;
+		    }else 
+	        if((x >= 715&& x <= 850 )&& (y >= 450 && y <= 580))
+		     {
+			   return 4;
+		     }
+
+		return 0;
+	}
 }

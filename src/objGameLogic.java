@@ -25,6 +25,9 @@ public class objGameLogic
     private Image CharacterImage ;
     private Image ButtonImage ;
     private Image PressedButtonImage ;
+    private Image Door ;
+    private Image Treasure ;
+    private Image Seal ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
     private MunchkinGroup openedSeals;
@@ -130,8 +133,9 @@ public class objGameLogic
 	*/
 			imgCardBack[0]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			imgCardBack[1]= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-
-
+			Door= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
+			Treasure= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
+			Seal= createImage.getImage(this, "images/seal back.jpg", 200000).getScaledInstance(125,125, Image.SCALE_DEFAULT);
 
 		//	mt.addImage(imgCardBack[card], 0);
 
@@ -377,8 +381,22 @@ public class objGameLogic
 
 		return 0;
 	}
-
-	 public Image getCardImage(int cardType , int cardId)
+    public Image getDoorImage()
+    {
+    	return Door;
+    }
+    
+    public Image getTreasureImage()
+    {
+    	return Treasure;
+    }
+    
+    
+    public Image getSealImage()
+    {
+    	return Seal;
+    }
+    public Image getCardImage(int cardType , int cardId)
 	    {
 	    	return imgCards[cardType][cardId];
 	    }
@@ -393,7 +411,7 @@ public class objGameLogic
      };
      public boolean isAboveButton(int x , int y)
      {
-    	 if ((x >= 415&& x <= 560 )&& (y >= 300 && y <= 345)) //Check if mouse is in this column's card area
+    	 if ((x >= 435&& x <= 580 )&& (y >= 495 && y <= 535)) //Check if mouse is in this column's card area
 			{
 				return true;
 			

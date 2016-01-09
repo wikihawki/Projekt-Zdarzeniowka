@@ -157,7 +157,32 @@ public class MunchkinPaintAndLayout extends Canvas
     	    g.drawString("LVL", 760, 385);
     	    
     }
+    public void DrawDoorStack(Graphics g)
+    {
+    	Image tempImg =null;
+		tempImg =logikaMunchkin.getDoorImage();	
+
+		drawCard(g,tempImg,250,340,1);
+    	
+    }
     
+    public void DrawTreasureStack(Graphics g)
+    {
+    	Image tempImg =null;
+		tempImg =logikaMunchkin.getTreasureImage();	
+
+		drawCard(g,tempImg,400,340,1);
+    	
+    }
+    
+    public void DrawSealStack(Graphics g)
+    {
+    	Image tempImg =null;
+		tempImg =logikaMunchkin.getSealImage();	
+
+		drawCard(g,tempImg,400,340,1);
+    	
+    }
     public void DrawPlayerLVL(Graphics g)
     {
     	
@@ -182,22 +207,22 @@ public class MunchkinPaintAndLayout extends Canvas
       {
     		 tempImg = logikaMunchkin.getButtonImage();	
     
-    		drawCard(grpOffScreen,tempImg,450,350,1);
+    		drawCard(grpOffScreen,tempImg,470,540,1);
     		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
     	     
     		grpOffScreen.setColor(Color.black);
      	   
-    		grpOffScreen.drawString("Koniec Tury", 430, 330);
+    		grpOffScreen.drawString("Koniec Tury", 450, 520);
         }else{
     		
     		tempImg = logikaMunchkin.getPressedButtonImage();	
     	    
-    		drawCard(grpOffScreen,tempImg,450,350,1);
+    		drawCard(grpOffScreen,tempImg,470,540,1);
     		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
     	     
     		grpOffScreen.setColor(Color.black);
      	   
-    		grpOffScreen.drawString("Koniec Tury", 430, 330);
+    		grpOffScreen.drawString("Koniec Tury", 450, 520);
         }
     }
     
@@ -235,6 +260,9 @@ public class MunchkinPaintAndLayout extends Canvas
         DrawHand(grpOffScreen);
 		DrawCharacterImage(grpOffScreen);
 		DrawEndOfTurnButton(grpOffScreen);
+		DrawDoorStack(grpOffScreen);
+		DrawTreasureStack(grpOffScreen);
+		DrawSealStack(grpOffScreen);
 		grpOffScreen.setClip(0, 0, getSize().width, getSize().height);
 		menuSystem.drawMenu(grpOffScreen);
 		g.drawImage(imgOffScreen, 0, 0, this);

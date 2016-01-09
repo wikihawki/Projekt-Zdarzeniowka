@@ -115,7 +115,6 @@ public class MunchkinPaintAndLayout extends Canvas
 	{
 		int tempX = logikaMunchkin.getPlayerHandPositionX(1);
 		int tempY = logikaMunchkin.getPlayerHandPositionY(1);
-
 		Image tempImg = logikaMunchkin.getCharacterImage();
        // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 		drawCard(grpOffScreen,tempImg,tempX,tempY-100-imgHeight,1);
@@ -148,7 +147,6 @@ public class MunchkinPaintAndLayout extends Canvas
 
 	}
     
-
 	public void update (Graphics g)
 	{
 		paint(g);

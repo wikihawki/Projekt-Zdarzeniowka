@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.sun.glass.ui.Window;
+
 
 public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListener, MouseMotionListener
 {
@@ -72,7 +74,7 @@ public void useCardWindow(objCard karta )
 				performMenuAction(); //if so, perform the action of the menu item clicked
 			}else
 
-			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) //Check if the menu or menu items were clicked
+			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) 
 			{
 				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(0).isMouseCard(x, y,0));
 				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1));
@@ -107,7 +109,22 @@ public void useCardWindow(objCard karta )
 
 		 }else///////////////////////////// Tutaj bêd¹ efekty dla walki
 		 {
-			 
+			 if (logikaMunchkin.getPlayer(focusPlayer-1).getHand().isMouseCard(x, y,0)!=0) 
+				{
+					CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getPlayer(focusPlayer-1).getHand().isMouseCard(x, y,0));
+					CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(focusPlayer-1).getHand().getCard(logikaMunchkin.getPlayer(focusPlayer-1).getHand().isMouseCard(x, y,0)-1));
+				// singletonFrame.repaint();
+			     CardsingletonFrame.setVisible(true);
+
+
+				}else
+					if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
+					{
+
+						CharactersingletonFrame.setPlyer(getFocusedPlayer());
+						CharactersingletonFrame.repaint();
+						CharactersingletonFrame.setVisible(true);
+					}
 		 }
 	  }
 	}
@@ -144,18 +161,28 @@ public void useCardWindow(objCard karta )
 		    }
 		}else ////////////////////////////////////// zdarzenia walki
 		{
-			
+			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
+			{
+				setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
+
+		    }
+				  
+				
+				
+				 repaint();
+		}
 		}
 	}
-	}
+	
 	@Override
 	public void mouseReleased(MouseEvent arg0)
 {
+		int x = arg0.getX();
+		int y = arg0.getY();
 	if (arg0.getButton() == MouseEvent.BUTTON1)
 	{
 
-			int x = arg0.getX();
-			int y = arg0.getY();
+
 		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 		{
 			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
@@ -178,9 +205,14 @@ public void useCardWindow(objCard karta )
 		    }
 		}else
 		{
-			//////////////////////////tutaj efekty dla walki
-		
-			
+			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
+			{
+				System.out.println("PP");
+		    }
+				  
+				
+				
+				 repaint();
 		}
 	
 	}

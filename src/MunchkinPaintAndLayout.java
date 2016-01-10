@@ -13,7 +13,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	
 	private static final long serialVersionUID = -1202675550011086749L;
 	protected objGameLogic logikaMunchkin;
-	protected objPlayer focusPlayer;
+	protected int focusPlayer=1;
 	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
 	private final Color clrBackground = new Color(231, 218, 167);
 	protected objMenuSystem menuSystem;
@@ -51,23 +51,45 @@ System.out.println("wow");
 		imgCardBack = index.getScaledInstance(71, 96, Image.SCALE_DEFAULT);
 	}
 	
+	
+	
+    public void DrawParty(Graphics grpOffScreen)
+    {
+    	Image tempImg =null;
+    	
+    	//logikaMunchkin.getCurrentFight().getMainPlayer();
+
+	    tempImg = logikaMunchkin.getCharacterImage();
+       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+		drawCard(grpOffScreen,tempImg,30,350,1);
+	  // if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
+	   drawCard(grpOffScreen,tempImg,30,500,1);
+		int fontSize = 20;
+		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+    	     
+		grpOffScreen.setColor(Color.black);
+		grpOffScreen.drawString("Player "+logikaMunchkin.getPlayer(focusPlayer-1).getName(), 350, 520);
+		
+		
+		
+    	
+    }
     public void DrawBattlefield(Graphics grpOffScreen)
     {
     	Image tempImg =null;
-    	int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
-		//rysowanie dla pozycji gracza numer 1
+    
+
 	
-	
-		for(int i=0 ; i<logikaMunchkin.getCurrentPlayer().getHand().size();i++)
+		for(int i=0 ; i<logikaMunchkin.getPlayer(focusPlayer-1).getHand().size();i++)
 		{
 		if(logikaMunchkin.getCurrentPlayer().getHand().size()!=0)
 		{
-		tempImg =logikaMunchkin.getCardImage(logikaMunchkin.getCurrentPlayer().getHand().getCard(i),i+1);	
+		tempImg =logikaMunchkin.getCardImage(logikaMunchkin.getPlayer(focusPlayer-1).getHand().getCard(i),i+1);	
 		}
 		drawCard(grpOffScreen,tempImg,235+(10*i+i*imgWidth),700-imgHeight/2,1);
 		}
 		
-		tempImg = logikaMunchkin.getCharacterImage();
+		    tempImg = logikaMunchkin.getCharacterImage();
 	       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 			drawCard(grpOffScreen,tempImg,250,500,1);
 		
@@ -75,15 +97,20 @@ System.out.println("wow");
 			grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 	    	     
 			grpOffScreen.setColor(Color.black);
-			grpOffScreen.drawString("Player "+logikaMunchkin.getCurrentPlayer().getName(), 350, 520);
+			grpOffScreen.drawString("Player "+logikaMunchkin.getPlayer(focusPlayer-1).getName(), 350, 520);
 			grpOffScreen.drawString("LVL", 350, 580);
 		
 			DrawChoosePlayerButtons(grpOffScreen);
-		    
-		
+			BufferedImage img;
+	        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getPlayer(focusPlayer-1).getLevel()+".jpg");
+	        drawCard(grpOffScreen,img,425,595,1);
+	        DrawParty(grpOffScreen);
 		
     }
-    
+    protected void setFocusedPlayer(int PlayerIndex)
+    {
+    	this.focusPlayer=PlayerIndex;
+    }
     public void DrawChoosePlayerButtons(Graphics grpOffScreen)
     {
     	Image tempImg=null;
@@ -103,14 +130,14 @@ System.out.println("wow");
        	     
        		grpOffScreen.setColor(Color.black);
         	   
-       		
+       	int temp=0;	
        	 for(int i=0;i<=1;i++)
    		 {
 
        		 for(int j=0;j<=1;j++)
-       		 { 
+       		 { temp++;
    		      drawCard(grpOffScreen,tempImg,470 + j%2*150,540+ i%2*50,1);
-   		   grpOffScreen.drawString("Koniec Tury", 450+ j%2*150, 520+ i%2*50);
+   		   grpOffScreen.drawString("Player "+temp, 450+ j%2*150, 520+ i%2*50);
        		 }
    		 }
        		
@@ -127,6 +154,9 @@ System.out.println("wow");
            }
     }
     
+    
+    
+
 	public void DrawHand(Graphics grpOffScreen)
 	{
 		Image tempImg =null;
@@ -413,5 +443,8 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 	{
 		return logikaMunchkin;
 	}
-
+   public int getFocusedPlayer()
+   {
+	   return focusPlayer;
+   }
 }

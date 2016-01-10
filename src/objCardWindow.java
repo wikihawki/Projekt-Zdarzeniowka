@@ -154,7 +154,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == odrzuc)
 			    {
 			//  .out.println(CardIdex-1+" odrzucono");
-			    	window.getLogic().getPlayer(0).discardCardfromHand(CardPlace-1);
+			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);;
 			        window.repaint();
 			       this.setVisible(false);
 		        }else
@@ -169,7 +169,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 		        }else
 		  if (src == zaloz)
 			    {
-			    	window.getLogic().getPlayer(0).playCard(Card, null);
+			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).playCard(Card, null);
 			        window.repaint();
 			       this.setVisible(false);
 		        }

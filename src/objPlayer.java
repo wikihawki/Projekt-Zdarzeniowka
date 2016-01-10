@@ -250,6 +250,10 @@ public class objPlayer extends objEntity
 	{
 		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.CLASS);
 	}
+	public Vector<Integer> findOtherItem()
+	{
+		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.OTHERITEM);
+	}
 	public Vector<Integer> findItem(objCard.SecondaryType type)
 	{
 		return cardsInPlay.findCardsIndex(null, type);

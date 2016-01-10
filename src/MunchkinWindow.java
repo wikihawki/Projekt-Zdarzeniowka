@@ -21,7 +21,8 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	
 public void useCardWindow(objCard karta )
 {
-	//CardsingletonFrame .setCardPklaceOnHand(id);	
+	//CardsingletonFrame .setCardPklaceOnHand(id);
+	CardsingletonFrame .setSignalSource("Equipment");
 	CardsingletonFrame .drawChanges(CardsingletonFrame ,karta);
 // singletonFrame.repaint();
  CardsingletonFrame.setVisible(true);
@@ -77,6 +78,7 @@ public void useCardWindow(objCard karta )
 			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) 
 			{
 				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(0).isMouseCard(x, y,0));
+				CardsingletonFrame .setSignalSource("Hand");
 				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1));
 			// singletonFrame.repaint();
 		     CardsingletonFrame.setVisible(true);

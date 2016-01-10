@@ -76,8 +76,8 @@ private objCharacterWindow oknoGracza;
 		for(int x :Gracz.findArmor())
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -101,8 +101,8 @@ private objCharacterWindow oknoGracza;
 		for(int x :Gracz.findWeapon())
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -127,8 +127,8 @@ private objCharacterWindow oknoGracza;
 		for(int x :Gracz.findHat())
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -152,8 +152,8 @@ private objCharacterWindow oknoGracza;
 		for(int x :Gracz.findBoots())
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -178,8 +178,8 @@ private objCharacterWindow oknoGracza;
 		for(int x :Gracz.findClass())
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -204,8 +204,8 @@ private objCharacterWindow oknoGracza;
 		for(int x =0;x< Gracz.getCarriedCards().size();x++)
 		{
 			karty.add(x, new JLabel());
-			karty.get(0).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCarriedCards().getCard(x).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(0));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCarriedCards().getCard(x).getIdNr()+").jpg",100,155));
+			   panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else

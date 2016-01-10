@@ -1,20 +1,93 @@
-Treasure:
-1
-2
-3
-4
-5
-6
-7
-8
-9
+-------------->Item:
+1			pierwszy raz jak ktoœ je zalozy otwórz pieczec
+2			tylko dla dziecka
+3			nie dla militia
+4			dodatkowe u¿ycie procy
+5			run away or ignoore seal
+6			+3 na koniec
+7			jeœli masz inny footgear nie odrzucaj
+8			mog¹ byc u¿ywane z innym footgearem
+9			tylko militia
+10			nie dla dzieci
+11			przy odrzuceniu wybierz pieczec która sie teraz odtworzy
+12
 10 +1 run Away
 11 -1 run Away
 
+-------------->Disaster
+1 Lose Level
+2 Lose HeadGear
+3 Open Seal
+4 Lose Item
+5 Lose D6 cards
+6 Lose Armor
+7 Lose Class
+8 Lose turn
+9 Lose Fire Items
+10Lose most valuble item
+11Lose Footgear
+12Change Sex
+13Close Seal
+-------------->Monster
+1               Open Seal
+2               Przegrywasz jeœli nikt Ci nie pomo¿e
+3               +3 przeciw facetom, +3 militia
+4               -(twój bonus +1) do ucieczki
+5               +4 scientist
+6               flame dont work
+7 -3 kid
+8 get headgear +1 if you win
+9 -4 scientists, militra
+10 you may open seal before combat +10 for player // do wyjebania
+11 your Class dont count
+12 Any non-Undead may be played
+13 +5 za ka¿d¹ katastrofe odrzucon¹
+14 Immine to flame, -3 scientists, +5 if no scientists in game
+15 -4 Bloggers
+16 +5 if no footgear
+17 maybe played without wandering Monster
+18 +5 if alone
+19 -4 kid nie goni < 3
+20 +3 Bloggers
+21 -3 Milira
+22 +1(dodatkowe) za ka¿d¹ pieczec
+23 -3 kid
+24 +4 Militia and no Class
+25 Footgear liczy sie podwojnie
+26 +4 Bloggers
+27 jeœli nie ma pieczeci otwrórz, jeœli jest powtórz efekt ostatniej
+28 +3 kids
+29 Walcz samemu
+30 +3 naukowcy
+31 +5 if no headger
+32 +6 no Class
+33 flame counts double
+34 one hand fewer
+35 -3 blogger
+36            +5 jeœli bez zbroi, +3 kobiety
+37            Dead wszyscy inni levelup
+38			  leveldown
+39			  wyrzuc najlepszy item
+40			  najslabszy gracz zabiera wybran¹ karte z reki
+41			  leveldown open seal
+42			  dead
+43			  wszysce poza toba ciagna skarb
+44			  strac buty jak nie masz to leveldown
+45
 
+-------------->Other
+1             otwórz lub zamknij pieczec
+2			  cheat
+3  			  wszyscy mog¹ u¿ywac itemów militra +5 dla munchkinów -1 skarb wyrzuc jak zamkniesz pieczec
+4			  +5 jeœli samemu -5 jeœli z kimœ wyrzuc przy zamknieciu pieczeci
+5			  +10 dla potworz +2 skarby
+6			  militia
+7			close seal or wyjeb disaster
+8
+9			2 skarby w ciemno albo jeden z 4 odkrytych
+10			+3 dla strony, jesli razem z 11 to +1 level
+11			+3 dla strony, jesli razem z 10 to +1 level
+12			level up
 
-
-
-
-
-
+---------------->Continuous
+1 przegrywasz jesli nikt ci nie pomo¿e

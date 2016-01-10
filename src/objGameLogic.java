@@ -13,8 +13,8 @@ import javax.swing.*;
 
 public class objGameLogic
 {
-	
-	
+
+
 	private ArrayList<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private objPlayer[] players = new objPlayer[4];
 	public enum GameState{PLAY, OVER}
@@ -73,10 +73,10 @@ public class objGameLogic
 			treasureDeck.addCard(karta);
 			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[0], null, null, i, i, i,i,i,i);
 			doorDeck.addCard(karta);
-
-
-
 		}
+		sealDeck.suffle();
+		treasureDeck.suffle();
+		doorDeck.suffle();
 	}
 	private void setupPlayers(int amount)
 	{
@@ -92,7 +92,7 @@ public class objGameLogic
     private void importPictures ()
 	{
 
-		
+
 			for (int rank = 1; rank <= 69; rank++) //Loop 13 times (for ace - king)
 
 
@@ -139,7 +139,7 @@ public class objGameLogic
 
 		//	mt.addImage(imgCardBack[card], 0);
 
-		
+
 
 		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 200000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
 		ButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
@@ -211,10 +211,13 @@ public class objGameLogic
     }
     public void closeSeal()
     {
-    	sealDeck.addCard(openedSeals.removeLastCard());
-    	sealDeck.suffle();
-    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
-    	fireEvent(GameEvent.EventType.SEALCLOSED,null);
+    	if(openedSeals.size()>0)
+    	{
+	    	sealDeck.addCard(openedSeals.removeLastCard());
+	    	sealDeck.suffle();
+	    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
+	    	fireEvent(GameEvent.EventType.SEALCLOSED,null);
+    	}
     }
     public MunchkinGroup getOpenedSeals()
     {
@@ -278,7 +281,7 @@ public class objGameLogic
     	{
     		return imgCards[0][karta.getIdNr()];
     	}else{
-    		
+
     		return imgCards[1][karta.getIdNr()];
     	}
     }
@@ -350,7 +353,7 @@ public class objGameLogic
 		return playersNumber;
 	}
 
-  
+
     public objPlayer getCurrentPlayer()
     {
     	return players[currPlayer];
@@ -359,21 +362,21 @@ public class objGameLogic
     public int isMouseOnCharacter(int x,int y)
 	{
 		int i;
-		
-	       
+
+
 			if ((x >= 220&& x <= 340 )&& (y >= 447 && y <= 597)) //Check if mouse is in this column's card area
 			{
 				return 1;
-			
-	        }else 
+
+	        }else
 	        if((x >= 100&& x <= 250 )&& (y >= 130 && y <= 270))
 	        {
 	        	return 2;
-	        }else 
+	        }else
 		    if((x >= 630&& x <= 740 )&& (y >= 100 && y <= 250))
 		    {
 		        return 3;
-		    }else 
+		    }else
 	        if((x >= 715&& x <= 850 )&& (y >= 400 && y <= 530))
 		     {
 			   return 4;
@@ -385,13 +388,13 @@ public class objGameLogic
     {
     	return Door;
     }
-    
+
     public Image getTreasureImage()
     {
     	return Treasure;
     }
-    
-    
+
+
     public Image getSealImage()
     {
     	return Seal;
@@ -404,7 +407,7 @@ public class objGameLogic
      {
     	 return ButtonImage;
      };
-     
+
      public Image getPressedButtonImage()
      {
     	 return PressedButtonImage;
@@ -414,45 +417,45 @@ public class objGameLogic
     	 if ((x >= 435&& x <= 580 )&& (y >= 495 && y <= 535)) //Check if mouse is in this column's card area
 			{
 				return true;
-			
+
 	        }
     	 return false;
      }
      protected int[] getNextPlayerId(int currentPlayerId)
      {
-    
-    	
+
+
      	switch(currentPlayerId)
      	{
      	case 0:
      		int[] myIntArray1 = {1,2,3};
      		 return  myIntArray1 ;
-     	
+
      	case 1:
      		int[] myIntArray2 = {2,3,0};
     		 return  myIntArray2 ;
-     	
+
      	case 2:
      		int[] myIntArray3 = {3,0,1};
     		 return  myIntArray3 ;
-     	
+
      	case 3:
      		int[] myIntArray4 = {0,1,2};
     		 return  myIntArray4 ;
      	default :
      		break;
-     	
+
      	}
-     	
+
  		int[] myIntArray4 = {0,1,2};
 		 return  myIntArray4 ;
-     	
+
      }
      public int isAboveStack(int x , int y)
      {
     	 if ((x >= 215&& x <= 335 )&& (y >= 290 && y <= 440)) //Check if mouse is in this column's card area
 			{
-    		 
+
 			return 1;
 	        }else
 	        if((x >= 365&& x <= 485 )&& (y >= 290 && y <= 440))
@@ -461,7 +464,7 @@ public class objGameLogic
 	        }else
 		    if((x >= 520&& x <= 660 )&& (y >= 290 && y <= 435))
 		    {
-		    return 3;	
+		    return 3;
 		    }
     	 return 0;
      }

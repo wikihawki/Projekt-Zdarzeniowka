@@ -96,7 +96,7 @@ public class objEffectHandler implements GameEventListener
 			case 11:
 			{
 				Vector<Integer> temp=((objPlayer)target).findBoots();
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+				for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
 				break;
 			}
 			case 12:
@@ -264,7 +264,7 @@ public class objEffectHandler implements GameEventListener
 			case 44:
 			{
 				Vector<Integer> temp=((objPlayer)target).findBoots();
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+				for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
 				break;
 			}
 			default:
@@ -321,8 +321,17 @@ public class objEffectHandler implements GameEventListener
 				//urzycie procy
 				break;
 			case 5:
-
+				if(target==null) environment.closeSeal();
+				else for(int i=0;i<environment.getPlayedCards().size();i++)if(environment.getPlayedCards().get(i).getPlayedCard()==target)environment.getPlayedCards().remove(i);
 				break;
+			case 6:
+				addContinuousEffect(21, target);
+				break;
+			case 7:
+				//zaimplementowane przy odrzucaniu
+				break;
+			case 8:
+				//zaimplementowane przy dodawaniu
 			}
 			break;
 		}

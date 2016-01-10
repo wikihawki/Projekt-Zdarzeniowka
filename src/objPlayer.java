@@ -240,6 +240,27 @@ public class objPlayer extends objEntity
 	public void discardCardFromPlay(int index)
 	{
 		objCard temp=cardsInPlay.removeCard(index);
+		switch(temp.getSecondaryType())
+		{
+		case ARMOR:
+			break;
+		case BOOTS:
+			break;
+		case CLASS:
+			break;
+		case HAT:
+			break;
+		case ITEMENCHANCER:
+			break;
+		case ONEHANDWEAPON:
+			armorCounter++;
+			break;
+		case TWOHANDWEAPON:
+			break;
+		default:
+			break;
+
+		}
 		fireEvent(GameEvent.EventType.DSICARD, temp);
 		environment.discardCard(temp);
 	}

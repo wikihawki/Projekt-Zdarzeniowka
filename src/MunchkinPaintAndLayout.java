@@ -56,20 +56,25 @@ System.out.println("wow");
     public void DrawParty(Graphics grpOffScreen)
     {
     	Image tempImg =null;
-    	
-    	//logikaMunchkin.getCurrentFight().getMainPlayer();
-
-	    tempImg = logikaMunchkin.getCharacterImage();
-       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
-		drawCard(grpOffScreen,tempImg,30,350,1);
-	  // if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
-	   drawCard(grpOffScreen,tempImg,30,500,1);
-		int fontSize = 20;
+    	int fontSize = 20;
 		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     
 		grpOffScreen.setColor(Color.black);
-		grpOffScreen.drawString("Player "+logikaMunchkin.getPlayer(focusPlayer-1).getName(), 350, 520);
+    	//logikaMunchkin.getCurrentFight().getMainPlayer();
+
+	    tempImg = logikaMunchkin.getCharacterImage();
+	    grpOffScreen.drawString("Player "+1/*logikaMunchkin.getCurrentFight().getMainPlayer(.getName()*/, 200,200);
+       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+		drawCard(grpOffScreen,tempImg,30,150,1);
+	  // if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
+	//	{
+	   drawCard(grpOffScreen,tempImg,30,350,1);
+	   grpOffScreen.drawString("Player "+1/*logikaMunchkin.getCurrentFight().getHelperPlayer().getName()*/, 200, 400);
+		//}
 		
+	   grpOffScreen.drawString("Party power "/*+logikaMunchkin.getCurrentFight().getPlayersStrength()*/, 250, 300);
+	  Image img  =scaleImage(25, 25,"src/images/LVL/"+logikaMunchkin.getPlayer(focusPlayer-1).getLevel()+".jpg");
+       drawCard(grpOffScreen,img,325,315,1);
 		
 		
     	

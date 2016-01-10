@@ -126,7 +126,7 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 			System.out.println(buttonPressed);
 			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
 			{
-				
+				logikaMunchkin.getCurrentPlayer().endTour();
 				 buttonPressed=false;
 				 repaint();
 				 

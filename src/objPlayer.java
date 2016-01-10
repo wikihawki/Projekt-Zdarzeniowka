@@ -128,7 +128,11 @@ public class objPlayer extends objEntity
 	}
 	public void playCard(int cardNr, objEntity target)
 	{
-		objCard temp =hand.removeCard(cardNr);
+		playCard(hand.getCard(cardNr),target);
+	}
+	public void playCard(objCard temp, objEntity target)
+	{
+		hand.removeCard(hand.getCardIndex(temp));
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
@@ -193,7 +197,7 @@ public class objPlayer extends objEntity
 
 		}
 	}
-	public int equipItem(objCard temp, int counter)
+	private int equipItem(objCard temp, int counter)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
@@ -210,7 +214,7 @@ public class objPlayer extends objEntity
 		}
 		throw new IllegalStateException();
 	}
-	public int equipItem(objCard temp, int counter, int amount)
+	private int equipItem(objCard temp, int counter, int amount)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{

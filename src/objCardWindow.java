@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
 
 public class objCardWindow extends JFrame implements ActionListener{
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static objCardWindow myInstance;
@@ -36,8 +36,8 @@ public class objCardWindow extends JFrame implements ActionListener{
     public JButton zaloz = new JButton("Dodaj na stó³");
     // the constructor
     private objCardWindow(MunchkinWindow Window,int index)  {
-        	
-     
+
+
     	this.window=Window;
         this.setSize(300, 400);
         this.setResizable(false);
@@ -45,51 +45,51 @@ public class objCardWindow extends JFrame implements ActionListener{
          System.currentTimeMillis());
         pnlButtons.setBounds(200, 200, 100, 400);
         pnlImage.setBounds(0, 0, 200, 400);
-        
-        
+
+
         BufferedImage img;
         img  =scaleImage(205, 285,"src/images/Buttons/buttonLong_beige.png");
         ImageIcon icon=new ImageIcon((Image) img);
-        
+
         odrzuc.setBounds(200, 200, 100, 30);
    	    if (odrzuc.getActionListeners().length<1){odrzuc.addActionListener(this);}
    	    //odrzuc.setIcon(icon);
         pnlButtons.add(odrzuc);
-       
-        
-        
+
+
+
         skill1.setBounds(200, 200, 100, 30);
    	    if (skill1.getActionListeners().length<1){skill1.addActionListener(this);}
    	   // skill1.setIcon(icon);
         pnlButtons.add(skill1);
-      
-        
-        
-        
+
+
+
+
         zaloz.setBounds(200, 200, 100, 30);
    	    if (zaloz.getActionListeners().length<1){zaloz.addActionListener(this);}
         pnlButtons.add(zaloz);
        // zaloz.setIcon(icon);
         add(pnlButtons);
-        
-        
-        
-        
-        
-        
-        
-        label = new JLabel(); 
+
+
+
+
+
+
+
+        label = new JLabel();
         add(label, BorderLayout.WEST);
-       
+
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         //drawChanges(this);
     }
     public static objCardWindow getInstance(MunchkinWindow Window,int index) {
         if (myInstance == null)
             myInstance = new objCardWindow(Window,index);
-            
+
         return myInstance;
-    }    
+    }
     public void setCardIndex(objCard karta)
     {
     	this.Card=karta;
@@ -104,17 +104,17 @@ public class objCardWindow extends JFrame implements ActionListener{
          BufferedImage img;
          pnlButtons.setBackground( new Color(231, 218, 167) );
        //  setVisible(true);
-   
+
          if(karta.getType()==objCard.Type.DOOR)
      	{
         	 img  =scaleImage(205, 285,"src/images/kd (" +karta.getIdNr()+ ").jpg");
      	}else{
      		 img  =scaleImage(205, 285,"src/images/ks (" +karta.getIdNr()+ ").jpg");
      	}
-        
+
          ImageIcon icon=new ImageIcon((Image) img);
          label.setIcon(icon);
-         
+
     }
     public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
@@ -135,52 +135,52 @@ public class objCardWindow extends JFrame implements ActionListener{
     }
     public void drawChanges(objCardWindow window,objCard karta)
     {
-    	
+
     	initComponents(this,karta);
-     
-        
+
+
     }
     public void setCardPklaceOnHand(int place)
 
     {
     	this.CardPlace=place;
-    }   
+    }
     @Override
 	public void actionPerformed(ActionEvent e) {
 		//System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
 
 	      Object src =e.getSource();
-	     
-		  if (src == odrzuc) 
+
+		  if (src == odrzuc)
 			    {
 			//  .out.println(CardIdex-1+" odrzucono");
 			    	window.getLogic().getPlayer(0).discardCardfromHand(CardPlace-1);
 			        window.repaint();
 			       this.setVisible(false);
-		        }else 
-		  if (src == skill1) 
+		        }else
+		  if (src == skill1)
 			    {
-			
+
 			  Object[] listops= {"List 1","List 2"};
 
 			  String ch=(String) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops,"list1");
 			  System.out.println(ch);
 			       this.setVisible(false);
-		        }else 
-		  if (src == zaloz) 
+		        }else
+		  if (src == zaloz)
 			    {
-			    	window.getLogic().getPlayer(0).equipItem(Card, 0);
+			    	window.getLogic().getPlayer(0).playCard(Card, null);
 			        window.repaint();
 			       this.setVisible(false);
 		        }
-		
+
 	}
 @SuppressWarnings("deprecation")
    private void menageButtons(objCard karta)
    {
 	if(karta.getType()==objCard.Type.TREASURE)
 	{
-		
+
 		zaloz.setVisible(true);
 		zaloz.setEnabled(true);;
 	}else

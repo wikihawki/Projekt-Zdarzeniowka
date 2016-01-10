@@ -428,7 +428,10 @@ public class objPlayer extends objEntity
 		fireEvent(GameEvent.EventType.TURNEND, this);
 		environment.nextPlayer();
 	}
-
+    public void setCurrentPhase()
+    {
+    	this.myTurnPhase=objPlayer.TurnPhase.FIGHT;
+    }
 	public void die()
 	{
 		for(int i=0;i <hand.size();i++)discardCardfromHand(i);

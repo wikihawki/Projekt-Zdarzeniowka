@@ -60,6 +60,7 @@ public class objGameLogic
 		playersNumber=amount;
 		importCards();
 		setupPlayers(amount);
+		players[currPlayer].beginTurn();
 	}
 	private void importCards()
 	{
@@ -393,7 +394,11 @@ public class objGameLogic
     {
     	return Treasure;
     }
-
+    public void nextPlayer()
+    {
+    	if(currPlayer<playersNumber-1)currPlayer++;
+    	else currPlayer=0;
+    }
 
     public Image getSealImage()
     {

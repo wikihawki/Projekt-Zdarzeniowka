@@ -3,6 +3,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 
 public class objPlayer extends objEntity
 {
@@ -117,6 +119,7 @@ public class objPlayer extends objEntity
 		this.classCounter = classCounter;
 	}
 
+
 	public void drawTreasure(int amount)
 	{
 		objCard temp;
@@ -136,13 +139,12 @@ public class objPlayer extends objEntity
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
-			armorCounter=equipItem(temp,armorCounter);
-			break;
 		case BOOTS:
-			footgearCounter=equipItem(temp,footgearCounter);
-			break;
 		case HAT:
-			headgearCounter=equipItem(temp,headgearCounter);
+			equipItem(temp,1,temp.getSecondaryType());
+			break;
+		case ONEHANDWEAPON:
+			equipItem(temp,freeHandCounter,temp.getSecondaryType());
 			break;
 		case ITEMENCHANCER:
 			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANCER, temp.getEffect(0), target);
@@ -167,11 +169,8 @@ public class objPlayer extends objEntity
 		case OTHERITEM:
 			carriedCards.addCard(temp);
 			break;
-		case ONEHANDWEAPON:
-			freeHandCounter=equipItem(temp,freeHandCounter);
-			break;
 		case TWOHANDWEAPON:
-			freeHandCounter=equipItem(temp,freeHandCounter,2);
+			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
 			break;
 		case CLASS:
 			if(classCounter>0)
@@ -197,39 +196,35 @@ public class objPlayer extends objEntity
 
 		}
 	}
-	private int equipItem(objCard temp, int counter)
+	private void equipItem(objCard temp,int counter, objCard.SecondaryType type)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			if(counter>0)
+			if(counter>findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size())
 			{
 				cardsInPlay.addCard(temp);
-				counter--;
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
 			}
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
-			return counter;
 		}
-		throw new IllegalStateException();
+		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
 	}
-	private int equipItem(objCard temp, int counter, int amount)
+	private void equipItem(objCard temp, int counter, int amount,objCard.SecondaryType type)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			if(counter>0)
+			if(counter-amount>=findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size())
 			{
 				cardsInPlay.addCard(temp);
-				counter=-amount;
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
 			}
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
-			return counter;
 		}
-		throw new IllegalStateException();
+		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
 	}
 	public void discardCardfromHand(int index)
 	{
@@ -240,27 +235,6 @@ public class objPlayer extends objEntity
 	public void discardCardFromPlay(int index)
 	{
 		objCard temp=cardsInPlay.removeCard(index);
-		switch(temp.getSecondaryType())
-		{
-		case ARMOR:
-			break;
-		case BOOTS:
-			break;
-		case CLASS:
-			break;
-		case HAT:
-			break;
-		case ITEMENCHANCER:
-			break;
-		case ONEHANDWEAPON:
-			armorCounter++;
-			break;
-		case TWOHANDWEAPON:
-			break;
-		default:
-			break;
-
-		}
 		fireEvent(GameEvent.EventType.DSICARD, temp);
 		environment.discardCard(temp);
 	}
@@ -298,6 +272,10 @@ public class objPlayer extends objEntity
 	{
 		return cardsInPlay.findCardsIndex(null, objCard.SecondaryType.CLASS);
 	}
+	public Vector<Integer> findItem(objCard.SecondaryType type)
+	{
+		return cardsInPlay.findCardsIndex(null, type);
+	}
 	public void moveFromPlayToCarried(Vector<Integer> cardIndexes)
 	{
 		for(int i=0; i<cardIndexes.size();i++)carriedCards.addCard(cardsInPlay.removeCard(cardIndexes.elementAt(i)));
@@ -312,19 +290,15 @@ public class objPlayer extends objEntity
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
-			armorCounter=equipItem(temp,armorCounter);
-			break;
 		case BOOTS:
-			footgearCounter=equipItem(temp,footgearCounter);
-			break;
 		case HAT:
-			headgearCounter=equipItem(temp,headgearCounter);
+			equipItem(temp,1,temp.getSecondaryType());
 			break;
 		case ONEHANDWEAPON:
-			freeHandCounter=equipItem(temp,freeHandCounter);
+			equipItem(temp,freeHandCounter,temp.getSecondaryType());
 			break;
 		case TWOHANDWEAPON:
-			freeHandCounter=equipItem(temp,freeHandCounter,2);
+			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
 			break;
 		default:
 			break;
@@ -361,6 +335,7 @@ public class objPlayer extends objEntity
 		temp.addAll(getCardsInPlay().findCardsIndex(null, objCard.SecondaryType.OTHERITEM));
 		return temp;
 	}
+
 
 	public void beginTurn() throws IllegalStateException
 	{
@@ -426,7 +401,7 @@ public class objPlayer extends objEntity
 			myTurnPhase=TurnPhase.CHARITY;
 		}
 	}
-	public void endTour()
+	public void endTurn()
 	{
 		if(myTurnPhase==TurnPhase.CHARITY&&hand.size()<=5)
 		{
@@ -435,6 +410,7 @@ public class objPlayer extends objEntity
 			levelUpsCounter=0;
 			money=0;
 			fireEvent(GameEvent.EventType.TOUREND, this);
+			environment.nextPlayer();
 		}
 		else throw new IllegalStateException();
 	}
@@ -445,6 +421,7 @@ public class objPlayer extends objEntity
 		levelUpsCounter=0;
 		money=0;
 		fireEvent(GameEvent.EventType.TOUREND, this);
+		environment.nextPlayer();
 	}
 
 	public void die()

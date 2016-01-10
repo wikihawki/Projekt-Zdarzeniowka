@@ -119,6 +119,16 @@ public class MunchkinGroup
 		}
 		return temp;
 	}
+	protected Vector<Integer> findCardsIndex(int effect, objCard.SecondaryType type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getEffect(0)==effect || card.getEffect(0)==effect)&&(card.getSecondaryType()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
 	protected objCard removeLastCard()
 	{
 		return stack.remove(stack.size()-1);

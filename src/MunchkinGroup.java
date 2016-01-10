@@ -41,7 +41,10 @@ public class MunchkinGroup
 		}
 
 	}
-
+	public Object[] toArray()
+	{
+		return stack.toArray();
+	}
 	protected void addCard (objCard card)
 	{
 
@@ -116,6 +119,16 @@ public class MunchkinGroup
 		{
 			objCard card=getCard(i);
 			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(i);
+		}
+		return temp;
+	}
+	protected Vector<Integer> findCardsIndex(int effect, objCard.SecondaryType type)
+	{
+		Vector<Integer> temp= new Vector<Integer>();
+		for(int i=0; i<size();i++)
+		{
+			objCard card=getCard(i);
+			if((card.getEffect(0)==effect || card.getEffect(0)==effect)&&(card.getSecondaryType()==type || type==null))temp.add(i);
 		}
 		return temp;
 	}

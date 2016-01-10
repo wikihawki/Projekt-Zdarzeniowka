@@ -6,13 +6,13 @@
 5			run away or ignoore seal
 6			+3 na koniec
 7			jeœli masz inny footgear nie odrzucaj
-8			mog¹ byc u¿ywane z innym footgearem
+8			mog¹ byc u¿ywane z innym tego typu
 9			tylko militia
-10			nie dla dzieci
-11			przy odrzuceniu wybierz pieczec która sie teraz odtworzy
-12
 10 +1 run Away
 11 -1 run Away
+12			nie dla dzieci
+13			przy odrzuceniu wybierz pieczec która sie teraz odtworzy
+
 
 -------------->Disaster
 1 Lose Level
@@ -81,9 +81,9 @@
 3  			  wszyscy mog¹ u¿ywac itemów militra +5 dla munchkinów -1 skarb wyrzuc jak zamkniesz pieczec
 4			  +5 jeœli samemu -5 jeœli z kimœ wyrzuc przy zamknieciu pieczeci
 5			  +10 dla potworz +2 skarby
-6			  militia
-7			close seal or wyjeb disaster
-8
+6			  militia 1
+7			militia 2
+8			close seal or wyjeb disaster
 9			2 skarby w ciemno albo jeden z 4 odkrytych
 10			+3 dla strony, jesli razem z 11 to +1 level
 11			+3 dla strony, jesli razem z 10 to +1 level

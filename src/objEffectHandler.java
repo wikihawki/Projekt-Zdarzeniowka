@@ -165,8 +165,17 @@ public class objEffectHandler implements GameEventListener
 				break;
 			}
 			case 10:
-				JOptionPane.showConfirmDialog(null, "Otworzyc pieczec?", "Otworzyc pieczec", JOptionPane.YES_NO_OPTION);
+			{
+				int temp=JOptionPane.showConfirmDialog(null, "Otworzyc pieczec?", "Otworzyc pieczec", JOptionPane.YES_NO_OPTION);
+				System.out.print("wybral opcje ");
+				System.out.print(temp);
+				if(temp==0)
+				{
+					environment.openSeal(environment.getCurrentPlayer());
+					environment.getCurrentFight().addBonus(10);
+				}
 				break;
+			}
 			case 11:
 				environment.getCurrentPlayer().moveFromPlayToCarried(environment.getCurrentPlayer().findClass());
 				addContinuousEffect(10, target);
@@ -274,7 +283,7 @@ public class objEffectHandler implements GameEventListener
 		case OTHER:
 			switch(effectNr)
 			{
-			case 1:
+			case 7:
 				if(target!=null)
 				{
 					if(((objCard)target).getSecondaryType()==objCard.SecondaryType.DISASTER)
@@ -288,6 +297,16 @@ public class objEffectHandler implements GameEventListener
 				}
 				else environment.closeSeal();
 				break;
+			case 1:
+			{
+				String[] array={"Otwórz","Zamknij"};
+				int temp=JOptionPane.showInternalOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
+				System.out.print("wybral opcje ");
+				System.out.println(temp);
+				if(temp==0) environment.openSeal();
+				else environment.closeSeal();
+				break;
+			}
 			case 2:
 
 				break;
@@ -295,11 +314,23 @@ public class objEffectHandler implements GameEventListener
 
 				break;
 			case 4:
-
+				addContinuousEffect(30, target);
 				break;
 			case 5:
-
+				((objMonster)target).increaseStrength(10);
+				((objMonster)target).setName("Giant Atomic"+((objMonster)target).getName());
+				((objMonster)target).increaseTreasures(2);
 				break;
+			case 6:
+			{
+				int temp=JOptionPane.showOptionDialog(null, "Wybierz piersz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+				if(temp==JOptionPane.CLOSED_OPTION);
+				else
+				{
+					environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+				}
+				break;
+			}
 			}
 			break;
 		case SEAL:
@@ -332,6 +363,18 @@ public class objEffectHandler implements GameEventListener
 				break;
 			case 8:
 				//zaimplementowane przy dodawaniu
+			case 9:
+				changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true);
+				break;
+			case 10:
+			case 11:
+				//zaimplementowane w ucieczce
+			case 12:
+				changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", false);
+				break;
+			case 13:
+				addContinuousEffect(22, target);
+				break;
 			}
 			break;
 		}

@@ -41,7 +41,10 @@ public class MunchkinGroup
 		}
 
 	}
-
+	public Object[] toArray()
+	{
+		return stack.toArray();
+	}
 	protected void addCard (objCard card)
 	{
 

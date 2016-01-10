@@ -68,7 +68,10 @@ public class objCard extends objEntity
 	public int getEffect(int i) {
 		return effect[i];
 	}
-
+	public String toString()
+	{
+		return name;
+	}
 
 
 	public int getBonus() {

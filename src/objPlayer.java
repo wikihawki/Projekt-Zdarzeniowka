@@ -200,7 +200,7 @@ public class objPlayer extends objEntity
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			if(counter>findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size())
+			if(counter>findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size()||temp.getEffect(0)==8)
 			{
 				cardsInPlay.addCard(temp);
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
@@ -215,7 +215,7 @@ public class objPlayer extends objEntity
 	{
 		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
 		{
-			if(counter-amount>=findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size())
+			if(counter-amount>=findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size()||temp.getEffect(0)==8)
 			{
 				cardsInPlay.addCard(temp);
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);

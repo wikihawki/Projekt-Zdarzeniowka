@@ -37,7 +37,7 @@ public class objGameLogic
     private int playersNumber;
     private objEffectHandler effectHandler;
     private int currPlayer;
-
+    private int playingPlayer;
 
 	public objGameLogic()
 	{
@@ -48,7 +48,6 @@ public class objGameLogic
 		treasureDiscard=new MunchkinGroup();
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
-		effectHandler=new objEffectHandler(this);
 		currPlayer=0;
 		importPictures();
 		newGame(4);
@@ -59,6 +58,7 @@ public class objGameLogic
 		state=GameState.PLAY;
 		playersNumber=amount;
 		importCards();
+		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount);
 		players[currPlayer].beginTurn();
 	}
@@ -473,4 +473,12 @@ public class objGameLogic
 		    }
     	 return 0;
      }
+
+	public int getPlayingPlayer() {
+		return playingPlayer;
+	}
+
+	public void setPlayingPlayer(int playingPlayer) {
+		this.playingPlayer = playingPlayer;
+	}
 }

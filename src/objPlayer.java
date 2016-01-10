@@ -1,4 +1,6 @@
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -7,17 +9,22 @@ import javax.swing.JOptionPane;
 public class objPlayer extends objEntity
 {
 	public enum TurnPhase{NOTMYTURN, ITEMSARRANGE, KICKDOOR, LOOT, CHARITY, FIGHT}
+	private int PlayerId;
 	private TurnPhase myTurnPhase;
+	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private String name;
 	private boolean sex;
 	private int level;
 	private MunchkinHand hand;
 	private MunchkinGroup cardsInPlay;
 	private MunchkinGroup carriedCards;
-	private int freeHandCounter, footgearCounter, armorCounter, classCounter;
+	private int freeHandCounter, footgearCounter, armorCounter, classCounter,headgearCounter;
 	private objGameLogic environment;
-	public objPlayer(String name, boolean sex, int handX, int handY, objGameLogic envi)
+	private int levelUpsCounter;
+	private int money;
+	public objPlayer(String name, boolean sex, objGameLogic envi,int MiejsceWKolejce)
 	{
+		this.PlayerId=MiejsceWKolejce;
 		setFreeHandCounter(2);
 		setFootgearCounter(1);
 		setArmorCounter(1);
@@ -31,10 +38,10 @@ public class objPlayer extends objEntity
 		environment=envi;
 		drawTreasure(4);
 		drawDoor(4);
+		levelUpsCounter=0;
+		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
 	}
-
-
 
 	public int getLevel()
 	{
@@ -42,6 +49,11 @@ public class objPlayer extends objEntity
 	}
 	public int levelUp(int amount)
 	{
+		if(amount>0)
+		{
+			levelUpsCounter+=amount;
+			fireEvent(GameEvent.EventType.LEVELUP, this);
+		}
 		if(amount>-level)return level+=amount;
 		else throw new IllegalArgumentException();
 	}
@@ -58,11 +70,22 @@ public class objPlayer extends objEntity
 	{
 		return name;
 	}
+	public MunchkinGroup getCardsInPlay()
+	{
+		return cardsInPlay;
+	}
+	public TurnPhase getMyTurnPhase()
+	{
+		return myTurnPhase;
+	}
+	public MunchkinGroup getCarriedCards()
+	{
+		return carriedCards;
+	}
 	public MunchkinHand getHand()
 	{
 		return hand;
 	}
-
 	public int getFreeHandCounter()
 	{
 		return freeHandCounter;
@@ -97,17 +120,15 @@ public class objPlayer extends objEntity
 	}
 
 
->>>>>>> origin/master
 	public void drawTreasure(int amount)
 	{
-		for(int i=0;i<amount;i++)hand.addCard(environment.getTreasureDeck().removeLastCard());
+		objCard temp;
+		for(int i=0;i<amount;i++)if((temp=environment.drawTreasure())!=null)hand.addCard(temp);
 	}
 	public void drawDoor(int amount)
 	{
 		for(int i=0;i<amount;i++)hand.addCard(environment.getDoorDeck().removeLastCard());
 	}
-<<<<<<< HEAD
-=======
 	public void playCard(int cardNr, objEntity target)
 	{
 		playCard(hand.getCard(cardNr),target);
@@ -187,7 +208,7 @@ public class objPlayer extends objEntity
 			}
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
-		}
+		}else
 		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
 	}
 	private void equipItem(objCard temp, int counter, int amount,objCard.SecondaryType type)
@@ -202,7 +223,7 @@ public class objPlayer extends objEntity
 			}
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
-		}
+		}else
 		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
 	}
 	public void discardCardfromHand(int index)
@@ -320,7 +341,6 @@ public class objPlayer extends objEntity
 	}
 
 
->>>>>>> origin/master
 	public void beginTurn() throws IllegalStateException
 	{
 		if(myTurnPhase==TurnPhase.NOTMYTURN) myTurnPhase=TurnPhase.ITEMSARRANGE;
@@ -374,12 +394,13 @@ public class objPlayer extends objEntity
 		{
 			myTurnPhase=TurnPhase.LOOT;
 			this.drawDoor(1);
+			charity();
 		}
 		else throw new IllegalStateException();
 	}
 	public void charity()
 	{
-		if(myTurnPhase==TurnPhase.FIGHT||myTurnPhase==TurnPhase.LOOT)
+		if(myTurnPhase==TurnPhase.FIGHT||myTurnPhase==TurnPhase.LOOT||myTurnPhase==TurnPhase.KICKDOOR)
 		{
 			myTurnPhase=TurnPhase.CHARITY;
 		}
@@ -389,47 +410,63 @@ public class objPlayer extends objEntity
 		if(myTurnPhase==TurnPhase.CHARITY&&hand.size()<=5)
 		{
 			myTurnPhase=TurnPhase.NOTMYTURN;
-<<<<<<< HEAD
-=======
 			if(levelUpsCounter>=3)environment.closeSeal();
 			levelUpsCounter=0;
 			money=0;
 			fireEvent(GameEvent.EventType.TOUREND, this);
 			environment.nextPlayer();
->>>>>>> origin/master
 		}
 		else throw new IllegalStateException();
 	}
 	public void endImmediately()
 	{
 		myTurnPhase=TurnPhase.NOTMYTURN;
-<<<<<<< HEAD
-=======
 		if(levelUpsCounter>=3)environment.closeSeal();
 		levelUpsCounter=0;
 		money=0;
 		fireEvent(GameEvent.EventType.TOUREND, this);
 		environment.nextPlayer();
->>>>>>> origin/master
 	}
-	
-	public MunchkinGroup getCardsInPlay()
+
+	public void die()
 	{
-		return cardsInPlay;
+		for(int i=0;i <hand.size();i++)discardCardfromHand(i);
+		for(int i=0;i <carriedCards.size();i++)if(carriedCards.getCard(i).getEffect(0)!=4||cardsInPlay.getCard(i).getSecondaryType()!=objCard.SecondaryType.OTHER)discardCarriedCard(i);
+		for(int i=0;i <cardsInPlay.size();i++)discardCardFromPlay(i);
+		environment.getEffectHandler().addContinuousEffect(30, this);
+		endImmediately();
 	}
-	
-	public TurnPhase getMyTurnPhase()
+
+	public synchronized void addListener(GameEventListener listener)
 	{
-		return myTurnPhase;
+		listeners.add(listener);
 	}
-	public MunchkinGroup getCarriedCards()
+	public synchronized void removeListener(GameEventListener listener)
 	{
-		return carriedCards;
+	    listeners.remove(listener);
+	}
+	private synchronized void fireEvent(GameEvent.EventType type, objEntity target)
+	{
+	    GameEvent event = new GameEvent(this, type, target);
+	    Iterator<GameEventListener> i = listeners.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameEventOccurred(event);;
+	    }
+	}
+
+	public int getMoney() {
+		return money;
 	}
 
 
+public int getPlayerId()
+{
+	return PlayerId;
+}
 
-	
+
+
 
 
 }

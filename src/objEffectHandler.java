@@ -7,17 +7,18 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import javafx.util.Pair;
+
 
 public class objEffectHandler implements GameEventListener
 {
 	private objGameLogic environment;
-	private Map<Integer, objEntity> continuousEffects;
+	private Vector<Pair<Integer,objEntity>> continuousEffects;
 	public objEffectHandler(objGameLogic envi)
 	{
 		environment=envi;
-		continuousEffects=new HashMap<Integer, objEntity>();
+		continuousEffects=new Vector<Pair<Integer, objEntity>>();
 	}
-
 	public void handleEffect(objCard.SecondaryType type,int effectNr, objEntity target)
 	{
 		switch (type)
@@ -283,7 +284,7 @@ public class objEffectHandler implements GameEventListener
 		case OTHER:
 			switch(effectNr)
 			{
-			case 7:
+			case 8:
 				if(target!=null)
 				{
 					if(((objCard)target).getSecondaryType()==objCard.SecondaryType.DISASTER)
@@ -331,6 +332,30 @@ public class objEffectHandler implements GameEventListener
 				}
 				break;
 			}
+			case 7:
+				addContinuousEffect(31, target);
+				break;
+			case 9:
+			{
+				environment.getCurrentPlayer().setFreeHandCounter(1);
+				addContinuousEffect(32, target);
+				break;
+			}
+			case 10:
+
+				if(target.getClass()==objPlayer.class)environment.getCurrentFight().addBonus(3);
+				else if(target.getClass()==objMonster.class)environment.getCurrentFight().addBonus(3);
+				else throw new IllegalArgumentException();
+				break;
+			case 11:
+				addContinuousEffect(33, target);
+				break;
+			case 12:
+				addContinuousEffect(34, target);
+				break;
+			case 13:
+				((objPlayer)target).levelUp(1);
+				break;
 			}
 			break;
 		case SEAL:
@@ -339,7 +364,7 @@ public class objEffectHandler implements GameEventListener
 			switch(effectNr)
 			{
 			case 1:
-				if(!continuousEffects.containsKey(20))environment.openSeal();
+				if(!continuousEffectContains(20))environment.openSeal();
 				addContinuousEffect(20, target);
 				break;
 			case 2:
@@ -389,13 +414,30 @@ public class objEffectHandler implements GameEventListener
 	}
 	public void addContinuousEffect(int i, objEntity target)
 	{
-		continuousEffects.put(i, target);
-		continuousEffects.put(-i, null);
+		continuousEffects.add(new Pair<Integer, objEntity>(i, target));
+		continuousEffects.add(new Pair<Integer, objEntity>(i, target));
 	}
-	private void removeContinuousEffect(int i)
+	private void removeContinuousEffect(int k)
 	{
-		continuousEffects.remove(i);
-		continuousEffects.remove(-i);
+		for(int i=0;i<continuousEffects.size();i++)
+		{
+			if(continuousEffects.get(i).getKey()==k||continuousEffects.get(i).getKey()==-k)
+			{
+				continuousEffects.remove(i);
+				i--;
+			}
+		}
+	}
+	private boolean continuousEffectContains(int k)
+	{
+		for(int i=0;i<continuousEffects.size();i++)
+		{
+			if(continuousEffects.get(i).getKey()==k)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	private void monsterBonus(objMonster target, String playerClass, int bonus)
 	{
@@ -590,10 +632,10 @@ public class objEffectHandler implements GameEventListener
 	public void gameEventOccurred(GameEvent evt)
 	{
 		GameEvent.EventType eventType=evt.getEventType();
-		Iterator<Entry<Integer, objEntity>> iter=continuousEffects.entrySet().iterator();
+		Iterator<Pair<Integer, objEntity>> iter=continuousEffects.iterator();
 		while(iter.hasNext())
 		{
-			Entry<Integer, objEntity> pair = iter.next();
+			Pair<Integer, objEntity> pair = iter.next();
 			switch(pair.getKey())
 			{
 			case 1:

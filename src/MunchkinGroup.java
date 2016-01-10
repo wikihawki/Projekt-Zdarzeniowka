@@ -161,7 +161,7 @@ public class MunchkinGroup
 	public Vector<objCard> getStack (int startIndex)
 	{
 
-		Vector vecStack = new Vector();
+		Vector<objCard> vecStack = new Vector<objCard>();
 
 		for (int counter = startIndex; counter < size(); counter++)
 		{

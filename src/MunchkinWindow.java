@@ -15,6 +15,16 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private objCardWindow CardsingletonFrame ;
 	private objCharacterWindow CharactersingletonFrame ;
 	private objFightFrame FightsingletonFrame ;
+	
+public void useCardWindow(objCard karta )
+{
+	//CardsingletonFrame .setCardPklaceOnHand(id);	
+	CardsingletonFrame .drawChanges(CardsingletonFrame ,karta);
+// singletonFrame.repaint();
+ CardsingletonFrame.setVisible(true);
+}	
+	
+	
 	public MunchkinWindow(MunchkinGUI gui)
 	{
 		this.GUI=gui;

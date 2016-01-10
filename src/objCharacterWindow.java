@@ -52,7 +52,6 @@ public objCharacterWindow(MunchkinWindow Window,int index)
 
 
 
-
 public ImageIcon getEqupmentIcon(int i,int x,int y)
 {
 	BufferedImage img;

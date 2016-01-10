@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,6 +25,10 @@ private static objEquipmentSlotWindow myInstance;
 private ArrayList<JPanel> panelKart =new ArrayList<JPanel>();
 private ArrayList<JLabel>  karty = new ArrayList<JLabel>();
 private objCharacterWindow oknoGracza;
+private ArrayList<Integer> list = new ArrayList<Integer>();
+private String cardType;
+private objPlayer  Gracz;
+
 	public objEquipmentSlotWindow(objCharacterWindow window)
 	{
 		 this.oknoGracza=window;
@@ -39,18 +44,7 @@ private objCharacterWindow oknoGracza;
 	
 	private void czyszczenie()
 	{
-		
-	}
-	public static objEquipmentSlotWindow getInstance(objCharacterWindow window) {
-	    if (myInstance == null)
-	        myInstance = new objEquipmentSlotWindow(window);
-	        
-	        return myInstance;
-	}    
-	
-	
-	public void ShowEquipment(String name ,int Player)
-	{   remove(panelKart.get(0));
+		remove(panelKart.get(0));
         new JFrame();
 		repaint();
 		this.getContentPane().setBackground( new Color(231, 218, 167) );
@@ -62,7 +56,20 @@ private objCharacterWindow oknoGracza;
 	    panelKart.get(0).updateUI();
 	    panelKart.get(0).setBackground( new Color(231, 218, 167) );
 	    panelKart.get(0).setLayout(new GridLayout(1, 3));
-	    objPlayer  Gracz=	oknoGracza.getMainWindow().getLogic().getPlayer(Player);
+	    panelKart.get(0).addMouseListener(this);
+	    list=new ArrayList<Integer>();
+	}
+	public static objEquipmentSlotWindow getInstance(objCharacterWindow window) {
+	    if (myInstance == null)
+	        myInstance = new objEquipmentSlotWindow(window);
+	        
+	        return myInstance;
+	}    
+	
+	
+	public void ShowEquipment(String name ,int Player)
+	{   czyszczenie();
+	  Gracz=	oknoGracza.getMainWindow().getLogic().getPlayer(Player);
 	//objPlayer  Gracz=	oknoGracza.getMainWindow().getLogic().getPlayer(Player);
 	switch(name)
 	{
@@ -72,12 +79,14 @@ private objCharacterWindow oknoGracza;
 		
 		if(Gracz.findArmor()!=null&&Gracz.findArmor().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.findArmor().size(),200*(1+Gracz.findArmor().size()/3));
+	    this.setSize(250*Gracz.findArmor().size(),200);
 		for(int x :Gracz.findArmor())
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			list.add(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr());
+			cardType="Armor";
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -97,12 +106,15 @@ private objCharacterWindow oknoGracza;
 		setTitle("Weapon");
 		if(Gracz.findWeapon()!=null&&Gracz.findWeapon().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.findWeapon().size(),200*(1+Gracz.findWeapon().size()/3));
+	    this.setSize(150*Gracz.findWeapon().size(),200);
 		for(int x :Gracz.findWeapon())
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			  list.add(Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr());
+			  cardType="Weapon";
+			
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -123,12 +135,14 @@ private objCharacterWindow oknoGracza;
 		
 		if(Gracz.findHat()!=null&&Gracz.findHat().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.findHat().size(),200*(1+Gracz.findHat().size()/3));
+	    this.setSize(150*Gracz.findHat().size(),200);
 		for(int x :Gracz.findHat())
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			list.add(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr());
+			cardType="Headgear";
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -148,12 +162,14 @@ private objCharacterWindow oknoGracza;
 		setTitle("Footgear");
 		if(Gracz.findBoots()!=null&&Gracz.findBoots().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.findBoots().size(),200*(1+Gracz.findBoots().size()/3));
+	    this.setSize(150*Gracz.findBoots().size(),200);
 		for(int x :Gracz.findBoots())
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			list.add(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr());
+			cardType="Footgear";
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -174,12 +190,15 @@ private objCharacterWindow oknoGracza;
 		setTitle("Class");
 		if(Gracz.findClass()!=null&&Gracz.findClass().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.findClass().size(),200*(1+Gracz.findClass().size()/3));
+	    this.setSize(150*Gracz.findClass().size(),200);
 		for(int x :Gracz.findClass())
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			list  .add(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr());
+			cardType="Calss";
+			
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -200,12 +219,14 @@ private objCharacterWindow oknoGracza;
 		setTitle("Backpack");
 		if(Gracz.getCarriedCards()!=null&&Gracz.getCarriedCards().size()!=0)
 		{
-	    this.setSize(250+250%Gracz.getCarriedCards().size(),200*(1+Gracz.getCarriedCards().size()/3));
+	    this.setSize(150*Gracz.getCarriedCards().size(),200);
 		for(int x =0;x< Gracz.getCarriedCards().size();x++)
 		{
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCarriedCards().getCard(x).getIdNr()+").jpg",100,155));
-			   panelKart.get(0).add(karty.get(x));
+			list.add(Gracz.getCarriedCards().getCard(x).getIdNr());
+			cardType="Backpack";
+			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
 		}
 		}else
@@ -255,12 +276,26 @@ private objCharacterWindow oknoGracza;
 	    ImageIcon icon=new ImageIcon((Image) img);
 		return icon;
 	}
+	
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClicked(MouseEvent e) 
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
 
+			int x = e.getX();
+			int y = e.getY();
+			
+       for(int i=0;i<list.size();i++ )
+       {
+    	
+    	   if (e.getSource() == panelKart.get(i))
+    	   {
+    		   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)));
+    	   }
+	    }
+	}
+	}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub

@@ -29,6 +29,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     public static objCard Card;
     private int CardPlace;
     public JLabel label;
+    private String Source="Hand";
     public  JPanel pnlButtons = new JPanel(new GridLayout(8, 1));
     public  JPanel pnlImage = new JPanel();
     public JButton odrzuc = new JButton("Odrzuæ");
@@ -107,9 +108,9 @@ public class objCardWindow extends JFrame implements ActionListener{
 
          if(karta.getType()==objCard.Type.DOOR)
      	{
-        	 img  =scaleImage(205, 285,"src/images/kd (" +karta.getIdNr()+ ").jpg");
+        	 img  =scaleImage(205, 285,"src/images/karta (" +karta.getIdNr()+ ").jpg");
      	}else{
-     		 img  =scaleImage(205, 285,"src/images/ks (" +karta.getIdNr()+ ").jpg");
+     		 img  =scaleImage(205, 285,"src/images/karta (" +(92+karta.getIdNr())+ ").jpg");
      	}
 
          ImageIcon icon=new ImageIcon((Image) img);
@@ -154,7 +155,13 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == odrzuc)
 			    {
 			//  .out.println(CardIdex-1+" odrzucono");
-			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);;
+			  if(Source=="Hand")
+			  {
+			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);
+			  }else
+			  {
+				  window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardFromPlay(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCardsInPlay().getCardIndex(Card));
+			  }
 			        window.repaint();
 			       this.setVisible(false);
 		        }else
@@ -178,18 +185,59 @@ public class objCardWindow extends JFrame implements ActionListener{
 @SuppressWarnings("deprecation")
    private void menageButtons(objCard karta)
    {
+	
 	if(karta.getType()==objCard.Type.TREASURE)
 	{
-
+		if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Hand")
+		{
+		odrzuc.setVisible(true);
+		odrzuc.setEnabled(true);
 		zaloz.setVisible(true);
-		zaloz.setEnabled(true);;
+		zaloz.setEnabled(true);
+		skill1.setVisible(false);
+		skill1.setEnabled(false);
+		}
+		else if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Equipment")
+		{
+			odrzuc.setVisible(true);
+			odrzuc.setEnabled(true);
+			zaloz.setVisible(false);
+			zaloz.setEnabled(false);
+			skill1.setVisible(true);
+			skill1.setEnabled(true);
+		}else if(Source=="Hand")
+		{
+			odrzuc.setVisible(true);
+			odrzuc.setEnabled(true);
+			zaloz.setVisible(true);
+			zaloz.setEnabled(true);
+			skill1.setVisible(false);
+			skill1.setEnabled(false);
+		}
+		else if(Source=="Equipment")
+		{
+			odrzuc.setVisible(true);
+			odrzuc.setEnabled(true);
+			zaloz.setVisible(false);
+			zaloz.setEnabled(false);
+			skill1.setVisible(true);
+			skill1.setEnabled(true);
+		}
 	}else
 	{
+		odrzuc.setVisible(true);
+		odrzuc.setEnabled(true);
 		zaloz.setVisible(false);
-		zaloz.setEnabled(false);;
+		zaloz.setEnabled(false);
+		skill1.setVisible(true);
+		skill1.setEnabled(true);
 	}
+	
 }
-
+   public void setSignalSource(String source)
+   {
+	   this.Source=source;
+   }
 
 
 

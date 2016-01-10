@@ -462,7 +462,7 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 
 		Image imgOffScreen = createImage(getSize().width, getSize().height);
 		Graphics grpOffScreen = imgOffScreen.getGraphics();
-		logikaMunchkin.getCurrentPlayer().setCurrentPhase();
+		//logikaMunchkin.getCurrentPlayer().setCurrentPhase();
 		if (menuSystem.isMenuVisible())
 		{
 			clip(menuSystem.getPaintInstruction(), grpOffScreen, g);

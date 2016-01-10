@@ -83,7 +83,7 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findArmor())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr()+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+(92+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr())+").jpg",100,155));
 			list.add(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr());
 			cardType="Armor";
 			panelKart.get(0).add(karty.get(x));
@@ -297,6 +297,7 @@ for(JLabel i : karty)
     		   switch(cardType)
     		   {
     		   case "Armor":
+    			   
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)));
     			   break;
     		   case "Weapon":

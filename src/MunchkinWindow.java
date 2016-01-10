@@ -194,11 +194,12 @@ public void useCardWindow(objCard karta )
 	                        "Hello", "dobierz karte", JOptionPane.INFORMATION_MESSAGE);
 
 	            }
+			logikaMunchkin.getCurrentPlayer().endTurn();
+			 buttonPressed=false;
+			 repaint();
 		      }
 				  
-				logikaMunchkin.getCurrentPlayer().endTurn();
-				 buttonPressed=false;
-				 repaint();
+				
 		
 			}else
 			{

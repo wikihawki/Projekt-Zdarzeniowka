@@ -89,17 +89,17 @@ public class objGameLogic
 			players[i].addListener(effectHandler);
 		}
 	}
-    private void importPictures ()
+	private void importPictures ()
 	{
 
 
-			for (int rank = 1; rank <= 69; rank++) //Loop 13 times (for ace - king)
+			for (int rank = 1; rank <= 92; rank++) //Loop 13 times (for ace - king)
 
 
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[0][rank] = createImage.getImage(this, "images/kd ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
+				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
@@ -111,7 +111,7 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[1][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
+				imgCards[1][rank] = createImage.getImage(this, "images/karta ("+(92+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 

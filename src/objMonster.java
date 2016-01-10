@@ -62,7 +62,7 @@ public class objMonster extends objEntity
 	public void setBadStuff(int badStuff) {
 		this.badStuff = badStuff;
 	}
-	public boolean isEffectTookPlace() {
+	public boolean didEffectTookPlace() {
 		return effectTookPlace;
 	}
 	public void setEffectTookPlace(boolean effectTookPlace) {

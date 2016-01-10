@@ -1,7 +1,5 @@
-import java.util.HashMap;
+
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
@@ -444,7 +442,7 @@ public class objEffectHandler implements GameEventListener
 		objPlayer player1=environment.getCurrentFight().getMainPlayer();
 		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
 		Vector<objCard>classes=new Vector<objCard>();
-		if(player1.getClassCounter()==0) classes=player1.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS);
+		if(player1.getClassCounter()==classes.size()) classes=player1.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS);
 		if(player2!=null)if(player2.getClassCounter()==0)classes.addAll(player2.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS));
 		if(classes.size()>0)
 		{
@@ -457,7 +455,7 @@ public class objEffectHandler implements GameEventListener
 		objPlayer player1=environment.getCurrentFight().getMainPlayer();
 		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
 		Vector<objCard>classes=new Vector<objCard>();
-		if(player1.getClassCounter()==0)for(int i=0;i<playerClass.length;i++)classes=player1.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS);
+		if(player1.getClassCounter()==classes.size())for(int i=0;i<playerClass.length;i++)classes=player1.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS);
 		if(player2!=null)if(player2.getClassCounter()==0)for(int i=0;i<playerClass.length;i++)classes.addAll(player2.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS));
 		if(classes.size()>0)
 		{
@@ -642,9 +640,42 @@ public class objEffectHandler implements GameEventListener
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setBonus(-1);
 				break;
 			case 2:
-
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					if(!((objMonster)pair.getValue()).didEffectTookPlace())monsterBonus(((objMonster)pair.getValue()), "Militia",3);
+					if(((objMonster)pair.getValue()).getStrength()==0||(((objMonster)pair.getValue()).getStrength()==((objMonster)pair.getValue()).getMyCard().getLevel()+3&&((objMonster)pair.getValue()).didEffectTookPlace()))monsterBonus(((objMonster)pair.getValue()),true,3);
+				}
 				break;
+			case 3:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					environment.getCurrentFight().setHelperEscape(0);
+					environment.getCurrentFight().setMainPlayerEscape(0);
+					environment.getCurrentFight().setEscapeBonus(environment.getCurrentFight().getEscapeBonus()-1);
+				}
+				break;
+			case 4:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					if(!((objMonster)pair.getValue()).didEffectTookPlace())monsterBonus(((objMonster)pair.getValue()), "scientist",4);
+				}
+			case 5:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					objPlayer temp =environment.getCurrentFight().getMainPlayer();
+					temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
+				}
+			case 9:
+				if(eventType==GameEvent.EventType.TURNSTARTED)
+				{
+					if(environment.getCurrentPlayer()==pair.getValue())
+					{
+						((objPlayer)pair.getValue()).endImmediately();
+
+					}
+				}
 			case -1:
+			case -2:
 				if(eventType==GameEvent.EventType.FIGHTOVER)
 				{
 					removeContinuousEffect(pair.getKey());

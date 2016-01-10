@@ -173,11 +173,7 @@ public class objPlayer extends objEntity
 			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
 			break;
 		case CLASS:
-			if(classCounter>0)
-			{
-				classCounter--;
-			}
-			else
+			if(classCounter<=findClass().size())
 			{
 				if(((objCard)target).getSecondaryType()==objCard.SecondaryType.CLASS)
 				{
@@ -343,8 +339,12 @@ public class objPlayer extends objEntity
 
 	public void beginTurn() throws IllegalStateException
 	{
-		if(myTurnPhase==TurnPhase.NOTMYTURN) myTurnPhase=TurnPhase.ITEMSARRANGE;
-		else throw new IllegalStateException("nie mo¿esz zacz¹æ tury jeœli jest twoja tura");
+		if(myTurnPhase==TurnPhase.NOTMYTURN)
+		{
+			myTurnPhase=TurnPhase.ITEMSARRANGE;
+			fireEvent(GameEvent.EventType.TURNSTARTED, this);
+		}
+		else JOptionPane.showMessageDialog(null, "nie mo¿esz zacz¹æ tury jeœli jest twoja tura");
 	}
 	public void kickOpenDoor() throws IllegalStateException
 	{
@@ -371,7 +371,7 @@ public class objPlayer extends objEntity
 				throw new IllegalStateException();
 			}
 		}
-		else throw new IllegalStateException("z³a kolejnoœæ faz tury");
+		else JOptionPane.showMessageDialog(null, "z³a kolejnoœæ faz tury");
 	}
 	public void lookForTrouble(objCard temp)
 	{
@@ -384,9 +384,9 @@ public class objPlayer extends objEntity
 				environment.setCurrentFight(new objFight(monst, this,environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
 			}
-			else throw new IllegalArgumentException();
+			else JOptionPane.showMessageDialog(null, "teraz mo¿esz zagrac tylko potwora");
 		}
-		else throw new IllegalStateException();
+		else JOptionPane.showMessageDialog(null, "z³a kolejnoœæ faz tury");
 	}
 	public void lootRoom()
 	{
@@ -396,7 +396,7 @@ public class objPlayer extends objEntity
 			this.drawDoor(1);
 			charity();
 		}
-		else throw new IllegalStateException();
+		else JOptionPane.showMessageDialog(null, "z³a kolejnoœæ faz tury");
 	}
 	public void charity()
 	{
@@ -404,6 +404,7 @@ public class objPlayer extends objEntity
 		{
 			myTurnPhase=TurnPhase.CHARITY;
 		}
+		else JOptionPane.showMessageDialog(null, "z³a kolejnoœæ faz tury");
 	}
 	public void endTurn()
 	{
@@ -413,10 +414,10 @@ public class objPlayer extends objEntity
 			if(levelUpsCounter>=3)environment.closeSeal();
 			levelUpsCounter=0;
 			money=0;
-			fireEvent(GameEvent.EventType.TOUREND, this);
+			fireEvent(GameEvent.EventType.TURNEND, this);
 			environment.nextPlayer();
 		}
-		else throw new IllegalStateException();
+		else JOptionPane.showMessageDialog(null, "Musisz miec na rece maksymalnie piec kart");
 	}
 	public void endImmediately()
 	{
@@ -424,7 +425,7 @@ public class objPlayer extends objEntity
 		if(levelUpsCounter>=3)environment.closeSeal();
 		levelUpsCounter=0;
 		money=0;
-		fireEvent(GameEvent.EventType.TOUREND, this);
+		fireEvent(GameEvent.EventType.TURNEND, this);
 		environment.nextPlayer();
 	}
 

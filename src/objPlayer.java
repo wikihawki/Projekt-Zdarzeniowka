@@ -139,9 +139,13 @@ public class objPlayer extends objEntity
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
+			equipItem(temp,armorCounter,temp.getSecondaryType());
+			break;
 		case BOOTS:
+			equipItem(temp,footgearCounter,temp.getSecondaryType());
+			break;
 		case HAT:
-			equipItem(temp,1,temp.getSecondaryType());
+			equipItem(temp,headgearCounter,temp.getSecondaryType());
 			break;
 		case ONEHANDWEAPON:
 			equipItem(temp,freeHandCounter,temp.getSecondaryType());

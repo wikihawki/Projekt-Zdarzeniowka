@@ -45,6 +45,8 @@ public class objGameLogic
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
+		DatabaseConnection temp=new DatabaseConnection();
+		temp.importCards();
 		importPictures();
 		newGame(4);
 	}

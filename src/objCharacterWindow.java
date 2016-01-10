@@ -53,10 +53,10 @@ public objCharacterWindow(MunchkinWindow Window,int index)
 
 
 
-private ImageIcon getEqupmentIcon(int i)
+public ImageIcon getEqupmentIcon(int i,int x,int y)
 {
 	BufferedImage img;
-    img  =scaleImage(150, 250,"src/images/Ekwipunek/ekw("+i+").jpg");
+    img  =scaleImage(x, y,"src/images/Ekwipunek/ekw("+i+").jpg");
     ImageIcon icon=new ImageIcon((Image) img);
 	return icon;
 }
@@ -75,26 +75,26 @@ case 0:
 
 	break;
 case 1:
-	PaneleEkwipunku.get(i).setIcon( getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon( getEqupmentIcon(i+1,150,250));
 	break;
 case 2:
-	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 case 3:
-	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 case 4:
-	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 case 5:
 	break;
 case 6:
 	break;
 case 7:
-	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 case 8:
-	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1));
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 default:
 	break;
@@ -146,27 +146,32 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 				case 1:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Headgear", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 2:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Class", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 3:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Weapon", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 4:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Armor", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 5:
 					System.out.println(i);
 					setVisible(false);
 					okienko.setVisible(true);
+					
 					break;
 				case 6:
 					System.out.println(i);
@@ -176,11 +181,13 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 				case 7:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Footgear", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 8:
 					System.out.println(i);
 					setVisible(false);
+					okienko.ShowEquipment("Backpack", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				default:

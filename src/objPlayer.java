@@ -1,4 +1,6 @@
 
+import java.util.Vector;
+
 import javax.swing.JOptionPane;
 
 
@@ -60,8 +62,7 @@ public class objPlayer extends objEntity
 	{
 		return hand;
 	}
-<<<<<<< HEAD
-=======
+
 	public int getFreeHandCounter()
 	{
 		return freeHandCounter;
@@ -411,44 +412,12 @@ public class objPlayer extends objEntity
 		environment.nextPlayer();
 >>>>>>> origin/master
 	}
-	public void playCard(int cardNr, objEntity target)
-	{
-		objCard temp =hand.getCard(cardNr);
-		switch (temp.getSecondaryType())
-		{
-		case ARMOR:
-			break;
-		case BOOTS:
-			break;
-		case DISASTER:
-
-			discardCardfromHand(cardNr);
-			break;
-		case HAT:
-			break;
-		case ITEMENCHANCER:
-			break;
-		case MONSTER:
-			break;
-		case OTHER:
-			break;
-		case OTHERITEM:
-			break;
-		case WEAPON:
-			break;
-		default:
-			break;
-
-		}
-	}
+	
 	public MunchkinGroup getCardsInPlay()
 	{
 		return cardsInPlay;
 	}
-	public void discardCardfromHand(int index)
-	{
-		environment.discardCard(hand.removeCard(index));
-	}
+	
 	public TurnPhase getMyTurnPhase()
 	{
 		return myTurnPhase;
@@ -460,48 +429,7 @@ public class objPlayer extends objEntity
 
 
 
-	public int getFreeHandCounter()
-	{
-		return freeHandCounter;
-	}
-
-
-
-	public void setFreeHandCounter(int freeHandCounter)
-	{
-		this.freeHandCounter = freeHandCounter;
-	}
-
-
-
-	public int getFootgearCounter()
-	{
-		return footgearCounter;
-	}
-
-
-
-	public void setFootgearCounter(int footgearCounter)
-	{
-		this.footgearCounter = footgearCounter;
-	}
-	public int getArmorCounter()
-	{
-		return armorCounter;
-	}
-	public void setArmorCounter(int armorCounter)
-	{
-		this.armorCounter = armorCounter;
-	}
-	public int getClassCounter()
-	{
-		return classCounter;
-	}
-	public void setClassCounter(int classCounter)
-	{
-		this.classCounter = classCounter;
-	}
-
+	
 
 
 }

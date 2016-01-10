@@ -56,7 +56,7 @@ private objPlayer  Gracz;
 	    panelKart.get(0).updateUI();
 	    panelKart.get(0).setBackground( new Color(231, 218, 167) );
 	    panelKart.get(0).setLayout(new GridLayout(1, 3));
-	    panelKart.get(0).addMouseListener(this);
+	 //   panelKart.get(0).addMouseListener(this);
 	    list=new ArrayList<Integer>();
 	}
 	public static objEquipmentSlotWindow getInstance(objCharacterWindow window) {
@@ -246,8 +246,10 @@ private objPlayer  Gracz;
 	default:
 		break;
 	}
-	
-		
+for(JLabel i : karty)
+{
+	i. addMouseListener(this);
+}
 	}
 	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
@@ -288,10 +290,32 @@ private objPlayer  Gracz;
 			
        for(int i=0;i<list.size();i++ )
        {
-    	
-    	   if (e.getSource() == panelKart.get(i))
+    	System.out.println("list size"+list.size()+" i "+i+" Panel size"+	panelKart.size());
+    
+    	   if (e.getSource() == karty.get(i))
     	   {
-    		   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)));
+    		   switch(cardType)
+    		   {
+    		   case "Armor":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)));
+    			   break;
+    		   case "Weapon":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(i)));
+    			   break;
+    		   case "Footgear":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(i)));
+    			   break;
+    		   case "Headgear":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(i)));
+    			   break;
+    		   case "Class":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(i)));
+    			   break;
+    		   case "Backpack":
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCarriedCards().getCard(i));
+    			   break;
+    		   }
+    		   
     	   }
 	    }
 	}

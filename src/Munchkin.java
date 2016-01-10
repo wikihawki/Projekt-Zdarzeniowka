@@ -12,7 +12,6 @@ public class Munchkin extends JFrame {
         JFrame frame = new JFrame("Munchkin"); //Title
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MunchkinGUI munchkin;  munchkin = new MunchkinGUI();
-        
         frame.setContentPane(munchkin.createGUI(frame));
         frame.add(munchkin.createGUI(frame));
         frame.setSize(970,730);

@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListener, MouseMotionListener
 {
@@ -11,6 +14,7 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private MunchkinGUI GUI;
 	private objCardWindow CardsingletonFrame ;
 	private objCharacterWindow CharactersingletonFrame ;
+	private objFightFrame FightsingletonFrame ;
 	public MunchkinWindow(MunchkinGUI gui)
 	{
 		this.GUI=gui;
@@ -20,6 +24,11 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 		this.CardsingletonFrame .setVisible(false);
 		this.CharactersingletonFrame   =  objCharacterWindow.getInstance(this,0);
 		this.CharactersingletonFrame .setVisible(false);
+		
+		FightsingletonFrame=objFightFrame.getInstance(this, 0);
+		this.FightsingletonFrame  .setVisible(false);
+
+
 	}	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
@@ -65,7 +74,13 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y));
 					CharactersingletonFrame.repaint();
 					CharactersingletonFrame.setVisible(true);
-				}
+				}else 
+					if(logikaMunchkin.isAboveStack(x, y)!=0)
+					{
+						
+                    FightsingletonFrame.setVisible(true);
+					}
+
 
 			
 		}
@@ -121,5 +136,6 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 		}
 		
 	}
+	
 	
 }

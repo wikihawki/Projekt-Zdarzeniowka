@@ -1,15 +1,17 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Vector;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 public class MunchkinPaintAndLayout extends Canvas
 {
 
+	
+	private static final long serialVersionUID = -1202675550011086749L;
 	protected objGameLogic logikaMunchkin;
 	protected final int gapFaceDown = 10, gapFaceUp = 20, gapColumn = 20;
 	private final Color clrBackground = new Color(231, 218, 167);
@@ -38,7 +40,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	public void newGame ()
 	{
-
+System.out.println("wow");
 		//currentInstruction.reset();
 
 	}
@@ -47,6 +49,8 @@ public class MunchkinPaintAndLayout extends Canvas
 
 		imgCardBack = index.getScaledInstance(71, 96, Image.SCALE_DEFAULT);
 	}
+	
+
 	public void DrawHand(Graphics grpOffScreen)
 	{
 		Image tempImg =null;
@@ -118,8 +122,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
     public void DrawPlayerNames(Graphics g)
     {
-    	 Dimension d = this.getPreferredSize();
-    	    int fontSize = 20;
+    	 int fontSize = 20;
 
     	    g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     
@@ -154,7 +157,6 @@ public class MunchkinPaintAndLayout extends Canvas
 		drawCard(g,tempImg,400,340,1);
     	
     }
-    
     public void DrawSealStack(Graphics g)
     {
     	Image tempImg =null;
@@ -205,7 +207,35 @@ public class MunchkinPaintAndLayout extends Canvas
     		grpOffScreen.drawString("Koniec Tury", 450, 520);
         }
     }
-    
+    protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY,int Player) //Called by solitareColumn() to paint each card
+	{
+		/*
+		grpOffScreen.drawImage(imgCard, startX, startY, this);
+		grpOffScreen.setColor(new Color(149,146,140)); //Grey
+		grpOffScreen.drawRect(startX, startY, imgWidth, imgHeight); //Draw a border around the card
+	*/
+
+		Graphics2D g2d = (Graphics2D) grpOffScreen;
+
+
+	       AffineTransform at = new AffineTransform();
+
+	       // 4. translate it to the center of the component
+	       at.translate( startX,  startY);
+
+	       // 3. do the actual rotation
+	       at.rotate((Player-1)*(Math.PI/2));
+
+
+	       // 1. translate the object so that you rotate it around the
+	       //    center (easier :))
+	       at.translate(-imgWidth/2, -imgHeight/2);
+
+	       // draw the image
+
+	       g2d.drawImage( imgCard, at, this);
+
+	}
 
     public void update (Graphics g)
 	{
@@ -249,35 +279,7 @@ public class MunchkinPaintAndLayout extends Canvas
 
 
 	}
-	protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY,int Player) //Called by solitareColumn() to paint each card
-	{
-		/*
-		grpOffScreen.drawImage(imgCard, startX, startY, this);
-		grpOffScreen.setColor(new Color(149,146,140)); //Grey
-		grpOffScreen.drawRect(startX, startY, imgWidth, imgHeight); //Draw a border around the card
-	*/
-
-		Graphics2D g2d = (Graphics2D) grpOffScreen;
-
-
-	       AffineTransform at = new AffineTransform();
-
-	       // 4. translate it to the center of the component
-	       at.translate( startX,  startY);
-
-	       // 3. do the actual rotation
-	       at.rotate((Player-1)*(Math.PI/2));
-
-
-	       // 1. translate the object so that you rotate it around the
-	       //    center (easier :))
-	       at.translate(-imgWidth/2, -imgHeight/2);
-
-	       // draw the image
-
-	       g2d.drawImage( imgCard, at, this);
-
-	}
+	
 	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
         ImageIcon ii ;

@@ -9,8 +9,7 @@ import javax.swing.*;
 public class MunchkinGUI {
 	private MunchkinWindow mainWindow;
 	private MediaTracker mt;
-	private String[] strCardBack = {"Sonic","BelgiumFlag","DutchMouse","FindingNemo","UKFlag","VanessaMae"}; 
-	public void MunchkinGUI()
+	public MunchkinGUI()
 	{
 		
 	}

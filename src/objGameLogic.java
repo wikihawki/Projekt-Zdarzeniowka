@@ -448,4 +448,21 @@ public class objGameLogic
 		 return  myIntArray4 ;
      	
      }
+     public int isAboveStack(int x , int y)
+     {
+    	 if ((x >= 215&& x <= 335 )&& (y >= 290 && y <= 440)) //Check if mouse is in this column's card area
+			{
+    		 
+			return 1;
+	        }else
+	        if((x >= 365&& x <= 485 )&& (y >= 290 && y <= 440))
+	        {
+	        return 2;
+	        }else
+		    if((x >= 520&& x <= 660 )&& (y >= 290 && y <= 435))
+		    {
+		    return 3;	
+		    }
+    	 return 0;
+     }
 }

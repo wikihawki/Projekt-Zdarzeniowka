@@ -150,9 +150,9 @@ public class objPlayer extends objEntity
 		case ONEHANDWEAPON:
 			equipItem(temp,freeHandCounter,temp.getSecondaryType());
 			break;
-		case ITEMENCHANCER:
-			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANCER, temp.getEffect(0), target);
-			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANCER, temp.getEffect(1), target);
+		case ITEMENCHANTER:
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), target);
 			break;
 		case MONSTER:
 			if(environment.getCurrentFight()!=null)

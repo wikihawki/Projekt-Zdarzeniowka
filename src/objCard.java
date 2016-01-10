@@ -3,7 +3,7 @@ import java.awt.*;
 public class objCard extends objEntity
 {
 	public enum Type{DOOR, TREASURE, SEAL}
-	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,ITEMENCHANCER,CLASS,SEAL}
+	public enum SecondaryType{TWOHANDWEAPON,ONEHANDWEAPON, ARMOR, BOOTS, HAT, MONSTER,DISASTER,OTHER,OTHERITEM,CLASS,SEAL, ITEMENCHANTER}
 	public enum Tag{SHARK, UNDEAD, BIG, NULL,FLAME}
 	private String name="";
 	private String discription="";
@@ -18,15 +18,16 @@ public class objCard extends objEntity
 	private int idNr;
 	private Tag tag;
 	private int whenToPlay;
-	public objCard (int id,Type type,SecondaryType type2, Image imgCard, String name, String discription,int levelBonus, int effect, int effect2,int reward, int treasures,int whenTo)
+	public objCard (int id,Type type,SecondaryType type2,Tag tag, String name, String discription,int levelBonus, int effect, int effect2,int reward, int treasures,int whenTo)
 	{
 		this.idNr=id;
 		this.effect=new int[2];
 		this.effect[0]=effect;
 		this.name=name;
-		this.imgCard = imgCard;
+		this.imgCard = null;
 		this.discription=discription;
 		this.levelBonus=levelBonus;
+		this.tag=tag;
 		this.effect[1]=effect2;
 		this.rewardValue=reward;
 		this.treasures=treasures;
@@ -37,7 +38,10 @@ public class objCard extends objEntity
 		}
 		else throw new IllegalArgumentException();
 	}
-
+	public void setImgCard(Image card)
+	{
+		imgCard=card;
+	}
 	public boolean isFaceDown ()
 	{
 		return isFaceDown;

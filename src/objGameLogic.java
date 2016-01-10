@@ -66,11 +66,14 @@ public class objGameLogic
 		{
 
 
-			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER, imgCardBack[1], null, null, i, i, i, i, i,i);
+			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER,objCard.Tag.NULL, null, null, i, i, i, i, i,i);
+			karta.setImgCard( imgCardBack[1]);
 			sealDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,imgCardBack[1], null, null, i, i, i, i, i,i);
+			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,objCard.Tag.NULL, null, null, i, i, i, i, i,i);
+			karta.setImgCard( imgCardBack[1]);
 			treasureDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,imgCardBack[0], null, null, i, i, i,i,i,i);
+			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,objCard.Tag.NULL, null, null, i, i, i,i,i,i);
+			karta.setImgCard( imgCardBack[0]);
 			doorDeck.addCard(karta);
 		}
 		sealDeck.suffle();

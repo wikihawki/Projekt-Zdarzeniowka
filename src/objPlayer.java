@@ -352,10 +352,10 @@ public class objPlayer extends objEntity
 		{
 			myTurnPhase=TurnPhase.KICKDOOR;
 			objCard temp= environment.showDoorCard();
+		//	System.out.println("wyci¹gn¹lem "+temp.toString()+"  "+temp.getIdNr()+"  "+temp.getEffect(0));
 			switch (temp.getSecondaryType())
 			{
 			case MONSTER:
-				environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
 				myTurnPhase=TurnPhase.FIGHT;
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this, environment));

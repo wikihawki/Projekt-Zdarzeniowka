@@ -641,6 +641,9 @@ public class objEffectHandler implements GameEventListener
 			case 1:
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setBonus(-1);
 				break;
+			case 2:
+
+				break;
 			case -1:
 				if(eventType==GameEvent.EventType.FIGHTOVER)
 				{

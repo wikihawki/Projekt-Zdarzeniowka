@@ -52,7 +52,20 @@ System.out.println("wow");
 	}
 	
 	
-	
+	public void DrawTresure(Graphics grpOffScreen)
+	{
+		Image img  =logikaMunchkin.getChestImage();
+        drawCard(grpOffScreen,img,420,55,1);
+        int fontSize = 20;
+		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+    	     
+		grpOffScreen.setColor(Color.BLACK);
+		  grpOffScreen.drawString("Number of treasures : ", 360, 160);
+		  int tmp = 1;//logikaMunchkin.getCurrentFight().getMonsters().get(0).getTreasures();
+		  img  =scaleImage(50, 50,"src"
+	    	   		+ "/images/LVL/"+tmp+".jpg");
+	        drawCard(grpOffScreen,img,579,180,1);
+	}
     public void DrawParty(Graphics grpOffScreen)
     {
     	Image tempImg =null;
@@ -73,11 +86,58 @@ System.out.println("wow");
 		//}
 		
 	   grpOffScreen.drawString("Party power "/*+logikaMunchkin.getCurrentFight().getPlayersStrength()*/, 250, 300);
-	  Image img  =scaleImage(25, 25,"src/images/LVL/"+logikaMunchkin.getPlayer(focusPlayer-1).getLevel()+".jpg");
-       drawCard(grpOffScreen,img,325,315,1);
-		
-		
-    	
+	   //int tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
+	   int tmp =5;
+	  /* if(tmp>10)
+	  // {
+	   Image img  =scaleImage(50, 50,"src"
+	   		+ "/images/LVL/"+tmp/10+".jpg");
+       drawCard(grpOffScreen,img,400,315,1);
+	   img  =scaleImage(50, 50,"src"
+		   		+ "/images/LVL/"+tmp%10+".jpg");
+	       drawCard(grpOffScreen,img,432,315,1);
+	 //  }else
+	   {
+    	*/Image img  =scaleImage(50, 50,"src"
+    	   		+ "/images/LVL/"+tmp+".jpg");
+        drawCard(grpOffScreen,img,400,315,1);
+   // }
+    }
+    public void DrawMonsters(Graphics grpOffScreen)
+    {
+    	Image tempImg =null;
+    	Image img =null;
+    	int fontSize = 20;
+		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+    	     int tmp=0;
+		grpOffScreen.setColor(Color.black);
+    	//logikaMunchkin.getCurrentFight().getMainPlayer();
+      /* 
+		for(objMonster x : logikaMunchkin.getCurrentFight().getMonsters())
+         {
+         
+	      img  =scaleImage(120, 150,"src/image/kd("+logikaMunchkin.getCurrentFight().getMonsters().get(0).getMyCard().getIdNr()+").jpg");
+           drawCard(grpOffScreen,img,400,315+tmp*160,1);
+           tmp++;
+         }
+       */
+	   grpOffScreen.drawString("Monsters power "/*+logikaMunchkin.getCurrentFight().getPlayersStrength()*/, 540, 300);
+	   //int tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
+	    tmp =5;
+	  /* if(tmp>10)
+	  // {
+	   Image img  =scaleImage(50, 50,"src"
+	   		+ "/images/LVL/"+tmp/10+".jpg");
+       drawCard(grpOffScreen,img,720,315,1);
+	   img  =scaleImage(50, 50,"src"
+		   		+ "/images/LVL/"+tmp%10+".jpg");
+	       drawCard(grpOffScreen,img,752,315,1);
+	 //  }else
+	   {
+    	*/img  =scaleImage(50, 50,"src"
+    	   		+ "/images/LVL/"+tmp+".jpg");
+        drawCard(grpOffScreen,img,720,315,1);
+   // }
     }
     public void DrawBattlefield(Graphics grpOffScreen)
     {
@@ -110,7 +170,8 @@ System.out.println("wow");
 	        img  =scaleImage(50, 50,"src/images/LVL/"+logikaMunchkin.getPlayer(focusPlayer-1).getLevel()+".jpg");
 	        drawCard(grpOffScreen,img,425,595,1);
 	        DrawParty(grpOffScreen);
-		
+	        DrawMonsters( grpOffScreen);
+	        DrawTresure(grpOffScreen);
     }
     protected void setFocusedPlayer(int PlayerIndex)
     {

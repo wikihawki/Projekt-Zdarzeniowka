@@ -144,7 +144,7 @@ public class objGameLogic
 		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 200000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
 		ButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
 		PressedButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige_pressed.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
-        Chest =createImage.getImage(this, "images/Ekwipunek/treasure-chest-md.png", 100000).getScaledInstance(200, 200, Image.SCALE_DEFAULT);
+        Chest =createImage.getImage(this, "images/Ekwipunek/treasure-chest-md.png", 100000).getScaledInstance(190, 130, Image.SCALE_DEFAULT);
 	}
     public void resolveStackTopCard()
     {

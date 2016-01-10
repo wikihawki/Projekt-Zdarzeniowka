@@ -1,10 +1,10 @@
 import java.awt.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
-
 
 public class objGameLogic
 {
@@ -23,6 +23,7 @@ public class objGameLogic
     private Image Door ;
     private Image Treasure ;
     private Image Seal ;
+    private Image Chest ;
     private MunchkinGroup sealDeck, treasureDeck, doorDeck;
     private MunchkinGroup treasureDiscard,doorDiscard;
     private MunchkinGroup openedSeals;
@@ -141,7 +142,7 @@ public class objGameLogic
 		CharacterImage= createImage.getImage(this, "images/munchkinPostac.png", 200000).getScaledInstance(150, 150, Image.SCALE_DEFAULT);
 		ButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
 		PressedButtonImage= createImage.getImage(this, "images/Buttons/buttonLong_beige_pressed.png", 1000).getScaledInstance(150, 49, Image.SCALE_DEFAULT);
-
+        Chest =createImage.getImage(this, "images/Ekwipunek/treasure-chest-md.png", 100000).getScaledInstance(200, 200, Image.SCALE_DEFAULT);
 	}
     public void resolveStackTopCard()
     {
@@ -371,7 +372,6 @@ public class objGameLogic
 
     public int isMouseOnCharacter(int x,int y)
 	{
-		int i;
 
 
 			if ((x >= 220&& x <= 340 )&& (y >= 447 && y <= 597)) //Check if mouse is in this column's card area
@@ -421,7 +421,27 @@ public class objGameLogic
      {
     	 return ButtonImage;
      };
+     public int isAboveFocusedPlayerButton(int x, int y)
+     {
+    	 int tmp =0;
+    	 for(int i =0 ;i<=1;i++)
+    	 {
+    		 for(int j =0 ;j<=1;j++)
+        	 { tmp++;
+    			 if ((x >= 435+ j%2*150&& x <= 580+ j%2*150 )&& (y >= 495+ i%2*50 && y <= 535+ i%2*50)) //Check if mouse is in this column's card area
+    				{
 
+    					return tmp;
+
+    		        }
+        	 }
+
+    	 }
+
+
+
+    	 return 0;
+     }
      public Image getPressedButtonImage()
      {
     	 return PressedButtonImage;
@@ -489,5 +509,9 @@ public class objGameLogic
 
 	public void setPlayingPlayer(int playingPlayer) {
 		this.playingPlayer = playingPlayer;
+	}
+	public Image getChestImage()
+	{return Chest;
+
 	}
 }

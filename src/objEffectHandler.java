@@ -378,6 +378,17 @@ public class objEffectHandler implements GameEventListener
 			}
 			break;
 		case SEAL:
+			switch(effectNr)
+			{
+				case 1:
+					for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
+					addContinuousEffect(40, null);
+					break;
+				case 2:
+					for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
+					addContinuousEffect(41, null);
+					break;
+			}
 			break;
 		default:
 			switch(effectNr)
@@ -815,6 +826,9 @@ public class objEffectHandler implements GameEventListener
 				{
 					environment.getCurrentFight().addLevelBonus(1);
 				}
+			case 40:
+				break;
+			case 41:
 				break;
 			case -1:
 			case -2:

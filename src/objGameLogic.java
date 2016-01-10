@@ -1,14 +1,9 @@
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 
 public class objGameLogic
@@ -88,6 +83,7 @@ public class objGameLogic
 			sb.append(i+1);
 			String strI = sb.toString();
 			players[i]=new objPlayer(strI,true,this,i);
+			players[i].addListener(effectHandler);
 		}
 	}
     private void importPictures ()
@@ -203,6 +199,19 @@ public class objGameLogic
     	openedSeals.addCard(temp);
     	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),opener);
     	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(1),opener);
+    	fireEvent(GameEvent.EventType.SEALOPEN, null);
+    	if(openedSeals.size()==7)state=GameState.OVER;
+    	{
+    		fireEvent(GameEvent.EventType.SEVENTHSEAL, null);
+    		state=GameState.OVER;
+    	}
+    }
+    public void openSeal(int i)
+    {
+    	objCard temp=sealDeck.removeCard(i);
+    	openedSeals.addCard(temp);
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),getCurrentPlayer());
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(1),getCurrentPlayer());
     	fireEvent(GameEvent.EventType.SEALOPEN, null);
     	if(openedSeals.size()==7)state=GameState.OVER;
     	{

@@ -26,6 +26,10 @@ public class objMonster extends objEntity
 		if(bonus==-1)return -1;
 		return bonus+myCard.getLevel();
 	}
+	public int getBonus()
+	{
+		return bonus;
+	}
 	public int getLevelReward() {
 		return levelReward;
 	}

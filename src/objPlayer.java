@@ -466,6 +466,15 @@ public int getPlayerId()
 	return PlayerId;
 }
 
+public int getHeadgearCounter() {
+	return headgearCounter;
+}
+
+public void setHeadgearCounter(int headgearCounter) {
+	this.headgearCounter = headgearCounter;
+}
+
+
 
 
 

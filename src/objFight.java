@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Vector;
 
 
-public class objFight
+public class objFight implements GameEventListener
 {
 	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
 	private Vector<objMonster> monsters;
@@ -17,6 +17,7 @@ public class objFight
 	private int treasuresForHelper;
 	private int escapeBonus;
 	private int mainPlayerEscape, helperEscape;
+	private int levelBonus;
 	objGameLogic parent;
 	public objFight(objMonster monster, objPlayer player, objGameLogic parent)
 	{
@@ -26,6 +27,7 @@ public class objFight
 		setMainPlayer(player);
 		treasuresForHelper=0;
 		this.parent=parent;
+		mainPlayer.addListener(this);
 	}
 	public void resolveBattle()
 	{
@@ -85,12 +87,14 @@ public class objFight
 	}
 	public void addBonus(int bonus)
 	{
+		fireEvent(GameEvent.EventType.FIGHTCHANGED,null);
 		if(bonus>0)playersBonus+=bonus;
 		else monstersBonus-=bonus;
 	}
 	public void playerChanged()
 	{
 		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
+
 	}
 	public int getMonstersBonus()
 	{
@@ -164,7 +168,11 @@ public class objFight
 	}
 	private void setHelperPlayer(objPlayer helperPlayer)
 	{
-		if(helperPlayer!=mainPlayer)this.helperPlayer = helperPlayer;
+		if(helperPlayer!=mainPlayer)
+			{
+				this.helperPlayer = helperPlayer;
+				helperPlayer.addListener(this);
+			}
 	}
 	public Vector<objMonster> getMonsters()
 	{
@@ -233,5 +241,36 @@ public class objFight
 	}
 	public void setHelperEscape(int helperEscape) {
 		this.helperEscape = helperEscape;
+	}
+	public int getTreasures()
+	{
+		int monsters=0;
+		for(int i=0; i<this.monsters.size();i++)
+		{
+			int temp=this.monsters.elementAt(i).getTreasures();
+			if(temp==-1)return -1;
+			monsters+=temp;
+		}
+		return monsters;
+	}
+	public int getLevels()
+	{
+		int monsters=levelBonus;
+		for(int i=0; i<this.monsters.size();i++)
+		{
+			int temp=this.monsters.elementAt(i).getLevelReward();
+			if(temp==-1)return -1;
+			monsters+=temp;
+		}
+		return monsters;
+	}
+	public void addLevelBonus(int amount)
+	{
+		levelBonus+=amount;
+	}
+	@Override
+	public void gameEventOccurred(GameEvent evt) {
+		if(evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED)playerChanged();
+
 	}
 }

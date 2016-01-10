@@ -1,14 +1,15 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 
 public class DatabaseConnection {
 
-	public ArrayList<objCard> importCards()
+	public Vector<objCard> importCards()
 	{
-		ArrayList<objCard> cards = new ArrayList<objCard>();
+		Vector<objCard> cards = new Vector<objCard>();
 
 		final String query = "SELECT IDKarty,Nazwa, Opis,Typ,Efekt,DrugiEfekt,Poziom_Bonus,Nagroda_Cena,Skarby,Tag FROM Karta";
 

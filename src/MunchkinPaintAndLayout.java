@@ -27,7 +27,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	private void setupMenuSystem ()
 	{
-		logikaMunchkin=new objGameLogic();
+		logikaMunchkin=new objGameLogic();//to coœ
 		String[] strMenuItemText = {"Nowa Gra", "Zapisz Grê", "Wczytaj Grê"};
 		boolean[] boolMenuItemSep = {true, false, false};
 

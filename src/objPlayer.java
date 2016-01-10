@@ -352,11 +352,12 @@ public class objPlayer extends objEntity
 	}
 	public void kickOpenDoor() throws IllegalStateException
 	{
+		System.out.println(name+" kopiw w drzwi ");
 		if(myTurnPhase==TurnPhase.ITEMSARRANGE)
 		{
 			myTurnPhase=TurnPhase.KICKDOOR;
 			objCard temp= environment.showDoorCard();
-		//	System.out.println("wyci¹gn¹lem "+temp.toString()+"  "+temp.getIdNr()+"  "+temp.getEffect(0));
+			System.out.println("wyci¹gn¹lem "+temp.toString()+"  "+temp.getIdNr()+"  "+temp.getEffect(0));
 			switch (temp.getSecondaryType())
 			{
 			case MONSTER:

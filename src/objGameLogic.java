@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 
 public class objGameLogic
 {
@@ -42,6 +41,7 @@ public class objGameLogic
 		doorDeck=new MunchkinGroup();
 		doorDiscard=new MunchkinGroup();
 		treasureDiscard=new MunchkinGroup();
+		openedSeals=new MunchkinGroup();
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
@@ -58,6 +58,8 @@ public class objGameLogic
 		importCards();
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount);
+		DatabaseConnection temp=new DatabaseConnection();
+		doorDeck.addStack(temp.importCards());
 		players[currPlayer].beginTurn();
 	}
 	private void importCards()
@@ -79,13 +81,15 @@ public class objGameLogic
 		sealDeck.suffle();
 		treasureDeck.suffle();
 		doorDeck.suffle();
+//		DatabaseConnection temp=new DatabaseConnection();
+//		doorDeck.addStack(temp.importCards());
 	}
 	private void setupPlayers(int amount)
 	{
 		for(int i =0 ; i<amount;i++)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("");
+			sb.append("Player ");
 			sb.append(i+1);
 			String strI = sb.toString();
 			players[i]=new objPlayer(strI,true,this,i);

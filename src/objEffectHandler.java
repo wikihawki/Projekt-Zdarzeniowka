@@ -242,6 +242,7 @@ public class objEffectHandler implements GameEventListener
 				addContinuousEffect(16,target);
 				break;
 			case 37:
+				// TODO: pobrawic ten efekt bo bedzie dzialal Ÿle
 				handleEffect(objCard.SecondaryType.MONSTER, 42, target);
 				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(target))environment.getPlayer(i).levelUp(1);
 			case 38:
@@ -601,7 +602,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		case HAT:
 			break;
-		case ITEMENCHANCER:
+		case ITEMENCHANTER:
 			break;
 		case MONSTER:
 			break;
@@ -639,6 +640,7 @@ public class objEffectHandler implements GameEventListener
 			if(temp2.size()>0)
 			{
 				for(int i=0;i<temp2.size();i++) temp.add(environment.getCurrentPlayer().getCardsInPlay().getCard(temp2.get(i)));
+				if(temp2.size()<environment.getCurrentPlayer().getClassCounter())temp.add(null);
 				return temp;
 			}
 			else return null;
@@ -650,20 +652,47 @@ public class objEffectHandler implements GameEventListener
 				for(int i=0; i<environment.getPlayersNumber();i++)temp.add(environment.getPlayer(i));
 				return temp;
 			}
-		case ITEMENCHANCER:
+		case ITEMENCHANTER:
+		{
 			Vector<Integer>temp2=environment.getCurrentPlayer().findItemsInPlay();
 			if(temp2.size()>0)
 			{
 				for(int i=0;i<temp2.size();i++) temp.add(environment.getCurrentPlayer().getCardsInPlay().getCard(temp2.get(i)));
 			}
 			return temp;
+		}
 		case OTHER:
 			switch(card.getEffect(card.getEffect(0)))
 			{
-
-			}
-			switch(card.getEffect(card.getEffect(1)))
+			case 1:
+			case 3:
+				return null;
+			case 2:
 			{
+				Vector<Integer>temp2=environment.getCurrentPlayer().findItemsInPlay();
+				if(temp2.size()>0)
+				{
+					for(int i=0;i<temp2.size();i++) temp.add(environment.getCurrentPlayer().getCardsInPlay().getCard(temp2.get(i)));
+				}
+			}
+			case 4:
+				for(int i=0; i<environment.getPlayersNumber();i++)temp.add(environment.getPlayer(i));
+				return temp;
+			case 5:
+				for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)temp.add(environment.getCurrentFight().getMonsters().get(i));
+			case 8:
+				{
+					Vector<objPlayedCard> temp2=environment.getPlayedCards();
+					if(temp2.size()>0)
+					{
+						for(int i=0;i<temp2.size();i++) temp.add(temp2.get(i).getPlayedCard());
+						temp.add(null);
+						return temp;
+					}
+					else return null;
+				}
+			case 12:
+				return null;
 
 			}
 			return temp;

@@ -18,7 +18,7 @@ public class MunchkinGroup
 	{
 		Vector<objCard> temp=new Vector<objCard>();
 		Random gen=new Random();
-		for(;0<stack.size();)
+		while(0<stack.size())
 		{
 			temp.add(stack.remove(gen.nextInt(stack.size())));
 		}

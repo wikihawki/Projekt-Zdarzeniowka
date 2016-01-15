@@ -129,7 +129,7 @@ public class objFight implements GameEventListener
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
+		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANTER));
 		for(int i=0;i<temp.size();i++)
 		{
 			if(temp.elementAt(i).getEffect(1)==10)mainPlayerEscape++;
@@ -144,7 +144,7 @@ public class objFight implements GameEventListener
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
 			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANCER));
+			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANTER));
 			for(int i=0;i<temp.size();i++)
 			{
 				if(temp2.elementAt(i).getEffect(1)==10)helperEscape++;

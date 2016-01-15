@@ -45,8 +45,8 @@ public class objGameLogic
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
-		DatabaseConnection temp=new DatabaseConnection();
-		temp.importCards();
+	//	DatabaseConnection temp=new DatabaseConnection();
+	//	temp.importCards();
 		importPictures();
 		newGame(4);
 	}
@@ -58,31 +58,37 @@ public class objGameLogic
 		importCards();
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount);
-		DatabaseConnection temp=new DatabaseConnection();
-		doorDeck.addStack(temp.importCards());
 		players[currPlayer].beginTurn();
 	}
 	private void importCards()
 	{
-		for(int i = 1 ;i<64;i++)
+		DatabaseConnection connection=new DatabaseConnection();
+		MunchkinGroup cards= new MunchkinGroup();
+		cards.addStack(connection.importCards());
+		objCard card;
+		while(cards.size()>0)
 		{
-
-
-			objCard karta = new objCard(i,objCard.Type.SEAL,objCard.SecondaryType.OTHER,objCard.Tag.NULL, null, null, i, i, i, i, i,i);
-			karta.setImgCard( imgCardBack[1]);
-			sealDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.TREASURE,objCard.SecondaryType.ARMOR,objCard.Tag.NULL, null, null, i, i, i, i, i,i);
-			karta.setImgCard( imgCardBack[1]);
-			treasureDeck.addCard(karta);
-			karta = new objCard(i,objCard.Type.DOOR,objCard.SecondaryType.MONSTER,objCard.Tag.NULL, null, null, i, i, i,i,i,i);
-			karta.setImgCard( imgCardBack[0]);
-			doorDeck.addCard(karta);
+			card=cards.removeLastCard();
+			if(card.getType()==objCard.Type.DOOR)
+			{
+				card.setImgCard( imgCardBack[0]);
+				doorDeck.addCard(card);
+			}
+			if(card.getType()==objCard.Type.TREASURE)
+			{
+				card.setImgCard( imgCardBack[1]);
+				treasureDeck.addCard(card);
+			}
+			if(card.getType()==objCard.Type.SEAL)
+			{
+				card.setImgCard( imgCardBack[1]);
+				sealDeck.addCard(card);
+			}
 		}
 		sealDeck.suffle();
 		treasureDeck.suffle();
 		doorDeck.suffle();
-//		DatabaseConnection temp=new DatabaseConnection();
-//		doorDeck.addStack(temp.importCards());
+		
 	}
 	private void setupPlayers(int amount)
 	{

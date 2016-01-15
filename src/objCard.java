@@ -31,12 +31,12 @@ public class objCard extends objEntity
 		this.effect[1]=effect2;
 		this.rewardValue=reward;
 		this.treasures=treasures;
-		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER||type2==SecondaryType.CLASS))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER&&type2!=SecondaryType.CLASS)||(type==Type.SEAL&&type2==SecondaryType.OTHER))
+		if((type==Type.DOOR&&(type2==SecondaryType.DISASTER||type2==SecondaryType.MONSTER||type2==SecondaryType.OTHER||type2==SecondaryType.CLASS))||(type==Type.TREASURE&&type2!=SecondaryType.DISASTER&&type2!=SecondaryType.MONSTER&&type2!=SecondaryType.CLASS)||(type==Type.SEAL&&type2==SecondaryType.SEAL))
 		{
 			this.type=type;
 			secondaryType=type2;
 		}
-		else throw new IllegalArgumentException();
+		else throw new IllegalArgumentException("Zly typ glowny i wtórny");
 	}
 	public void setImgCard(Image card)
 	{

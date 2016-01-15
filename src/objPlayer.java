@@ -36,8 +36,8 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(4);
-		drawDoor(4);
+		drawTreasure(3);
+		drawDoor(3);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -151,8 +151,12 @@ public class objPlayer extends objEntity
 			equipItem(temp,freeHandCounter,temp.getSecondaryType());
 			break;
 		case ITEMENCHANTER:
-			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
-			environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), target);
+			if(target.getClass()==objCard.class)if(((objCard)target).getType()==objCard.Type.TREASURE&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.CLASS&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.DISASTER&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.SEAL&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.OTHER&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.MONSTER)
+			{
+				cardsInPlay.addCard(temp);
+				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
+				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), target);
+			}
 			break;
 		case MONSTER:
 			if(environment.getCurrentFight()!=null)
@@ -177,7 +181,7 @@ public class objPlayer extends objEntity
 			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
 			break;
 		case CLASS:
-			if(classCounter<=findClass().size())
+			if(classCounter<findClass().size())
 			{
 				if(((objCard)target).getSecondaryType()==objCard.SecondaryType.CLASS)
 				{
@@ -370,7 +374,6 @@ public class objPlayer extends objEntity
 				break;
 			case OTHER:
 				hand.addCard(temp);
-				environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
 				break;
 			default:
 				throw new IllegalStateException();

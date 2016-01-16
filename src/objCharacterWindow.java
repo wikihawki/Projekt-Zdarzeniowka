@@ -233,9 +233,11 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 	Player=MainWindow.getLogic().getPlayer(PlayerId-1);
 	PlayerName=Player.getName();
 	PlayerLVL=Player.getLevel();
+	String txt = PlayerName+"\n LVL "+PlayerLVL
+			+" Skarbiec "+Player.getMoney();
 	PaneleEkwipunku.get(0).setLayout(new GridLayout(8, 1));
 	PaneleEkwipunku.get(0).setFont(new Font("", Font.ITALIC, 20));
-	PaneleEkwipunku.get(0).setText("Player "+PlayerName+"\n LVL "+PlayerLVL);
-	
+	PaneleEkwipunku.get(0).setText("<html>"+txt+"</html>");
+
     };
 }

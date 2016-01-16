@@ -13,443 +13,452 @@ import javafx.util.Pair;
 
 public class objEffectHandler implements GameEventListener
 {
+	private int rotation;
 	private objGameLogic environment;
 	private Vector<Pair<Integer,objEntity>> continuousEffects;
 	public objEffectHandler(objGameLogic envi)
 	{
+		rotation=0;
 		environment=envi;
 		continuousEffects=new Vector<Pair<Integer, objEntity>>();
 	}
 	public void handleEffect(objCard.SecondaryType type,int effectNr, objEntity target)
 	{
-		switch (type)
+		rotation=0;
+		handleEffectRec(type, effectNr, target);
+	}
+	private void handleEffectRec(objCard.SecondaryType type,int effectNr, objEntity target)
+	{
+		rotation++;
+	switch (type)
+	{
+	case DISASTER:
+		switch (effectNr)
 		{
-		case DISASTER:
-			switch (effectNr)
-			{
-			case 1:
-				((objPlayer)target).levelUp(-1);
-				break;
-			case 2:
-			{
-				Vector<Integer> temp=((objPlayer)target).findHat();
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				handleEffect(type, 1, target);
-				break;
-			}
-			case 3:
-				System.out.println(" PPPPPPPOOOOOOOOOOPPPPPPPPP");
-				environment.openSeal();
-				break;
-			case 4:
-			{
-				handleEffect(type, 3, target);
-				Random gen=new Random();
-				int temp=((objPlayer)target).getCardsInPlay().size(),temp2=((objPlayer)target).getCarriedCards().size();
-				int help=gen.nextInt(temp+temp2);
-				if(help<temp)((objPlayer)target).discardCardFromPlay(help);
-				else((objPlayer)target).discardCarriedCard(help-temp);
-				break;
-			}
-			case 5:
-			{
-				Random gen=new Random();
-				int n=gen.nextInt(6)+1;
-				for(int i=0;i<n;i++)
-				{
-					int temp=((objPlayer)target).getHand().size();
-					int help=gen.nextInt(temp);
-					((objPlayer)target).discardCardfromHand(help);
-				}
-				break;
-			}
-			case 6:
-			{
-				Vector<Integer> temp=((objPlayer)target).findArmor();
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				handleEffect(type, 1, target);
-				break;
-			}
-			case 7:
-			{
-				Vector<Integer> temp=((objPlayer)target).findClass();
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				break;
-			}
-			case 8:
-			{
-				if(target.equals(environment.getCurrentPlayer()))((objPlayer)target).endImmediately();
-				else addContinuousEffect(9, target);
-				break;
-			}
-			case 9:
-			{
-				Vector<Integer> temp=((objPlayer)target).getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME);
-				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				break;
-			}
-			case 10:
-			{
-				Vector<objCard> temp=((objPlayer)target).getCardsInPlay().getStack(0);
-				temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
-				int help=0, index=0;
-				for(int i=0;i<temp.size();i++)if(temp.get(i).getValue()>help)index=i;
-				if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
-				else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
-				break;
-			}
-			case 11:
-			{
-				Vector<Integer> temp=((objPlayer)target).findBoots();
-				for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				break;
-			}
-			case 12:
-			{
-				((objPlayer)target).changeSex();
-				break;
-			}
-			case 13:
-			{
-				environment.closeSeal();
-				break;
-			}
-			default:
-				System.out.println(effectNr);
-				throw new IllegalArgumentException();
-			}
-		//	removeCardFromStack();
+
+		case 1:
+			((objPlayer)target).levelUp(-1);
+
 			break;
-		case MONSTER:
-			switch (effectNr)
+		case 2:
+		{
+			Vector<Integer> temp=((objPlayer)target).findHat();
+			for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			handleEffectRec(type, 1, target);
+			break;
+		}
+		case 3:
+			environment.openSeal();
+			break;
+		case 4:
+		{
+			handleEffectRec(type, 3, target);
+			Random gen=new Random();
+			int temp=((objPlayer)target).getCardsInPlay().size(),temp2=((objPlayer)target).getCarriedCards().size();
+			int help=gen.nextInt(temp+temp2);
+			if(help<temp)((objPlayer)target).discardCardFromPlay(help);
+			else((objPlayer)target).discardCarriedCard(help-temp);
+			break;
+		}
+		case 5:
+		{
+			Random gen=new Random();
+			int n=gen.nextInt(6)+1;
+			for(int i=0;i<n;i++)
 			{
-			case 0:
-				break;
-			case 1:
-				environment.openSeal();
-				break;
-			case 2:
-				if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)target).setBonus(-1);
-				addContinuousEffect(1,target);
-				break;
-			case 3:
-				monsterBonus((objMonster)target, "Militia", -3);
-				monsterBonus((objMonster)target, true, 3);
-				addContinuousEffect(2,target);
-				break;
-			case 4:
-				environment.getCurrentFight().setHelperEscape(0);
-				environment.getCurrentFight().setMainPlayerEscape(0);
-				environment.getCurrentFight().setEscapeBonus(environment.getCurrentFight().getEscapeBonus()-1);
-				addContinuousEffect(3,target);
-				break;
-			case 5:
-				monsterBonus((objMonster)target, "Scientist", 4);
-				addContinuousEffect(4,target);
-				break;
-			case 6:
-			{
-				objPlayer temp =environment.getCurrentFight().getMainPlayer();
-				temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
-				addContinuousEffect(5, target);
-				break;
-			}
-			case 7:
-				monsterBonus((objMonster)target, "Kid", -3);
-				addContinuousEffect(6,target);
-				break;
-			case 8:
-				addContinuousEffect(7,target);
-				break;
-			case 9:
-			{
-				String[]temp=new String[2];
-				temp[0]="Scientist";
-				temp[1]="Militia";
-				monsterBonus((objMonster)target, temp, -3);
-				addContinuousEffect(8,target);
-				break;
-			}
-			case 10:
-			{
-				int temp=JOptionPane.showConfirmDialog(null, "Otworzyc pieczec?", "Otworzyc pieczec", JOptionPane.YES_NO_OPTION);
-				System.out.print("wybral opcje ");
-				System.out.print(temp);
-				if(temp==0)
-				{
-					environment.openSeal(environment.getCurrentPlayer());
-					environment.getCurrentFight().addBonus(10);
-				}
-				break;
-			}
-			case 11:
-				environment.getCurrentPlayer().moveFromPlayToCarried(environment.getCurrentPlayer().findClass());
-				addContinuousEffect(10, target);
-				break;
-			case 12:
-				//zaimplementowane w objPlayer.playCard
-				break;
-			case 13:
-				addContinuousEffect(11, target);
-				break;
-			case 14:
-			{
-				objPlayer temp =environment.getCurrentFight().getMainPlayer();
-				boolean flag=false;
-				temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
-				addContinuousEffect(5, target);
-				monsterBonus((objMonster)target, "Scientist", -3);
-				addContinuousEffect(14,target);
-				for(int i=0; i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)flag=true;
-				if(!flag)((objMonster)target).increaseStrength(5);
-				break;
-			}
-			case 15:
-				monsterBonus((objMonster)target, "Blogger", -4);
-				addContinuousEffect(12,target);
-				break;
-			case 16:
-				monsterBonus((objMonster)target, objCard.SecondaryType.BOOTS, 5);
-				addContinuousEffect(13,target);
-				break;
-			case 17:
-				//zaimplementowane w objPlayer.playCard
-				break;
-			case 18:
-				((objMonster)target).increaseStrength(5);
-				addContinuousEffect(14, target);
-				break;
-			case 19:
-				monsterBonus((objMonster)target, "Kid", -4);
-				addContinuousEffect(15,target);
-
-
-				break;
-			case 20:
-				break;
-			case 21:
-				break;
-			case 22:
-				break;
-			case 23:
-				break;
-			case 24:
-				break;
-			case 25:
-				break;
-			case 26:
-				break;
-			case 27:
-				break;
-			case 28:
-				break;
-			case 36:
-				monsterBonus((objMonster)target, objCard.SecondaryType.ARMOR, -3);
-				monsterBonus((objMonster)target, false, 3);
-				addContinuousEffect(16,target);
-				break;
-			case 37:
-				// TODO: poprawic ten efekt bo bedzie dzialal Ÿle//wstepnie zrobione, ale przydalo by sie jeszcze poprawic
-				handleEffect(objCard.SecondaryType.MONSTER, 42, target);
-				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer())&&!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer()))environment.getPlayer(i).levelUp(1);
-			case 38:
-				((objPlayer)target).levelUp(-1);
-			case 39:
-			{
-				Vector<objCard> temp=((objPlayer)target).getCardsInPlay().getStack(0);
-				temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
-				int help=0, index=0;
-				for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)index=i;
-				if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
-				else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
-				break;
-			}
-			case 40:
-				//potem
-				break;
-			case 41:
-				handleEffect(objCard.SecondaryType.MONSTER, 38, target);
-				handleEffect(objCard.SecondaryType.MONSTER, 1, target);
-				break;
-			case 42:
-				((objPlayer)target).die();
-				break;
-			case 43:
-				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(target))environment.getPlayer(i).drawTreasure(1);
-				break;
-			case 44:
-			{
-				Vector<Integer> temp=((objPlayer)target).findBoots();
-				for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
-				break;
-			}
-			default:
-				throw new IllegalArgumentException();
+				int temp=((objPlayer)target).getHand().size();
+				int help=gen.nextInt(temp);
+				((objPlayer)target).discardCardfromHand(help);
 			}
 			break;
-		case OTHER:
-			switch(effectNr)
+		}
+		case 6:
+		{
+			Vector<Integer> temp=((objPlayer)target).findArmor();
+			for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			handleEffectRec(type, 1, target);
+			break;
+		}
+		case 7:
+		{
+			Vector<Integer> temp=((objPlayer)target).findClass();
+			for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			break;
+		}
+		case 8:
+		{
+			if(target.equals(environment.getCurrentPlayer()))((objPlayer)target).endImmediately();
+			else addContinuousEffect(9, target);
+			break;
+		}
+		case 9:
+		{
+			Vector<Integer> temp=((objPlayer)target).getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME);
+			for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			break;
+		}
+		case 10:
+		{
+			Vector<objCard> temp=((objPlayer)target).getCardsInPlay().getStack(0);
+			temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
+			int help=0, index=0;
+			for(int i=0;i<temp.size();i++)if(temp.get(i).getValue()>help)index=i;
+			if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
+			else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
+			break;
+		}
+		case 11:
+		{
+			Vector<Integer> temp=((objPlayer)target).findBoots();
+			for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			break;
+		}
+		case 12:
+		{
+			((objPlayer)target).changeSex();
+			break;
+		}
+		case 13:
+		{
+			environment.closeSeal();
+			break;
+		}
+		default:
+			System.out.println(effectNr);
+			throw new IllegalArgumentException();
+		}
+		if(rotation==1)removeCardFromStack();
+		break;
+	case MONSTER:
+		switch (effectNr)
+		{
+		case 0:
+			break;
+		case 1:
+			environment.openSeal();
+			break;
+		case 2:
+			if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)target).setBonus(-1);
+			addContinuousEffect(1,target);
+			break;
+		case 3:
+			monsterBonus((objMonster)target, "Militia", -3);
+			monsterBonus((objMonster)target, true, 3);
+			addContinuousEffect(2,target);
+			break;
+		case 4:
+			environment.getCurrentFight().setHelperEscape(0);
+			environment.getCurrentFight().setMainPlayerEscape(0);
+			environment.getCurrentFight().setEscapeBonus(environment.getCurrentFight().getEscapeBonus()-1);
+			addContinuousEffect(3,target);
+			break;
+		case 5:
+			monsterBonus((objMonster)target, "Scientist", 4);
+			addContinuousEffect(4,target);
+			break;
+		case 6:
+		{
+			objPlayer temp =environment.getCurrentFight().getMainPlayer();
+			temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
+			addContinuousEffect(5, target);
+			break;
+		}
+		case 7:
+			monsterBonus((objMonster)target, "Kid", -3);
+			addContinuousEffect(6,target);
+			break;
+		case 8:
+			addContinuousEffect(7,target);
+			break;
+		case 9:
+		{
+			String[]temp=new String[2];
+			temp[0]="Scientist";
+			temp[1]="Militia";
+			monsterBonus((objMonster)target, temp, -3);
+			addContinuousEffect(8,target);
+			break;
+		}
+		case 10:
+		{
+			int temp=JOptionPane.showConfirmDialog(null, "Otworzyc pieczec?", "Otworzyc pieczec", JOptionPane.YES_NO_OPTION);
+			System.out.print("wybral opcje ");
+			System.out.print(temp);
+			if(temp==0)
 			{
-			case 8:
-				if(target!=null)
+				environment.openSeal(environment.getCurrentPlayer());
+				environment.getCurrentFight().addBonus(10);
+			}
+			break;
+		}
+		case 11:
+			environment.getCurrentPlayer().moveFromPlayToCarried(environment.getCurrentPlayer().findClass());
+			addContinuousEffect(10, target);
+			break;
+		case 12:
+			//zaimplementowane w objPlayer.playCard
+			break;
+		case 13:
+			addContinuousEffect(11, target);
+			break;
+		case 14:
+		{
+			objPlayer temp =environment.getCurrentFight().getMainPlayer();
+			boolean flag=false;
+			temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
+			addContinuousEffect(5, target);
+			monsterBonus((objMonster)target, "Scientist", -3);
+			addContinuousEffect(14,target);
+			for(int i=0; i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)flag=true;
+			if(!flag)((objMonster)target).increaseStrength(5);
+			break;
+		}
+		case 15:
+			monsterBonus((objMonster)target, "Blogger", -4);
+			addContinuousEffect(12,target);
+			break;
+		case 16:
+			monsterBonus((objMonster)target, objCard.SecondaryType.BOOTS, 5);
+			addContinuousEffect(13,target);
+			break;
+		case 17:
+			//zaimplementowane w objPlayer.playCard
+			break;
+		case 18:
+			((objMonster)target).increaseStrength(5);
+			addContinuousEffect(14, target);
+			break;
+		case 19:
+			monsterBonus((objMonster)target, "Kid", -4);
+			addContinuousEffect(15,target);
+
+
+			break;
+		case 20:
+			break;
+		case 21:
+			break;
+		case 22:
+			break;
+		case 23:
+			break;
+		case 24:
+			break;
+		case 25:
+			break;
+		case 26:
+			break;
+		case 27:
+			break;
+		case 28:
+			break;
+		case 36:
+			monsterBonus((objMonster)target, objCard.SecondaryType.ARMOR, -3);
+			monsterBonus((objMonster)target, false, 3);
+			addContinuousEffect(16,target);
+			break;
+		case 37:
+			// TODO: poprawic ten efekt bo bedzie dzialal Ÿle//wstepnie zrobione, ale przydalo by sie jeszcze poprawic
+			handleEffectRec(objCard.SecondaryType.MONSTER, 42, target);
+			for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer())&&!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer()))environment.getPlayer(i).levelUp(1);
+		case 38:
+			((objPlayer)target).levelUp(-1);
+		case 39:
+		{
+			Vector<objCard> temp=((objPlayer)target).getCardsInPlay().getStack(0);
+			temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
+			int help=0, index=0;
+			for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)index=i;
+			if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
+			else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
+			break;
+		}
+		case 40:
+			//potem
+			break;
+		case 41:
+			handleEffectRec(objCard.SecondaryType.MONSTER, 38, target);
+			handleEffectRec(objCard.SecondaryType.MONSTER, 1, target);
+			break;
+		case 42:
+			((objPlayer)target).die();
+			break;
+		case 43:
+			for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(target))environment.getPlayer(i).drawTreasure(1);
+			break;
+		case 44:
+		{
+			Vector<Integer> temp=((objPlayer)target).findBoots();
+			for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			break;
+		}
+		default:
+			throw new IllegalArgumentException();
+		}
+		break;
+	case OTHER:
+		switch(effectNr)
+		{
+		case 8:
+			if(target!=null)
+			{
+				if(((objCard)target).getSecondaryType()==objCard.SecondaryType.DISASTER)
 				{
-					if(((objCard)target).getSecondaryType()==objCard.SecondaryType.DISASTER)
+					if(environment.getPlayedCards().lastElement().getPlayedCard()==target)
 					{
-						if(environment.getPlayedCards().lastElement().getPlayedCard()==target)
-						{
-							environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
-						}
+						environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
 					}
-					else throw new IllegalArgumentException();
 				}
-				else environment.closeSeal();
-				break;
-			case 1:
-			{
-				String[] array={"Otwórz","Zamknij"};
-				int temp=JOptionPane.showOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
-				System.out.print("wybral opcje ");
-				System.out.println(temp);
-				if(temp==0) environment.openSeal();
-				else environment.closeSeal();
-				break;
+				else throw new IllegalArgumentException();
 			}
-			case 2:
-				environment.getCurrentPlayer().getCardsInPlay().addCard(environment.getCurrentPlayer().getHand().removeCard(environment.getCurrentPlayer().getHand().getCardIndex((objCard)target)));
-				switch(((objCard)target).getSecondaryType())
-				{
-				case ARMOR:
-					environment.getCurrentPlayer().setArmorCounter(environment.getCurrentPlayer().getArmorCounter()+1);
-					break;
-				case BOOTS:
-					environment.getCurrentPlayer().setFootgearCounter(environment.getCurrentPlayer().getFootgearCounter()+1);
-					break;
-				case ONEHANDWEAPON:
-					environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
-					break;
-				case TWOHANDWEAPON:
-					environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+2);
-					break;
-				case HAT:
-					environment.getCurrentPlayer().setHeadgearCounter(environment.getCurrentPlayer().getHeadgearCounter()+1);
-					break;
-				default:
-					break;
-
-				}
-				break;
-			case 3:
-				addContinuousEffect(35,null);
-				break;
-			case 4:
-				addContinuousEffect(30, target);
-				break;
-			case 5:
-				((objMonster)target).increaseStrength(10);
-				((objMonster)target).setName("Giant Atomic"+((objMonster)target).getName());
-				((objMonster)target).increaseTreasures(2);
-				break;
-			case 6:
+			else environment.closeSeal();
+			break;
+		case 1:
+		{
+			String[] array={"Otwórz","Zamknij"};
+			int temp=JOptionPane.showOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
+			System.out.print("wybral opcje ");
+			System.out.println(temp);
+			if(temp==0) environment.openSeal();
+			else environment.closeSeal();
+			break;
+		}
+		case 2:
+			environment.getCurrentPlayer().getCardsInPlay().addCard(environment.getCurrentPlayer().getHand().removeCard(environment.getCurrentPlayer().getHand().getCardIndex((objCard)target)));
+			switch(((objCard)target).getSecondaryType())
 			{
-				int temp=JOptionPane.showOptionDialog(null, "Wybierz pierwsz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+			case ARMOR:
+				environment.getCurrentPlayer().setArmorCounter(environment.getCurrentPlayer().getArmorCounter()+1);
+				break;
+			case BOOTS:
+				environment.getCurrentPlayer().setFootgearCounter(environment.getCurrentPlayer().getFootgearCounter()+1);
+				break;
+			case ONEHANDWEAPON:
+				environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
+				break;
+			case TWOHANDWEAPON:
+				environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+2);
+				break;
+			case HAT:
+				environment.getCurrentPlayer().setHeadgearCounter(environment.getCurrentPlayer().getHeadgearCounter()+1);
+				break;
+			default:
+				break;
+
+			}
+			break;
+		case 3:
+			addContinuousEffect(35,null);
+			break;
+		case 4:
+			addContinuousEffect(30, target);
+			break;
+		case 5:
+			((objMonster)target).increaseStrength(10);
+			((objMonster)target).setName("Giant Atomic"+((objMonster)target).getName());
+			((objMonster)target).increaseTreasures(2);
+			break;
+		case 6:
+		{
+			int temp=JOptionPane.showOptionDialog(null, "Wybierz pierwsz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+			if(temp==JOptionPane.CLOSED_OPTION);
+			else
+			{
+				environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+				temp=JOptionPane.showOptionDialog(null, "Wybierz drug¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
 				if(temp==JOptionPane.CLOSED_OPTION);
 				else
 				{
 					environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
-					temp=JOptionPane.showOptionDialog(null, "Wybierz drug¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
-					if(temp==JOptionPane.CLOSED_OPTION);
-					else
-					{
-						environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
 
-					}
 				}
-				break;
-			}
-			case 7:
-				addContinuousEffect(31, target);
-				break;
-			case 9:
-			{
-				environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
-				addContinuousEffect(32, target);
-				break;
-			}
-			case 10:
-
-				if(target.getClass()==objPlayer.class)environment.getCurrentFight().addBonus(3);
-				else if(target.getClass()==objMonster.class)environment.getCurrentFight().addBonus(3);
-				else throw new IllegalArgumentException();
-				break;
-			case 11:
-				addContinuousEffect(33, target);
-				break;
-			case 12:
-				addContinuousEffect(34, target);
-				break;
-			case 13:
-				((objPlayer)target).levelUp(1);
-				break;
-			}
-			break;
-		case SEAL:
-			switch(effectNr)
-			{
-				case 1:
-					for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
-					addContinuousEffect(40, null);
-					break;
-				case 2:
-					for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
-					addContinuousEffect(41, null);
-					break;
-			}
-			break;
-		default:
-			switch(effectNr)
-			{
-			case 1:
-				if(!continuousEffectContains(20))environment.openSeal();
-				addContinuousEffect(20, target);
-				break;
-			case 2:
-				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", true))addContinuousEffect(23, target);
-				break;
-			case 3:
-				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", false))addContinuousEffect(24, target);
-				break;
-			case 4:
-				//urzycie procy
-				break;
-			case 5:
-				if(target==null) environment.closeSeal();
-				else for(int i=0;i<environment.getPlayedCards().size();i++)if(environment.getPlayedCards().get(i).getPlayedCard()==target)environment.getPlayedCards().remove(i);
-				break;
-			case 6:
-				addContinuousEffect(27, target);
-				break;
-			case 7:
-				//zaimplementowane przy odrzucaniu
-				break;
-			case 8:
-				//zaimplementowane przy dodawaniu
-				break;
-			case 9:
-				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
-				break;
-			case 10:
-			case 11:
-				//zaimplementowane w ucieczce
-			case 12:
-				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", false))addContinuousEffect(25, target);
-				break;
-			case 13:
-				addContinuousEffect(22, target);
-				break;
 			}
 			break;
 		}
+		case 7:
+			addContinuousEffect(31, target);
+			break;
+		case 9:
+		{
+			environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
+			addContinuousEffect(32, target);
+			break;
+		}
+		case 10:
+
+			if(target.getClass()==objPlayer.class)environment.getCurrentFight().addBonus(3);
+			else if(target.getClass()==objMonster.class)environment.getCurrentFight().addBonus(3);
+			else throw new IllegalArgumentException();
+			break;
+		case 11:
+			addContinuousEffect(33, target);
+			break;
+		case 12:
+			addContinuousEffect(34, target);
+			break;
+		case 13:
+			((objPlayer)target).levelUp(1);
+			break;
+		}
+		break;
+	case SEAL:
+		switch(effectNr)
+		{
+			case 1:
+				for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
+				addContinuousEffect(40, null);
+				break;
+			case 2:
+				for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
+				addContinuousEffect(41, null);
+				break;
+		}
+		break;
+	default:
+		switch(effectNr)
+		{
+		case 1:
+			if(!continuousEffectContains(20))environment.openSeal();
+			addContinuousEffect(20, target);
+			break;
+		case 2:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", true))addContinuousEffect(23, target);
+			break;
+		case 3:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", false))addContinuousEffect(24, target);
+			break;
+		case 4:
+			//urzycie procy
+			break;
+		case 5:
+			if(target==null) environment.closeSeal();
+			else for(int i=0;i<environment.getPlayedCards().size();i++)if(environment.getPlayedCards().get(i).getPlayedCard()==target)environment.getPlayedCards().remove(i);
+			break;
+		case 6:
+			addContinuousEffect(27, target);
+			break;
+		case 7:
+			//zaimplementowane przy odrzucaniu
+			break;
+		case 8:
+			//zaimplementowane przy dodawaniu
+			break;
+		case 9:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
+			break;
+		case 10:
+		case 11:
+			//zaimplementowane w ucieczce
+		case 12:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", false))addContinuousEffect(25, target);
+			break;
+		case 13:
+			addContinuousEffect(22, target);
+			break;
+		}
+		break;
 	}
+}
 	private boolean changeCard(objCard target, objPlayer player, String playerClass, boolean flag)// false --->nie dla klasy true ---> tylko dla klsy
 	{
 		if(flag==(player.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS).size()==0))

@@ -56,7 +56,7 @@ public class objPlayer extends objEntity
 			fireEvent(GameEvent.EventType.LEVELUP, this);
 		}
 		if(amount>-level)return level+=amount;
-		else throw new IllegalArgumentException();
+		else return level;
 	}
 	public boolean changeSex()
 	{

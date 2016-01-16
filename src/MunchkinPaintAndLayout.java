@@ -307,19 +307,19 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
     	    g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     
     	    g.setColor(Color.black);
-    	    g.drawString("Player "+logikaMunchkin.getCurrentPlayer().getName(), 350, 520);
+    	    g.drawString(logikaMunchkin.getCurrentPlayer().getName(), 350, 520);
     	    g.drawString("LVL", 350, 580);
     	    if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
     	    {
     	    int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
     	    
-    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[0]).getName(), 105, 290);
+    	    g.drawString(logikaMunchkin.getPlayer(tmp[0]).getName(), 105, 290);
     	    g.drawString("LVL", 105, 350);
     	    
-    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[1]).getName(), 530, 155);
+    	    g.drawString(logikaMunchkin.getPlayer(tmp[1]).getName(), 530, 155);
     	    g.drawString("LVL", 530, 215);
     	    
-    	    g.drawString("Player "+logikaMunchkin.getPlayer(tmp[2]).getName(), 760, 325);
+    	    g.drawString(logikaMunchkin.getPlayer(tmp[2]).getName(), 760, 325);
     	    g.drawString("LVL", 760, 385);
     	    }
     	}

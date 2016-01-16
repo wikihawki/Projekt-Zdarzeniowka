@@ -155,12 +155,21 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == odrzuc)
 			    {
 			//  .out.println(CardIdex-1+" odrzucono");
+			  
 			  if(Source=="Hand")
 			  {
+				  if(Card.getType()==objCard.Type.DOOR)
+				  {
 			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);
+				  }else{	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromCarried(CardPlace-1);}
 			  }else
 			  {
-				  window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardFromPlay(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCardsInPlay().getCardIndex(Card));
+
+				  if(Card.getType()==objCard.Type.DOOR)
+				  {
+					  window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardFromPlay(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCardsInPlay().getCardIndex(Card));
+				  }else{	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromPlayed(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCardsInPlay().getCardIndex(Card));}
+
 			  }
 			        window.repaint();
 			       this.setVisible(false);

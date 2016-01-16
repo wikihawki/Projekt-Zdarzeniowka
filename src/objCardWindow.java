@@ -161,7 +161,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 				  if(Card.getType()==objCard.Type.DOOR)
 				  {
 			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);
-				  }else{	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromCarried(CardPlace-1);}
+				  }else{	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromHand(CardPlace-1);}
 			  }else
 			  {
 

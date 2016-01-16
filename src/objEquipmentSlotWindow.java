@@ -158,6 +158,34 @@ private objPlayer  Gracz;
 	      
 		}
 		break;
+	case"Bonus":
+		setTitle("Bonus Cards");
+		
+		if(Gracz.findOtherItem()!=null&&Gracz.findOtherItem().size()!=0)
+		{
+	    this.setSize(150*Gracz.findOtherItem().size(),200);
+		for(int x :Gracz.findOtherItem())
+		{
+			karty.add(x, new JLabel());
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findOtherItem().get(x)).getIdNr()+").jpg",100,155));
+			list.add(Gracz.getCardsInPlay().getCard(Gracz.findOtherItem().get(x)).getIdNr());
+			cardType="OtherItem";
+			panelKart.get(0).add(karty.get(x));
+			   add(panelKart.get(0));
+		}
+		}else
+		{
+			JLabel tmp = new JLabel();
+			karty.add(0, tmp);
+			
+			karty.get(0).setIcon(getEqupmentIcon("src/images/Ekwipunek/ekw(9).jpg",100,155));
+			//karty.get(1).setIcon(oknoGracza.getEqupmentIcon(5,105,110));
+	        panelKart.get(0).add(karty.get(0));
+	       // panelKart.get(0).add(karty.get(1));
+	        add(panelKart.get(0));
+	      
+		}
+		break;
 	case"Footgear":
 		setTitle("Footgear");
 		if(Gracz.findBoots()!=null&&Gracz.findBoots().size()!=0)

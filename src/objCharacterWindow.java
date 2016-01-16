@@ -86,6 +86,7 @@ case 4:
 	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(i+1,150,250));
 	break;
 case 5:
+	PaneleEkwipunku.get(i).setIcon(getEqupmentIcon(9,150,250));
 	break;
 case 6:
 	break;
@@ -168,6 +169,7 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 					break;
 				case 5:
 					System.out.println(i);
+					okienko.ShowEquipment("Bonus", Player.getPlayerId());
 					setVisible(false);
 					okienko.setVisible(true);
 					

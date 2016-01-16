@@ -135,7 +135,7 @@ public void useCardWindow(objCard karta )
 
 
 				}else
-					if(logikaMunchkin.isMouseOnCharacter(x, y)==0)
+					if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 					{
 
 						CharactersingletonFrame.setPlyer(getFocusedPlayer());
@@ -229,9 +229,10 @@ public void useCardWindow(objCard karta )
 		    }
 		}else
 		{
-			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
+			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) 
 			{
 				System.out.println("PP");
+				focusPlayer=logikaMunchkin.isAboveFocusedPlayerButton(x, y);
 		    }
 				  
 				

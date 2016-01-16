@@ -167,7 +167,8 @@ public class objCardWindow extends JFrame implements ActionListener{
 				  if(Card.getType()==objCard.Type.DOOR)
 				  {
 			    	window.getLogic().getPlayer(window.getFocusedPlayer()-1).discardCardfromHand(CardPlace-1);
-				  }else{	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromHand(CardPlace-1);}
+				  }else
+				  {	window.getLogic().getPlayer(window.getFocusedPlayer()-1).sellTreasureFromHand(CardPlace-1);}
 			  }else
 			  {
 
@@ -199,10 +200,10 @@ public class objCardWindow extends JFrame implements ActionListener{
               if(listops!=null)
               {
             	  if(!listops.contains(null)&&!listops.isEmpty())
-            		  window.getLogic().getCurrentPlayer().playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1"));
+            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1"));
             	  else JOptionPane.showMessageDialog(null, "Brak celu");
               }
-              else window.getLogic().getCurrentPlayer().playCard(Card,null);
+              else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);
 			       this.setVisible(false);
 		        }else
 		  if (src == zaloz)

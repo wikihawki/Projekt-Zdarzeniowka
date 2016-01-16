@@ -26,7 +26,7 @@ public class MunchkinGroup
 	}
 	protected int getCardIndex(objCard card)
 	{
-		return stack.lastIndexOf(card);
+		return stack.indexOf(card);
 	}
 	protected int getWidth ()
 	{

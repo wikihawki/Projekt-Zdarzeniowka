@@ -135,7 +135,7 @@ public void useCardWindow(objCard karta )
 
 
 				}else
-					if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
+					if(logikaMunchkin.isMouseOnCharacter(x, y)==0)
 					{
 
 						CharactersingletonFrame.setPlyer(getFocusedPlayer());

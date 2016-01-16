@@ -38,7 +38,7 @@ public class objPlayer extends objEntity
 		hand=new MunchkinHand( 0);
 		environment=envi;
 		drawTreasure(3);
-		drawDoor(5);
+		drawDoor(3);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -414,6 +414,8 @@ public class objPlayer extends objEntity
 			case DISASTER:
 				fireEvent("Disaster",temp);
 				break;
+			case CLASS:
+				
 			case OTHER:
 				fireEvent("Other",temp);
 				hand.addCard(temp);

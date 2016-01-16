@@ -62,6 +62,7 @@ System.out.println("wow");
 		grpOffScreen.setColor(Color.BLACK);
 		  grpOffScreen.drawString("Number of treasures : ", 360, 160);
 		  int tmp = logikaMunchkin.getCurrentFight().getMonsters().get(0).getTreasures();
+		  System.out.println(tmp+" to jest tmp");
 		  img  =scaleImage(50, 50,"src"
 	    	   		+ "/images/LVL/"+tmp+".jpg");
 	        drawCard(grpOffScreen,img,579,180,1);
@@ -76,7 +77,7 @@ System.out.println("wow");
     	logikaMunchkin.getCurrentFight().getMainPlayer();
 
 	    tempImg = logikaMunchkin.getCharacterImage();
-	    grpOffScreen.drawString("Player "+logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
+	    grpOffScreen.drawString(logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
        // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 		drawCard(grpOffScreen,tempImg,30,150,1);
 	  if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
@@ -96,10 +97,9 @@ System.out.println("wow");
 	   img  =scaleImage(50, 50,"src"
 		   		+ "/images/LVL/"+tmp%10+".jpg");
 	       drawCard(grpOffScreen,img,432,315,1);
-	}else
+	}else if(tmp>0)
 	   {
-    	Image img  =scaleImage(50, 50,"src"
-    	   		+ "/images/LVL/"+tmp+".jpg");
+    	Image img  =scaleImage(50, 50,"src/images/lvl/"+tmp+".jpg");
         drawCard(grpOffScreen,img,400,315,1);
     }
     }
@@ -115,8 +115,8 @@ System.out.println("wow");
       
 		for(objMonster x : logikaMunchkin.getCurrentFight().getMonsters())
          {
-         
-	      img  =scaleImage(120, 150,"src/image/kd("+logikaMunchkin.getCurrentFight().getMonsters().get(0).getMyCard().getIdNr()+").jpg");
+			 System.out.println(x.getMyCard().getIdNr()+" to jest monster");
+	      img  =scaleImage(120, 150,"image/Karta (10).jpg");
            drawCard(grpOffScreen,img,400,315+tmp*160,1);
            tmp++;
          }
@@ -132,10 +132,10 @@ System.out.println("wow");
 	   img  =scaleImage(50, 50,"src"
 		   		+ "/images/LVL/"+tmp%10+".jpg");
 	       drawCard(grpOffScreen,img,752,315,1);
-	   }else
+	   }else if(tmp>0)
 	   {
     	img  =scaleImage(50, 50,"src"
-    	   		+ "/images/LVL/"+tmp+".jpg");
+    	   		+ "/images/lvl/"+tmp+".jpg");
         }
     }
     public void DrawBattlefield(Graphics grpOffScreen)
@@ -161,7 +161,7 @@ System.out.println("wow");
 			grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
 	    	     
 			grpOffScreen.setColor(Color.black);
-			grpOffScreen.drawString("Player "+logikaMunchkin.getPlayer(focusPlayer-1).getName(), 350, 520);
+			grpOffScreen.drawString(logikaMunchkin.getPlayer(focusPlayer-1).getName(), 350, 520);
 			grpOffScreen.drawString("LVL", 350, 580);
 		
 			DrawChoosePlayerButtons(grpOffScreen);

@@ -25,6 +25,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private static objCardWindow myInstance;
     private MunchkinWindow window;
     public static objCard Card;
@@ -33,6 +34,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     private String Source="Hand";
     public  JPanel pnlButtons = new JPanel(new GridLayout(8, 1));
     public  JPanel pnlImage = new JPanel();
+    public  JPanel pnlSealImage = new JPanel();
     public JButton odrzuc = new JButton("Odrzuæ");
     public JButton skill1 = new JButton("U¿yj karty");
     public JButton zaloz = new JButton("Dodaj na stó³");
@@ -113,7 +115,10 @@ public class objCardWindow extends JFrame implements ActionListener{
      	}else{
      		 img  =scaleImage(205, 285,"src/images/karta (" +(karta.getIdNr())+ ").jpg");
      	}
-
+         if(karta.getType()==objCard.Type.SEAL)
+      	{
+         	 img  =scaleImage(300, 300,"src/images/karta (" +karta.getIdNr()+ ").jpg");
+      	}
          ImageIcon icon=new ImageIcon((Image) img);
          label.setIcon(icon);
 
@@ -258,13 +263,22 @@ public class objCardWindow extends JFrame implements ActionListener{
 		skill1.setVisible(true);
 		skill1.setEnabled(true);
 	}
+	if(karta.getType()==objCard.Type.SEAL)
+	{
+		odrzuc.setVisible(false);
+		odrzuc.setEnabled(false);
+		zaloz.setVisible(false);
+		zaloz.setEnabled(false);
+		skill1.setVisible(false);
+		skill1.setEnabled(false);
+	}
 	
 }
    public void setSignalSource(String source)
    {
 	   this.Source=source;
    }
-
+ 
 
 
 }

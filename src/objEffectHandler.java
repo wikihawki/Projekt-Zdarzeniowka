@@ -35,8 +35,10 @@ public class objEffectHandler implements GameEventListener
 	case DISASTER:
 		switch (effectNr)
 		{
+
 		case 1:
 			((objPlayer)target).levelUp(-1);
+
 			break;
 		case 2:
 		{

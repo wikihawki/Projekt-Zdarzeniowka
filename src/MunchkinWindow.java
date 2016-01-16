@@ -77,18 +77,19 @@ public void useCardWindow(objCard karta )
 
 			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) 
 			{
-				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(0).isMouseCard(x, y,0));
+				int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
+				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(tmp[3]).isMouseCard(x, y,0));
 				CardsingletonFrame .setSignalSource("Hand");
-				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(0).getHand().getCard(logikaMunchkin.getHand(0).isMouseCard(x, y,0)-1));
+				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(tmp[3]).getHand().getCard(logikaMunchkin.getHand(tmp[3]).isMouseCard(x, y,0)-1));
 			// singletonFrame.repaint();
 		     CardsingletonFrame.setVisible(true);
 
 
 			}else
-				if(logikaMunchkin.isMouseOnCharacter(x, y)!=0)
+				if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 				{
 
-					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y));
+					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y)+1);
 					CharactersingletonFrame.repaint();
 					CharactersingletonFrame.setVisible(true);
 				}else
@@ -97,11 +98,25 @@ public void useCardWindow(objCard karta )
                     switch(logikaMunchkin.isAboveStack(x, y))
                     {
                     case 1:
+                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
+                    	{
                     	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
+                    	}else	
+                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
+                    	{
+                    	logikaMunchkin.getCurrentPlayer().lootRoom();
+                    	}
                     	break;
                     case 2:
                     	break;
                     case 3:
+                    	if(logikaMunchkin.getOpenedSeals().size()!=0)
+                    	{
+        				CardsingletonFrame .setSignalSource("Seal");
+        				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getOpenedSeals().getLastCard());
+        			// singletonFrame.repaint();
+        		        CardsingletonFrame.setVisible(true);
+                    	}
                     	break;
              
                     }
@@ -191,12 +206,18 @@ public void useCardWindow(objCard karta )
 			{try {
 				  logikaMunchkin.getCurrentPlayer().endTurn();
 		      } catch (IllegalStateException e) {
-		    	  JOptionPane.showMessageDialog(
-	                        null,
-	                        "Hello", "dobierz karte", JOptionPane.INFORMATION_MESSAGE);
+		    	
 
 	            }
 			logikaMunchkin.getCurrentPlayer().endTurn();
+			int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
+			if(focusPlayer!=4)
+			{
+			focusPlayer++;
+			}else
+			{
+				focusPlayer=1;
+			}
 			 buttonPressed=false;
 			 repaint();
 		      }

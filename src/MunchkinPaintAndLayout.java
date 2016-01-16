@@ -61,7 +61,7 @@ System.out.println("wow");
     	     
 		grpOffScreen.setColor(Color.BLACK);
 		  grpOffScreen.drawString("Number of treasures : ", 360, 160);
-		  int tmp = 1;//logikaMunchkin.getCurrentFight().getMonsters().get(0).getTreasures();
+		  int tmp = logikaMunchkin.getCurrentFight().getMonsters().get(0).getTreasures();
 		  img  =scaleImage(50, 50,"src"
 	    	   		+ "/images/LVL/"+tmp+".jpg");
 	        drawCard(grpOffScreen,img,579,180,1);
@@ -73,35 +73,35 @@ System.out.println("wow");
 		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     
 		grpOffScreen.setColor(Color.black);
-    	//logikaMunchkin.getCurrentFight().getMainPlayer();
+    	logikaMunchkin.getCurrentFight().getMainPlayer();
 
 	    tempImg = logikaMunchkin.getCharacterImage();
-	    grpOffScreen.drawString("Player "+1/*logikaMunchkin.getCurrentFight().getMainPlayer(.getName()*/, 200,200);
+	    grpOffScreen.drawString("Player "+logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
        // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 		drawCard(grpOffScreen,tempImg,30,150,1);
-	  // if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
-	//	{
+	  if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
+		{
 	   drawCard(grpOffScreen,tempImg,30,350,1);
-	   grpOffScreen.drawString("Player "+1/*logikaMunchkin.getCurrentFight().getHelperPlayer().getName()*/, 200, 400);
-		//}
+	   grpOffScreen.drawString("Player "+logikaMunchkin.getCurrentFight().getHelperPlayer().getName(), 200, 400);
+		}
 		
-	   grpOffScreen.drawString("Party power "/*+logikaMunchkin.getCurrentFight().getPlayersStrength()*/, 250, 300);
-	   //int tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
-	   int tmp =5;
-	  /* if(tmp>10)
-	  // {
+	   grpOffScreen.drawString("Party power "+logikaMunchkin.getCurrentFight().getPlayersStrength(), 250, 300);
+	   int tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
+	   //int tmp =5;
+	  if(tmp>10)
+	  {
 	   Image img  =scaleImage(50, 50,"src"
 	   		+ "/images/LVL/"+tmp/10+".jpg");
        drawCard(grpOffScreen,img,400,315,1);
 	   img  =scaleImage(50, 50,"src"
 		   		+ "/images/LVL/"+tmp%10+".jpg");
 	       drawCard(grpOffScreen,img,432,315,1);
-	 //  }else
+	}else
 	   {
-    	*/Image img  =scaleImage(50, 50,"src"
+    	Image img  =scaleImage(50, 50,"src"
     	   		+ "/images/LVL/"+tmp+".jpg");
         drawCard(grpOffScreen,img,400,315,1);
-   // }
+    }
     }
     public void DrawMonsters(Graphics grpOffScreen)
     {
@@ -111,8 +111,8 @@ System.out.println("wow");
 		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
     	     int tmp=0;
 		grpOffScreen.setColor(Color.black);
-    	//logikaMunchkin.getCurrentFight().getMainPlayer();
-      /* 
+    	logikaMunchkin.getCurrentFight().getMainPlayer();
+      
 		for(objMonster x : logikaMunchkin.getCurrentFight().getMonsters())
          {
          
@@ -120,24 +120,23 @@ System.out.println("wow");
            drawCard(grpOffScreen,img,400,315+tmp*160,1);
            tmp++;
          }
-       */
-	   grpOffScreen.drawString("Monsters power "/*+logikaMunchkin.getCurrentFight().getPlayersStrength()*/, 540, 300);
-	   //int tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
-	    tmp =5;
-	  /* if(tmp>10)
-	  // {
-	   Image img  =scaleImage(50, 50,"src"
+       
+	   grpOffScreen.drawString("Monsters power "+logikaMunchkin.getCurrentFight().getPlayersStrength(), 540, 300);
+	 tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
+	  //  tmp =5;
+	   if(tmp>10)
+	  {
+	   img  =scaleImage(50, 50,"src"
 	   		+ "/images/LVL/"+tmp/10+".jpg");
        drawCard(grpOffScreen,img,720,315,1);
 	   img  =scaleImage(50, 50,"src"
 		   		+ "/images/LVL/"+tmp%10+".jpg");
 	       drawCard(grpOffScreen,img,752,315,1);
-	 //  }else
+	   }else
 	   {
-    	*/img  =scaleImage(50, 50,"src"
+    	img  =scaleImage(50, 50,"src"
     	   		+ "/images/LVL/"+tmp+".jpg");
-        drawCard(grpOffScreen,img,720,315,1);
-   // }
+        }
     }
     public void DrawBattlefield(Graphics grpOffScreen)
     {

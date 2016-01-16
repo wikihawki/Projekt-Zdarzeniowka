@@ -23,7 +23,6 @@ public class objMonster extends objEntity
 		return name;
 	}
 	public int getStrength() {
-		if(bonus==-1)return -1;
 		return bonus+myCard.getLevel();
 	}
 	public int getBonus()

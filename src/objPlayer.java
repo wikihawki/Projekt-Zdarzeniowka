@@ -172,14 +172,14 @@ public class objPlayer extends objEntity
 			else throw new IllegalStateException();
 			break;
 		case DISASTER:
-			environment.addCardToStack(temp, target);
+			environment.addCardToStack(temp, target,this);
 			environment.resolveStackTopCard();//TODO: usun¹c to potem
 			break;
 		case OTHER:
 			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
 			else
 			{
-				environment.addCardToStack(temp, target);
+				environment.addCardToStack(temp, target,this);
 				environment.resolveStackTopCard();//TODO: usun¹c to potem
 			}
 			break;
@@ -415,7 +415,7 @@ public class objPlayer extends objEntity
 				fireEvent("Disaster",temp);
 				break;
 			case CLASS:
-				
+
 			case OTHER:
 				fireEvent("Other",temp);
 				hand.addCard(temp);

@@ -55,9 +55,11 @@ public class objEffectHandler implements GameEventListener
 			handleEffectRec(type, 3, target);
 			Random gen=new Random();
 			int temp=((objPlayer)target).getCardsInPlay().size(),temp2=((objPlayer)target).getCarriedCards().size();
-			int help=gen.nextInt(temp+temp2);
-			if(help<temp)((objPlayer)target).discardCardFromPlay(help);
-			else((objPlayer)target).discardCarriedCard(help-temp);
+			if(temp+temp2>0){
+				int help=gen.nextInt(temp+temp2);
+				if(help<temp)((objPlayer)target).discardCardFromPlay(help);
+				else((objPlayer)target).discardCarriedCard(help-temp);
+			}
 			break;
 		}
 		case 5:
@@ -138,7 +140,7 @@ public class objEffectHandler implements GameEventListener
 			environment.openSeal();
 			break;
 		case 2:
-			if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)target).setBonus(-1);
+			if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)target).setBonus(999);
 			addContinuousEffect(1,target);
 			break;
 		case 3:
@@ -253,7 +255,7 @@ public class objEffectHandler implements GameEventListener
 		case 28:
 			break;
 		case 36:
-			monsterBonus((objMonster)target, objCard.SecondaryType.ARMOR, -3);
+			monsterBonus((objMonster)target, objCard.SecondaryType.ARMOR, 5);
 			monsterBonus((objMonster)target, false, 3);
 			addContinuousEffect(16,target);
 			break;
@@ -324,29 +326,33 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 		case 2:
-			environment.getCurrentPlayer().getCardsInPlay().addCard(environment.getCurrentPlayer().getHand().removeCard(environment.getCurrentPlayer().getHand().getCardIndex((objCard)target)));
+		{
+			objPlayedCard temp=environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
+			temp.getPlayer().getCardsInPlay().addCard(temp.getPlayer().getHand().removeCard(temp.getPlayer().getHand().getCardIndex((objCard)target)));
 			switch(((objCard)target).getSecondaryType())
 			{
 			case ARMOR:
-				environment.getCurrentPlayer().setArmorCounter(environment.getCurrentPlayer().getArmorCounter()+1);
+				temp.getPlayer().setArmorCounter(environment.getCurrentPlayer().getArmorCounter()+1);
 				break;
 			case BOOTS:
-				environment.getCurrentPlayer().setFootgearCounter(environment.getCurrentPlayer().getFootgearCounter()+1);
+				temp.getPlayer().setFootgearCounter(environment.getCurrentPlayer().getFootgearCounter()+1);
 				break;
 			case ONEHANDWEAPON:
-				environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
+				temp.getPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
 				break;
 			case TWOHANDWEAPON:
-				environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+2);
+				temp.getPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+2);
 				break;
 			case HAT:
-				environment.getCurrentPlayer().setHeadgearCounter(environment.getCurrentPlayer().getHeadgearCounter()+1);
+				temp.getPlayer().setHeadgearCounter(environment.getCurrentPlayer().getHeadgearCounter()+1);
 				break;
 			default:
 				break;
 			}
+			temp.getPlayer().getHand().addCard(temp.getPlayedCard());
 			addContinuousEffect(50, target);
 			break;
+		}
 		case 3:
 			addContinuousEffect(35,null);
 			break;
@@ -751,7 +757,7 @@ public class objEffectHandler implements GameEventListener
 			case 1:
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)
 				{
-					if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setBonus(-1);
+					if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setBonus(999);
 					else ((objMonster)pair.getValue()).setBonus(0);
 				}
 				break;

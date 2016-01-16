@@ -38,7 +38,7 @@ public class objPlayer extends objEntity
 		hand=new MunchkinHand( 0);
 		environment=envi;
 		drawTreasure(3);
-		drawDoor(5);
+		drawDoor(3);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -172,14 +172,14 @@ public class objPlayer extends objEntity
 			else throw new IllegalStateException();
 			break;
 		case DISASTER:
-			environment.addCardToStack(temp, target);
+			environment.addCardToStack(temp, target,this);
 			environment.resolveStackTopCard();//TODO: usun¹c to potem
 			break;
 		case OTHER:
 			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
 			else
 			{
-				environment.addCardToStack(temp, target);
+				environment.addCardToStack(temp, target,this);
 				environment.resolveStackTopCard();//TODO: usun¹c to potem
 			}
 			break;
@@ -414,6 +414,7 @@ public class objPlayer extends objEntity
 			case DISASTER:
 				fireEvent("Disaster",temp);
 				break;
+			case CLASS:
 			case OTHER:
 				fireEvent("Other",temp);
 				hand.addCard(temp);

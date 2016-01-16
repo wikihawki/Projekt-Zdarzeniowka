@@ -28,6 +28,7 @@ public class objFight implements GameEventListener
 		treasuresForHelper=0;
 		this.parent=parent;
 		mainPlayer.addListener(this);
+		updatePlayers();
 	}
 	public void resolveBattle()
 	{
@@ -114,7 +115,6 @@ public class objFight implements GameEventListener
 		for(int i=0; i<this.monsters.size();i++)
 		{
 			int temp=this.monsters.elementAt(i).getStrength();
-			if(temp==-1)return -1;
 			monsters+=temp;
 		}
 		return monsters;

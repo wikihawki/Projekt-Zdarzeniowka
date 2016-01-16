@@ -165,9 +165,9 @@ public class objGameLogic
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
     //	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
     }
-    public void addCardToStack(objCard card, objEntity target)
+    public void addCardToStack(objCard card, objEntity target, objPlayer player)
     {
-    	playedCards.add(new objPlayedCard(card, target));
+    	playedCards.add(new objPlayedCard(card, target,player));
     }
     public objCard showDoorCard()
 	{
@@ -175,7 +175,7 @@ public class objGameLogic
 		if(temp.getSecondaryType()==objCard.SecondaryType.DISASTER)
 		{
 			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)
-				playedCards.add(new objPlayedCard(temp,players[currPlayer]));
+				playedCards.add(new objPlayedCard(temp,players[currPlayer],players[currPlayer]));
 		}
 		return temp;
 	}

@@ -171,8 +171,11 @@ public class objPlayer extends objEntity
 			else throw new IllegalStateException();
 			break;
 		case DISASTER:
-		case OTHER:
 			environment.addCardToStack(temp, target);
+			break;
+		case OTHER:	
+			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
+			else environment.addCardToStack(temp, target);
 			break;
 		case OTHERITEM:
 			carriedCards.addCard(temp);
@@ -328,6 +331,8 @@ public class objPlayer extends objEntity
 			levelUp(1);
 			money-=1000;
 		}
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
 	public void sellTreasureFromCarried(int index)
 	{
@@ -338,6 +343,8 @@ public class objPlayer extends objEntity
 			levelUp(1);
 			money-=1000;
 		}
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
 	public void sellTreasureFromPlayed(int index)
 	{
@@ -348,6 +355,8 @@ public class objPlayer extends objEntity
 			levelUp(1);
 			money-=1000;
 		}
+		fireEvent(GameEvent.EventType.DSICARD, temp);
+		environment.discardCard(temp);
 	}
 	public Vector<Integer> findItemsInPlay()
 	{

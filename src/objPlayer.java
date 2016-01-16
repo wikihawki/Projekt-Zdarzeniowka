@@ -319,6 +319,16 @@ public class objPlayer extends objEntity
 		}
 		fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
 	}
+	public void sellTreasureFromHand(int index)
+	{
+		objCard temp =hand.removeCard(index);
+		money+=temp.getValue();
+		if(money>1000)
+		{
+			levelUp(1);
+			money-=1000;
+		}
+	}
 	public void sellTreasureFromCarried(int index)
 	{
 		objCard temp =carriedCards.removeCard(index);

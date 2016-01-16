@@ -12,6 +12,7 @@ public class objPlayer extends objEntity
 	private int PlayerId;
 	private TurnPhase myTurnPhase;
 	private List<GameEventListener> listeners = new ArrayList<GameEventListener>();
+	private List<GameActionEventListener> listenersA = new ArrayList<GameActionEventListener>();
 	private String name;
 	private boolean sex;
 	private int level;
@@ -390,14 +391,17 @@ public class objPlayer extends objEntity
 			switch (temp.getSecondaryType())
 			{
 			case MONSTER:
+				fireEvent("Monster",temp);
 				myTurnPhase=TurnPhase.FIGHT;
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this, environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
 				break;
 			case DISASTER:
+				fireEvent("Disaster",temp);
 				break;
 			case OTHER:
+				fireEvent("Other",temp);
 				hand.addCard(temp);
 				break;
 			default:
@@ -505,6 +509,23 @@ public class objPlayer extends objEntity
 	    }
 	}
 
+	public synchronized void addListener(GameActionEventListener listener)
+	{
+		listenersA.add(listener);
+	}
+	public synchronized void removeListener(GameActionEventListener listener)
+	{
+	    listenersA.remove(listener);
+	}
+	private synchronized void fireEvent(String type, objCard card)
+	{
+	    GameActionEvent event = new GameActionEvent(this, type, card);
+	    Iterator<GameActionEventListener> i = listenersA.iterator();
+	    while(i.hasNext())
+	    {
+	    	i.next().gameActionEventOccurred(event);
+	    }
+	}
 	public int getMoney() {
 		return money;
 	}

@@ -60,7 +60,10 @@ public class objCard extends objEntity
 	public String getName() {
 		return name;
 	}
-
+	public void setBonus(int i)
+	{
+		levelBonus=i;
+	}
 	public Type getType() {
 		return type;
 	}

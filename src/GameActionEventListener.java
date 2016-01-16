@@ -1,5 +1,5 @@
 
 public interface GameActionEventListener
 {
-	public void gameEventOccurred(GameActionEvent evt);
+	public void gameActionEventOccurred(GameActionEvent evt);
 }

@@ -5,6 +5,8 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import com.sun.prism.impl.Disposer.Target;
+
 import javafx.util.Pair;
 
 
@@ -242,7 +244,7 @@ public class objEffectHandler implements GameEventListener
 				addContinuousEffect(16,target);
 				break;
 			case 37:
-				// TODO: poprawic ten efekt bo bedzie dzialal Ÿle
+				// TODO: poprawic ten efekt bo bedzie dzialal Ÿle//wstepnie zrobione, ale przydalo by sie jeszcze poprawic
 				handleEffect(objCard.SecondaryType.MONSTER, 42, target);
 				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer())&&!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer()))environment.getPlayer(i).levelUp(1);
 			case 38:
@@ -419,7 +421,7 @@ public class objEffectHandler implements GameEventListener
 				else for(int i=0;i<environment.getPlayedCards().size();i++)if(environment.getPlayedCards().get(i).getPlayedCard()==target)environment.getPlayedCards().remove(i);
 				break;
 			case 6:
-				//TODO:zaimplementowac przy koñcu gry
+				addContinuousEffect(27, target);
 				break;
 			case 7:
 				//zaimplementowane przy odrzucaniu
@@ -810,6 +812,10 @@ public class objEffectHandler implements GameEventListener
 			case 26:
 				if(eventType==GameEvent.EventType.INVENTORYCHANGED)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Militia", true);
 				break;
+			case 27:
+			if(eventType==GameEvent.EventType.SEVENTHSEAL){((objCard)pair.getValue()).setBonus(3);
+
+			}
 			case 28:
 				if(eventType==GameEvent.EventType.INVENTORYCHANGED)
 				{

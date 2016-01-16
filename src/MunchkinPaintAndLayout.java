@@ -116,13 +116,13 @@ System.out.println("wow");
 		for(objMonster x : logikaMunchkin.getCurrentFight().getMonsters())
          {
 			 System.out.println(x.getMyCard().getIdNr()+" to jest monster");
-	      img  =scaleImage(120, 150,"image/Karta (10).jpg");
-           drawCard(grpOffScreen,img,400,315+tmp*160,1);
+	      img  =scaleImage(170, 190,"src/images/Karta ("+x.getMyCard().getIdNr()+").jpg");
+           drawCard(grpOffScreen,img,752,95+tmp*160,1);
            tmp++;
          }
        
-	   grpOffScreen.drawString("Monsters power "+logikaMunchkin.getCurrentFight().getPlayersStrength(), 540, 300);
-	 tmp = logikaMunchkin.getCurrentFight().getPlayersStrength();
+	   grpOffScreen.drawString("Monsters power "+logikaMunchkin.getCurrentFight().getMonstersStrength(), 540, 300);
+	 tmp = logikaMunchkin.getCurrentFight().getMonstersStrength();
 	  //  tmp =5;
 	   if(tmp>10)
 	  {

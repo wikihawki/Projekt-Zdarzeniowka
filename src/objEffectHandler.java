@@ -448,7 +448,7 @@ public class objEffectHandler implements GameEventListener
 	}
 	private void changeCard(objCard target, objPlayer player, String playerClass, boolean flag)// false --->nie dla klasy true ---> tylko dla klsy
 	{
-		if(flag==(player.getCardsInPlay().findCards("Kid", objCard.SecondaryType.CLASS).size()==0))player.moveFromPlayToCarried(environment.getCurrentPlayer().getCardsInPlay().getCardIndex((objCard)target));
+		if(flag==(player.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS).size()==0))player.moveFromPlayToCarried(environment.getCurrentPlayer().getCardsInPlay().getCardIndex((objCard)target));
 	}
 	private void removeCardFromStack()
 	{

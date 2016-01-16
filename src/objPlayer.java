@@ -202,7 +202,7 @@ public class objPlayer extends objEntity
 	}
 	private void equipItem(objCard temp,int counter, objCard.SecondaryType type)
 	{
-		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
+		if(temp.getTag()!=objCard.Tag.BIG||!isThereBigItem())
 		{
 			if(counter>findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size()||temp.getEffect(0)==8)
 			{
@@ -213,11 +213,14 @@ public class objPlayer extends objEntity
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
 		}else
-		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
+		{
+			JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
+			hand.addCard(temp);
+		}
 	}
 	private void equipItem(objCard temp, int counter, int amount,objCard.SecondaryType type)
 	{
-		if(temp.getTag()!=objCard.Tag.BIG&&!isThereBigItem())
+		if(temp.getTag()!=objCard.Tag.BIG||!isThereBigItem())
 		{
 			if(counter-amount>=findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size()||temp.getEffect(0)==8)
 			{
@@ -228,7 +231,10 @@ public class objPlayer extends objEntity
 			else carriedCards.addCard(temp);
 			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
 		}else
-		JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
+		{
+			JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
+			hand.addCard(temp);
+		}
 	}
 	public void discardCardfromHand(int index)
 	{

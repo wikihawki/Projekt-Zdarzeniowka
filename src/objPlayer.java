@@ -349,7 +349,7 @@ public class objPlayer extends objEntity
 	}
 	public void sellTreasureFromPlayed(int index)
 	{
-		objCard temp =carriedCards.removeCard(index);
+		objCard temp =cardsInPlay.removeCard(index);
 		money+=temp.getValue();
 		if(money>=1000)
 		{

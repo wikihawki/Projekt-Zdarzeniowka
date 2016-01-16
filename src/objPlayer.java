@@ -173,7 +173,7 @@ public class objPlayer extends objEntity
 		case DISASTER:
 			environment.addCardToStack(temp, target);
 			break;
-		case OTHER:	
+		case OTHER:
 			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
 			else environment.addCardToStack(temp, target);
 			break;
@@ -326,7 +326,7 @@ public class objPlayer extends objEntity
 	{
 		objCard temp =hand.removeCard(index);
 		money+=temp.getValue();
-		if(money>1000)
+		if(money>=1000)
 		{
 			levelUp(1);
 			money-=1000;
@@ -338,7 +338,7 @@ public class objPlayer extends objEntity
 	{
 		objCard temp =carriedCards.removeCard(index);
 		money+=temp.getValue();
-		if(money>1000)
+		if(money>=1000)
 		{
 			levelUp(1);
 			money-=1000;
@@ -350,7 +350,7 @@ public class objPlayer extends objEntity
 	{
 		objCard temp =carriedCards.removeCard(index);
 		money+=temp.getValue();
-		if(money>1000)
+		if(money>=1000)
 		{
 			levelUp(1);
 			money-=1000;

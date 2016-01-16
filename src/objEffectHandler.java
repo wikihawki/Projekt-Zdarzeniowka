@@ -406,12 +406,10 @@ public class objEffectHandler implements GameEventListener
 				addContinuousEffect(20, target);
 				break;
 			case 2:
-				changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", true);
-				addContinuousEffect(23, target);
+				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", true))addContinuousEffect(23, target);
 				break;
 			case 3:
-				changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", false);
-				addContinuousEffect(24, target);
+				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", false))addContinuousEffect(24, target);
 				break;
 			case 4:
 				//urzycie procy
@@ -428,16 +426,15 @@ public class objEffectHandler implements GameEventListener
 				break;
 			case 8:
 				//zaimplementowane przy dodawaniu
+				break;
 			case 9:
-				changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true);
-				addContinuousEffect(26, target);
+				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
 				break;
 			case 10:
 			case 11:
 				//zaimplementowane w ucieczce
 			case 12:
-				changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", false);
-				addContinuousEffect(25, target);
+				if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Kid", false))addContinuousEffect(25, target);
 				break;
 			case 13:
 				addContinuousEffect(22, target);
@@ -446,9 +443,14 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 	}
-	private void changeCard(objCard target, objPlayer player, String playerClass, boolean flag)// false --->nie dla klasy true ---> tylko dla klsy
+	private boolean changeCard(objCard target, objPlayer player, String playerClass, boolean flag)// false --->nie dla klasy true ---> tylko dla klsy
 	{
-		if(flag==(player.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS).size()==0))player.moveFromPlayToCarried(environment.getCurrentPlayer().getCardsInPlay().getCardIndex((objCard)target));
+		if(flag==(player.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS).size()==0))
+		{
+			player.moveFromPlayToCarried(environment.getCurrentPlayer().getCardsInPlay().getCardIndex((objCard)target));
+			return true;
+		}
+		return false;
 	}
 	private void removeCardFromStack()
 	{

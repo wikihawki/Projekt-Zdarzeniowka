@@ -31,7 +31,7 @@ public class MunchkinHand extends MunchkinGroup
 		
        for(i =0;i<size();i++)
         {
-		if ((x >= 235-72/2+(i*72+i*10) && x <= (235 +72/2)+(i*72+i*10)) && (y >= 700-100 && y <= 700)) //Check if mouse is in this column's card area
+		if ((x >= 235-72/2+(i*72+i*10) && x <= (235 +72/2)+(i*72+i*10)) && (y >= 700-100 && y <= 700)) 
 		{
 			return i+1;
 		}

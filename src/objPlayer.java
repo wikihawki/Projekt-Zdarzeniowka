@@ -37,7 +37,7 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(5);
+		drawTreasure(3);
 		drawDoor(3);
 		levelUpsCounter=0;
 		money=0;

@@ -137,7 +137,7 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[2][rank] = createImage.getImage(this, "images/karta ("+(168+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
+				imgCards[2][rank] = createImage.getImage(this, "images/karta ("+(168+rank)+").jpg", 6000000).getScaledInstance(150,150, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
@@ -391,27 +391,27 @@ public class objGameLogic
 
     public int isMouseOnCharacter(int x,int y)
 	{
-
+    	int[] tmp=getNextPlayerId(getCurrentPlayer().getPlayerId());
 
 			if ((x >= 220&& x <= 340 )&& (y >= 447 && y <= 597)) //Check if mouse is in this column's card area
 			{
-				return 1;
+				return tmp[3];
 
 	        }else
 	        if((x >= 100&& x <= 250 )&& (y >= 130 && y <= 270))
 	        {
-	        	return 2;
+	        	return tmp[0];
 	        }else
 		    if((x >= 630&& x <= 740 )&& (y >= 100 && y <= 250))
 		    {
-		        return 3;
+		        return tmp[1];
 		    }else
 	        if((x >= 715&& x <= 850 )&& (y >= 400 && y <= 530))
 		     {
-			   return 4;
+			   return tmp[2];
 		     }
 
-		return 0;
+		return -1;
 	}
     public Image getDoorImage()
     {
@@ -481,19 +481,19 @@ public class objGameLogic
      	switch(currentPlayerId)
      	{
      	case 0:
-     		int[] myIntArray1 = {1,2,3};
+     		int[] myIntArray1 = {1,2,3,0};
      		 return  myIntArray1 ;
 
      	case 1:
-     		int[] myIntArray2 = {2,3,0};
+     		int[] myIntArray2 = {2,3,0,1};
     		 return  myIntArray2 ;
 
      	case 2:
-     		int[] myIntArray3 = {3,0,1};
+     		int[] myIntArray3 = {3,0,1,2};
     		 return  myIntArray3 ;
 
      	case 3:
-     		int[] myIntArray4 = {0,1,2};
+     		int[] myIntArray4 = {0,1,2,3};
     		 return  myIntArray4 ;
      	default :
      		break;

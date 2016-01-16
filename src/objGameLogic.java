@@ -88,7 +88,7 @@ public class objGameLogic
 		sealDeck.suffle();
 		treasureDeck.suffle();
 		doorDeck.suffle();
-		
+
 	}
 	private void setupPlayers(int amount)
 	{
@@ -130,7 +130,7 @@ public class objGameLogic
 
 			}
 
-	
+
 			for (int rank = 1; rank <= 12; rank++) //Loop 13 times (for ace - king)
 
 
@@ -143,7 +143,7 @@ public class objGameLogic
 
 			}
 
-	
+
 			imgCardBack[0]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			imgCardBack[1]= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			Door= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
@@ -426,6 +426,7 @@ public class objGameLogic
     {
     	if(currPlayer<playersNumber-1)currPlayer++;
     	else currPlayer=0;
+    	players[currPlayer].beginTurn();
     }
 
     public Image getSealImage()

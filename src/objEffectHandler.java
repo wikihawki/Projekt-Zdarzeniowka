@@ -342,8 +342,8 @@ public class objEffectHandler implements GameEventListener
 				break;
 			default:
 				break;
-
 			}
+			addContinuousEffect(50, target);
 			break;
 		case 3:
 			addContinuousEffect(35,null);
@@ -442,7 +442,7 @@ public class objEffectHandler implements GameEventListener
 			//zaimplementowane przy dodawaniu
 			break;
 		case 9:
-			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
+			if(!continuousEffectContains(50))if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
 			break;
 		case 10:
 		case 11:
@@ -491,6 +491,17 @@ public class objEffectHandler implements GameEventListener
 		for(int i=0;i<continuousEffects.size();i++)
 		{
 			if(continuousEffects.get(i).getKey()==k)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	private boolean continuousEffectContains(int k, objEntity target)
+	{
+		for(int i=0;i<continuousEffects.size();i++)
+		{
+			if(continuousEffects.get(i).getKey()==k&&continuousEffects.get(i).getValue()==target)
 			{
 				return true;
 			}
@@ -694,12 +705,8 @@ public class objEffectHandler implements GameEventListener
 				return null;
 			case 2:
 			{
-				Vector<Integer>temp2=environment.getCurrentPlayer().findItemsInPlay();
-				temp.addAll(environment.getCurrentPlayer().getHand().getStack(0));
-				if(temp2.size()>0)
-				{
-					for(int i=0;i<temp.size();i++) if(((objCard)temp.get(i)).getType()!=objCard.Type.TREASURE)temp.remove(i);
-				}
+				Vector<objCard> temp2=environment.getCurrentPlayer().getHand().getStack(0);
+				for(int i=0;i<temp2.size();i++) if(((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.ARMOR||((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.OTHERITEM||((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.HAT||((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.BOOTS||((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.ONEHANDWEAPON||((objCard)temp2.get(i)).getSecondaryType()==objCard.SecondaryType.TWOHANDWEAPON)temp.add(temp2.elementAt(i));
 				return temp;
 			}
 			case 4:
@@ -707,6 +714,7 @@ public class objEffectHandler implements GameEventListener
 				return temp;
 			case 5:
 				for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)temp.add(environment.getCurrentFight().getMonsters().get(i));
+				return temp;
 			case 8:
 				{
 					Vector<objPlayedCard> temp2=environment.getPlayedCards();
@@ -886,10 +894,32 @@ public class objEffectHandler implements GameEventListener
 				{
 					environment.getCurrentFight().addLevelBonus(1);
 				}
+				break;
+			case 35:
+				if(eventType==GameEvent.EventType.FIGHTSTARTED)
+				{
+					environment.getCurrentFight().addBonus(5);
+					for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)
+					{
+						environment.getCurrentFight().getMonsters().elementAt(i).increaseTreasures(-1);
+						addContinuousEffect(51, environment.getCurrentFight().getMonsters().elementAt(i));
+					}
+				}
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)if(continuousEffectContains(51,pair.getValue()))
+					{
+						environment.getCurrentFight().getMonsters().elementAt(i).increaseTreasures(-1);
+						addContinuousEffect(51, environment.getCurrentFight().getMonsters().elementAt(i));
+					}
+				}
+				break;
 			case 40:
 				break;
 			case 41:
 				break;
+			case 50:
+
 			case -1:
 			case -2:
 				if(eventType==GameEvent.EventType.FIGHTOVER||(eventType==GameEvent.EventType.FIGHTCHANGED&&evt.getTarget()==pair.getValue()))

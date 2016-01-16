@@ -37,8 +37,8 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(5);
-		drawDoor(3);
+		drawTreasure(3);
+		drawDoor(5);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -408,6 +408,8 @@ public class objPlayer extends objEntity
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this, environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
+				environment.getCurrentFight().addListener(environment.getEffectHandler());
+				fireEvent(GameEvent.EventType.FIGHTSTARTED,this);
 				break;
 			case DISASTER:
 				fireEvent("Disaster",temp);
@@ -432,6 +434,8 @@ public class objPlayer extends objEntity
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this,environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
+				environment.getCurrentFight().addListener(environment.getEffectHandler());
+				fireEvent(GameEvent.EventType.FIGHTSTARTED,this);
 			}
 			else JOptionPane.showMessageDialog(null, "teraz mo¿esz zagrac tylko potwora");
 		}

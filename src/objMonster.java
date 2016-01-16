@@ -49,7 +49,10 @@ public class objMonster extends objEntity
 	}
 	public int increaseTreasures(int amount)
 	{
+		if(amount>-treasures)
 		return (treasures+=amount);
+		else
+			return treasures;
 	}
 	public objCard getMyCard() {
 		return myCard;

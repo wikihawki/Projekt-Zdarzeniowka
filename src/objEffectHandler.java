@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 import com.sun.prism.impl.Disposer.Target;
 
 import javafx.util.Pair;
@@ -16,7 +17,7 @@ public class objEffectHandler implements GameEventListener
 	private objGameLogic environment;
 	private Vector<Pair<Integer,objEntity>> continuousEffects;
 	public objEffectHandler(objGameLogic envi)
-	{	
+	{
 		rotation=0;
 		environment=envi;
 		continuousEffects=new Vector<Pair<Integer, objEntity>>();

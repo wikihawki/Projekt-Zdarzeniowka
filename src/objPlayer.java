@@ -448,6 +448,19 @@ public class objPlayer extends objEntity
 		environment.getEffectHandler().addContinuousEffect(30, this);
 		endImmediately();
 	}
+	public int getPower()
+	{
+		int power=level;
+		Vector<objCard> temp= getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
+		temp.addAll(getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANTER));
+		for(int i=0;i<temp.size();i++)power+=(temp.elementAt(i)).getBonus();
+		return power;
+	}
 
 	public synchronized void addListener(GameEventListener listener)
 	{

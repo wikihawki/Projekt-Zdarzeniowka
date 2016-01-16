@@ -58,10 +58,14 @@ public class objFight implements GameEventListener
 		}
 		else
 		{
-			for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, true))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
-			if(helperPlayer!=null)for(int i=0; i<monsters.size();i++)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
+			for(int i=0; i<monsters.size();i++)
+			{
+				if(!tryToRunAway(i, true))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
+				if(helperPlayer!=null)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
+			}
 		}
 		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
+		parent.setCurrentFight(null);
 	}
 	private boolean tryToRunAway(int monsterNr, boolean which)
 	{
@@ -123,35 +127,22 @@ public class objFight implements GameEventListener
 	{
 		playersStrength=mainPlayer.getLevel();
 		playersStrength+=playersBonus;
-		Vector<objCard> temp= mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
-		temp.addAll(mainPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANTER));
+		MunchkinGroup temp= mainPlayer.getCardsInPlay();
 		for(int i=0;i<temp.size();i++)
 		{
-			if(temp.elementAt(i).getEffect(1)==10)mainPlayerEscape++;
-			if(temp.elementAt(i).getEffect(1)==11)mainPlayerEscape--;
+			if(temp.getCard(i).getEffect(1)==10)mainPlayerEscape++;
+			if(temp.getCard(i).getEffect(1)==11)mainPlayerEscape--;
 		}
 		if(helperPlayer!=null)
 		{
-			playersStrength+=helperPlayer.getLevel();
-			Vector<objCard> temp2=helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ARMOR);
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.BOOTS));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.HAT));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ONEHANDWEAPON));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.TWOHANDWEAPON));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.OTHERITEM));
-			temp2.addAll(helperPlayer.getCardsInPlay().findCards(null, objCard.SecondaryType.ITEMENCHANTER));
+			playersStrength+=helperPlayer.getPower();
+			temp= mainPlayer.getCardsInPlay();
 			for(int i=0;i<temp.size();i++)
 			{
-				if(temp2.elementAt(i).getEffect(1)==10)helperEscape++;
-				if(temp2.elementAt(i).getEffect(1)==11)helperEscape--;
+				if(temp.getCard(i).getEffect(1)==10)helperEscape++;
+				if(temp.getCard(i).getEffect(1)==11)helperEscape--;
 			}
 		}
-		for(int i=0;i<temp.size();i++)playersStrength+=(temp.elementAt(i)).getBonus();
 		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 	}
 	public objPlayer getMainPlayer()

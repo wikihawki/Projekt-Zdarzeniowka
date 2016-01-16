@@ -187,11 +187,10 @@ public class objCardWindow extends JFrame implements ActionListener{
 		        }else
 		  if (src == skill1)
 			    {
-
+ 
 			  Object[] listops= {"List 1","List 2"};
-
-			  String ch=(String) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops,"list1");
-			  System.out.println(ch);
+              listops=window.getLogic().getEffectHandler().getValidTargets(Card).toArray();
+              window.getLogic().getCurrentPlayer().playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops,"list1"));
 			       this.setVisible(false);
 		        }else
 		  if (src == zaloz)

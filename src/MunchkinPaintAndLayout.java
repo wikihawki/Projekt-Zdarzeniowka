@@ -346,13 +346,21 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
     }
     public void DrawSealStack(Graphics g)
     {
+    	Image tempImg =null;
     	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
     	{
-    	Image tempImg =null;
+    	
 		tempImg =logikaMunchkin.getSealImage();	
 
 		drawCard(g,tempImg,550,340,1);
     	}
+    	
+    	//if(logikaMunchkin.getOpenedSeals()!=null)
+    //	{
+    //		tempImg =logikaMunchkin.getCardImage(logikaMunchkin.getOpenedSeals().getLastCard(),logikaMunchkin.getOpenedSeals().getLastCard().getIdNr());
+    	//	drawCard(g,tempImg,910,200,1);
+    		
+    //	}
     }
     public void DrawPlayerLVL(Graphics g)
     {

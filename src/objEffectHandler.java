@@ -111,9 +111,10 @@ public class objEffectHandler implements GameEventListener
 				break;
 			}
 			default:
+				System.out.println(effectNr);
 				throw new IllegalArgumentException();
 			}
-			removeCardFromStack();
+		//	removeCardFromStack();
 			break;
 		case MONSTER:
 			switch (effectNr)

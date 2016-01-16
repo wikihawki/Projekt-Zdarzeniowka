@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -188,9 +189,15 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == skill1)
 			    {
  
-			  Object[] listops= {"List 1","List 2"};
-              listops=window.getLogic().getEffectHandler().getValidTargets(Card).toArray();
-              window.getLogic().getCurrentPlayer().playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops,"list1"));
+			  Vector<objEntity> listops=window.getLogic().getEffectHandler().getValidTargets(Card);
+              
+              if(listops!=null)
+              {
+            	  if(!listops.contains(null)&&!listops.isEmpty())
+            		  window.getLogic().getCurrentPlayer().playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1"));
+            	  else JOptionPane.showMessageDialog(null, "Brak celu");
+              }
+              else window.getLogic().getCurrentPlayer().playCard(Card,null);
 			       this.setVisible(false);
 		        }else
 		  if (src == zaloz)

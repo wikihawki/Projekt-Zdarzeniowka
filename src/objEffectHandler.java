@@ -643,8 +643,10 @@ public class objEffectHandler implements GameEventListener
 		case SEAL:
 		case TWOHANDWEAPON:
 		case ONEHANDWEAPON:
-		case MONSTER:
 			return null;
+		case MONSTER:
+			if(environment.getCurrentFight()!=null)return null;
+			else return temp;
 
 		case CLASS:
 		{
@@ -674,7 +676,7 @@ public class objEffectHandler implements GameEventListener
 			return temp;
 		}
 		case OTHER:
-			switch(card.getEffect(card.getEffect(0)))
+			switch(card.getEffect(0))
 			{
 			case 1:
 			case 3:

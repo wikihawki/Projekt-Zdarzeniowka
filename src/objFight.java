@@ -125,7 +125,7 @@ public class objFight implements GameEventListener
 	}
 	public void updatePlayers()
 	{
-		playersStrength=mainPlayer.getLevel();
+		playersStrength=mainPlayer.getPower();
 		playersStrength+=playersBonus;
 		MunchkinGroup temp= mainPlayer.getCardsInPlay();
 		for(int i=0;i<temp.size();i++)

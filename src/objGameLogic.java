@@ -308,7 +308,7 @@ public class objGameLogic
     		return imgCards[0][karta.getIdNr()];
     	}else{
 
-    		return imgCards[1][karta.getIdNr()];
+    		return imgCards[1][karta.getIdNr()-92];
     	}
     }
 

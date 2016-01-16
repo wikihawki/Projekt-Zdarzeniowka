@@ -83,7 +83,7 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findArmor())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+(92+Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr())+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr())+").jpg",100,155));
 			list.add(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(x)).getIdNr());
 			cardType="Armor";
 			panelKart.get(0).add(karty.get(x));
@@ -110,7 +110,7 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findWeapon())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr()+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr()+").jpg",100,155));
 			  list.add(Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(x)).getIdNr());
 			  cardType="Weapon";
 			
@@ -139,7 +139,7 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findHat())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr()+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr()+").jpg",100,155));
 			list.add(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(x)).getIdNr());
 			cardType="Headgear";
 			panelKart.get(0).add(karty.get(x));
@@ -166,7 +166,8 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findBoots())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
+			System.out.println(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr());
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
 			list.add(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr());
 			cardType="Footgear";
 			panelKart.get(0).add(karty.get(x));
@@ -194,7 +195,7 @@ private objPlayer  Gracz;
 		for(int x :Gracz.findClass())
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
 			list  .add(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr());
 			cardType="Calss";
 			
@@ -223,7 +224,7 @@ private objPlayer  Gracz;
 		for(int x =0;x< Gracz.getCarriedCards().size();x++)
 		{
 			karty.add(x, new JLabel());
-			karty.get(x).setIcon(getEqupmentIcon("src/images/ks ("+Gracz.getCarriedCards().getCard(x).getIdNr()+").jpg",100,155));
+			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCarriedCards().getCard(x).getIdNr()+").jpg",100,155));
 			list.add(Gracz.getCarriedCards().getCard(x).getIdNr());
 			cardType="Backpack";
 			panelKart.get(0).add(karty.get(x));

@@ -110,7 +110,7 @@ public class objCardWindow extends JFrame implements ActionListener{
      	{
         	 img  =scaleImage(205, 285,"src/images/karta (" +karta.getIdNr()+ ").jpg");
      	}else{
-     		 img  =scaleImage(205, 285,"src/images/karta (" +(92+karta.getIdNr())+ ").jpg");
+     		 img  =scaleImage(205, 285,"src/images/karta (" +(karta.getIdNr())+ ").jpg");
      	}
 
          ImageIcon icon=new ImageIcon((Image) img);

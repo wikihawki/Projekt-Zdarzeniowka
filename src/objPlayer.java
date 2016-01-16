@@ -178,7 +178,7 @@ public class objPlayer extends objEntity
 			else environment.addCardToStack(temp, target);
 			break;
 		case OTHERITEM:
-			carriedCards.addCard(temp);
+			cardsInPlay.addCard(temp);
 			break;
 		case TWOHANDWEAPON:
 			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());

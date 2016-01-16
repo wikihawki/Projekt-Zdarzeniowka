@@ -242,9 +242,9 @@ public class objEffectHandler implements GameEventListener
 				addContinuousEffect(16,target);
 				break;
 			case 37:
-				// TODO: pobrawic ten efekt bo bedzie dzialal Ÿle
+				// TODO: poprawic ten efekt bo bedzie dzialal Ÿle
 				handleEffect(objCard.SecondaryType.MONSTER, 42, target);
-				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(target))environment.getPlayer(i).levelUp(1);
+				for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer())&&!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer()))environment.getPlayer(i).levelUp(1);
 			case 38:
 				((objPlayer)target).levelUp(-1);
 			case 39:
@@ -344,11 +344,18 @@ public class objEffectHandler implements GameEventListener
 				break;
 			case 6:
 			{
-				int temp=JOptionPane.showOptionDialog(null, "Wybierz piersz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+				int temp=JOptionPane.showOptionDialog(null, "Wybierz pierwsz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
 				if(temp==JOptionPane.CLOSED_OPTION);
 				else
 				{
 					environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+					temp=JOptionPane.showOptionDialog(null, "Wybierz drug¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+					if(temp==JOptionPane.CLOSED_OPTION);
+					else
+					{
+						environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+
+					}
 				}
 				break;
 			}

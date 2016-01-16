@@ -33,6 +33,7 @@ public class objEffectHandler implements GameEventListener
 			{
 				Vector<Integer> temp=((objPlayer)target).findHat();
 				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+				handleEffect(type, 1, target);
 				break;
 			}
 			case 3:
@@ -40,6 +41,7 @@ public class objEffectHandler implements GameEventListener
 				break;
 			case 4:
 			{
+				handleEffect(type, 3, target);
 				Random gen=new Random();
 				int temp=((objPlayer)target).getCardsInPlay().size(),temp2=((objPlayer)target).getCarriedCards().size();
 				int help=gen.nextInt(temp+temp2);
@@ -53,10 +55,9 @@ public class objEffectHandler implements GameEventListener
 				int n=gen.nextInt(6)+1;
 				for(int i=0;i<n;i++)
 				{
-					int temp=((objPlayer)target).getCardsInPlay().size(),temp2=((objPlayer)target).getCarriedCards().size();
-					int help=gen.nextInt(temp+temp2);
-					if(help<temp)((objPlayer)target).discardCardFromPlay(help);
-					else((objPlayer)target).discardCarriedCard(help-temp);
+					int temp=((objPlayer)target).getHand().size();
+					int help=gen.nextInt(temp);
+					((objPlayer)target).discardCardfromHand(help);
 				}
 				break;
 			}
@@ -64,6 +65,7 @@ public class objEffectHandler implements GameEventListener
 			{
 				Vector<Integer> temp=((objPlayer)target).findArmor();
 				for(int i=0;i<temp.size();i++)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+				handleEffect(type, 1, target);
 				break;
 			}
 			case 7:
@@ -114,7 +116,7 @@ public class objEffectHandler implements GameEventListener
 				System.out.println(effectNr);
 				throw new IllegalArgumentException();
 			}
-		//	removeCardFromStack();
+			removeCardFromStack();
 			break;
 		case MONSTER:
 			switch (effectNr)
@@ -303,7 +305,7 @@ public class objEffectHandler implements GameEventListener
 			case 1:
 			{
 				String[] array={"Otwórz","Zamknij"};
-				int temp=JOptionPane.showInternalOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
+				int temp=JOptionPane.showOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
 				System.out.print("wybral opcje ");
 				System.out.println(temp);
 				if(temp==0) environment.openSeal();
@@ -660,7 +662,7 @@ public class objEffectHandler implements GameEventListener
 			else return null;
 		}
 		case DISASTER:
-			if(card.getEffect(0)==13)return null;
+			if(card.getEffect(0)==13||card.getEffect(0)==3)return null;
 			else
 			{
 				for(int i=0; i<environment.getPlayersNumber();i++)temp.add(environment.getPlayer(i));
@@ -684,10 +686,12 @@ public class objEffectHandler implements GameEventListener
 			case 2:
 			{
 				Vector<Integer>temp2=environment.getCurrentPlayer().findItemsInPlay();
+				temp.addAll(environment.getCurrentPlayer().getHand().getStack(0));
 				if(temp2.size()>0)
 				{
-					for(int i=0;i<temp2.size();i++) temp.add(environment.getCurrentPlayer().getCardsInPlay().getCard(temp2.get(i)));
+					for(int i=0;i<temp.size();i++) if(((objCard)temp.get(i)).getType()!=objCard.Type.TREASURE)temp.remove(i);
 				}
+				return temp;
 			}
 			case 4:
 				for(int i=0; i<environment.getPlayersNumber();i++)temp.add(environment.getPlayer(i));
@@ -706,8 +710,8 @@ public class objEffectHandler implements GameEventListener
 					else return null;
 				}
 			case 12:
+			case 13:
 				return null;
-
 			}
 			return temp;
 

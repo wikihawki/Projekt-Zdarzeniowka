@@ -173,10 +173,15 @@ public class objPlayer extends objEntity
 			break;
 		case DISASTER:
 			environment.addCardToStack(temp, target);
+			environment.resolveStackTopCard();//TODO: usun¹c to potem
 			break;
 		case OTHER:
 			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
-			else environment.addCardToStack(temp, target);
+			else
+			{
+				environment.addCardToStack(temp, target);
+				environment.resolveStackTopCard();//TODO: usun¹c to potem
+			}
 			break;
 		case OTHERITEM:
 			cardsInPlay.addCard(temp);
@@ -204,6 +209,13 @@ public class objPlayer extends objEntity
 
 		}
 	}
+	public void useCardFromBackpack(objCard temp, objEntity target)
+	{
+		carriedCards.removeCard(carriedCards.getCardIndex(temp));
+		environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), target);
+		environment.discardCard(temp);
+	}
+
 	private void equipItem(objCard temp,int counter, objCard.SecondaryType type)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG||!isThereBigItem())

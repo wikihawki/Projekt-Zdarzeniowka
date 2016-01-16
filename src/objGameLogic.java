@@ -163,7 +163,7 @@ public class objGameLogic
     {
     	objPlayedCard temp=playedCards.get(playedCards.size()-1);
     	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
-    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
+    //	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
     }
     public void addCardToStack(objCard card, objEntity target)
     {

@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 import com.sun.prism.impl.Disposer.Target;
 
 import javafx.util.Pair;
@@ -37,6 +38,7 @@ public class objEffectHandler implements GameEventListener
 				break;
 			}
 			case 3:
+				System.out.println(" PPPPPPPOOOOOOOOOOPPPPPPPPP");
 				environment.openSeal();
 				break;
 			case 4:

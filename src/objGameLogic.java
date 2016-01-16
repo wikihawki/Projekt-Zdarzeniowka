@@ -124,26 +124,26 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[1][rank] = createImage.getImage(this, "images/karta ("+(92+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
+				imgCards[1][rank] = createImage.getImage(this, "images/karta ("+(92+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
 
-	/*
+	
 			for (int rank = 1; rank <= 12; rank++) //Loop 13 times (for ace - king)
 
 
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[2][rank] = createImage.getImage(this, "images/ks ("+rank+").jpg", 200000);
+				imgCards[2][rank] = createImage.getImage(this, "images/karta ("+(168+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
 				//System.out.print("\nGot card");
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
 
-	*/
+	
 			imgCardBack[0]= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			imgCardBack[1]= createImage.getImage(this, "images/ks Back.jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			Door= createImage.getImage(this, "images/kd Back.jpg", 200000).getScaledInstance(120,147, Image.SCALE_DEFAULT);
@@ -306,9 +306,13 @@ public class objGameLogic
     	if(karta.getType()==objCard.Type.DOOR)
     	{
     		return imgCards[0][karta.getIdNr()];
-    	}else{
+    	}else if(karta.getType()==objCard.Type.TREASURE)
+    	{
 
     		return imgCards[1][karta.getIdNr()-92];
+    	}
+    	else{
+    		return imgCards[2][karta.getIdNr()-168];
     	}
     }
 

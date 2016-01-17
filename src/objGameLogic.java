@@ -113,7 +113,7 @@ public class objGameLogic
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
-				//System.out.print("\nGot card");
+			
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -125,7 +125,7 @@ public class objGameLogic
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[1][rank] = createImage.getImage(this, "images/karta ("+(92+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-				//System.out.print("\nGot card");
+				
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -138,7 +138,7 @@ public class objGameLogic
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[2][rank] = createImage.getImage(this, "images/karta ("+(168+rank)+").jpg", 6000000).getScaledInstance(150,150, Image.SCALE_DEFAULT);;
-				//System.out.print("\nGot card");
+				
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -519,15 +519,15 @@ public class objGameLogic
      }
    public int isAboveRun(int x,int y)
    {
-	   System.out.println("Wyswietl 11111");
+	 
  	 if((x >= 410&& x <= 550)&& (y >= 300&& y <= 350))
  	 {
- 		 System.out.println("Wyswietl 5");
+ 		 
         return 5;
  	 }else
  	 if((x >= 410&& x <= 550)&& (y >= 375&& y <= 415))
  	 {
- 	 System.out.println("Wyswietl 5");
+ 	
  	 return 6;
  	 }
  	 return 0;

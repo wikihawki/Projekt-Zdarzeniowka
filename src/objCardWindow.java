@@ -177,7 +177,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     }
     @Override
 	public void actionPerformed(ActionEvent e) {
-		//System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
+		
 
 	      Object src =e.getSource();
 
@@ -227,7 +227,7 @@ public class objCardWindow extends JFrame implements ActionListener{
             	    if(!listops.contains(null)&&!listops.isEmpty())
             	   {
             		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-            		  System.out.println(tmp1);
+            		
             		  if(tmp1!=null)
             		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
             	    }
@@ -243,7 +243,7 @@ public class objCardWindow extends JFrame implements ActionListener{
                 	    if(!listops.contains(null)&&!listops.isEmpty())
                 	   {
                 		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-                		  System.out.println(tmp1);
+                		 
                 		  if(tmp1!=null)
                 		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,tmp1 );
                 	    }
@@ -323,7 +323,7 @@ public class objCardWindow extends JFrame implements ActionListener{
    private void menageButtons(objCard karta)
    {
 	RemoveButtons();
-	System.out.println(window.getLogic().getCurrentPlayer().getPlayerId()+" Current Player "+(window.getFocusedPlayer()-1)+" focused player");
+	
 	if(window.getLogic().getCurrentPlayer().getPlayerId()==Gracz.getPlayerId())
 	{
 	if(karta.getType()==objCard.Type.TREASURE)
@@ -337,35 +337,42 @@ public class objCardWindow extends JFrame implements ActionListener{
 		else if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Equipment")
 		{
 			
-			pnlButtons.add(odrzuc);
-			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
-			{
-				if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
-				{
-					pnlButtons.add(ZalozItem);
-				}else
-				{
-					pnlButtons.add(ZdejmijItem);
-				}
-				
-			}else
-			{
-				pnlButtons.add(skill1);
-			}
+						pnlButtons.add(odrzuc);
+						if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+						{
+							if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
+							{
+								pnlButtons.add(ZalozItem);
+							}else
+							{
+								pnlButtons.add(ZdejmijItem);
+							}
+							
+						}else
+						{
+							pnlButtons.add(skill1);
+						}
 		}else if(Source=="Hand")
 		{
 			pnlButtons.add(odrzuc);
 		}
 		else if(Source=="Equipment")
 		{
-			pnlButtons.add(odrzuc);
-			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
-			{
-				pnlButtons.add(zaloz);
-			}else
-			{
-				pnlButtons.add(skill1);
-			}
+							pnlButtons.add(odrzuc);
+							if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+							{
+								if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
+								{
+									pnlButtons.add(ZalozItem);
+								}else
+								{
+									pnlButtons.add(ZdejmijItem);
+								}
+								
+							}else
+							{
+								pnlButtons.add(skill1);
+							}
 		}
 	}else if(karta.getType()==objCard.Type.SEAL)
 	{

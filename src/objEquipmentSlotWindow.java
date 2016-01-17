@@ -195,7 +195,7 @@ private objPlayer  Gracz;
 		for(int x =0;x<Gracz.findBoots().size();x++)
 		{
 			karty.add(x, new JLabel());
-			//System.out.println(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr());
+		
 			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr()+").jpg",100,155));
 			list.add(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(x)).getIdNr());
 			cardType="Footgear";
@@ -286,7 +286,7 @@ for(JLabel i : karty)
         ImageIcon ii ;
         ii=null;
         try {
-        	System.out.println(filename);
+        
             ii = new ImageIcon(ImageIO.read(new File(filename)));//path to image
             bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = (Graphics2D) bi.createGraphics();
@@ -320,7 +320,7 @@ for(JLabel i : karty)
 			
        for(int i=0;i<list.size();i++ )
        {
-    	System.out.println("list size"+list.size()+" i "+i+" Panel size"+	panelKart.size()+"Source" +e.getSource()+"kary "+karty.get(i));
+    	
     
     	   if (e.getSource() == karty.get(i))
     	   {
@@ -340,7 +340,7 @@ for(JLabel i : karty)
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(i)),Gracz);
     			   break;
     		   case "Class":
-    			   System.out.println("Class");
+    			 
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(i)),Gracz);
     			   break;
     		   case "Bonus":
@@ -350,7 +350,7 @@ for(JLabel i : karty)
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCarriedCards().getCard(i),Gracz);
     			   break;
     			   default:
-    				   System.out.println("Class");
+    			
     				   break;
     		   }
     		   

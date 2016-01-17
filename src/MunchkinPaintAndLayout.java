@@ -37,6 +37,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected void performMenuAction ()
 	{
 		int menuAction = menuSystem.getMenuAction();
+		System.out.println(menuAction);
 		repaint();
 	}
 	public void newGame ()
@@ -78,7 +79,7 @@ public class MunchkinPaintAndLayout extends Canvas
 
 	    tempImg = logikaMunchkin.getCharacterImage();
 	    grpOffScreen.drawString(logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
-       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+       
 		drawCard(grpOffScreen,tempImg,30,150,1);
 	
 	  if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
@@ -157,7 +158,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		}
 		
 		    tempImg = logikaMunchkin.getCharacterImage();
-	       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+	       
 			drawCard(grpOffScreen,tempImg,250,500,1);
 		
 			int fontSize = 20;
@@ -311,7 +312,7 @@ public class MunchkinPaintAndLayout extends Canvas
 if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 	{
 		Image tempImg = logikaMunchkin.getCharacterImage();
-       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+    
 		drawCard(grpOffScreen,tempImg,250,500,1);
 
 
@@ -319,19 +320,19 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
 	
-	   //  System.out.println("player 2"+" X "+(tempX+200)+" Y "+(tempY+100));
+
 		drawCard(grpOffScreen,tempImg,200,160,2);
 
 
 		//rysowanie dla pozycji gracza numer 3 u góry
 		
-	   //  System.out.println("player 3"+" X "+(tempX+500)+" Y "+(tempY+200));
+	
 		drawCard(grpOffScreen,tempImg,710,200,3);
 
 
 		//rysowanie dla pozycji gracza numer 4 po prawej stronie
 		
-	    // System.out.println("player 4"+" X "+(tempX-150)+" Y "+(tempY+500));
+
 		drawCard(grpOffScreen,tempImg,760,500,4);
 	  }
 	}

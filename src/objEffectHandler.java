@@ -126,7 +126,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 		default:
-			System.out.println(effectNr);
+			
 			throw new IllegalArgumentException();
 		}
 		if(rotation==0)removeCardFromStack();
@@ -184,8 +184,7 @@ public class objEffectHandler implements GameEventListener
 		case 10:
 		{
 			int temp=JOptionPane.showConfirmDialog(null, "Otworzyc pieczec?", "Otworzyc pieczec", JOptionPane.YES_NO_OPTION);
-			System.out.print("wybral opcje ");
-			System.out.print(temp);
+
 			if(temp==0)
 			{
 				environment.openSeal(environment.getCurrentPlayer());
@@ -322,8 +321,7 @@ public class objEffectHandler implements GameEventListener
 		{
 			String[] array={"Otwórz","Zamknij"};
 			int temp=JOptionPane.showOptionDialog(null, "Wybierz czy chcesz otworzyc czy zamkn¹c pieczec", null, 0, JOptionPane.QUESTION_MESSAGE, null, array, 0);
-			System.out.print("wybral opcje ");
-			System.out.println(temp);
+
 			if(temp==0) environment.openSeal();
 			else environment.closeSeal();
 			break;

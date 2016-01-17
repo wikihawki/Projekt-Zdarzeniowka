@@ -179,23 +179,24 @@ public void useCardWindow(objCard karta,objPlayer player )
 	}
 	@Override
 	public void mousePressed(MouseEvent arg0)
-	{
+	{			
+		int x = arg0.getX();
+	    int y = arg0.getY();
+	
 		if (arg0.getButton() == MouseEvent.BUTTON1)
 		{
 
-			int x = arg0.getX();
-			int y = arg0.getY();
-			System.out.println(buttonPressed);
+
 		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 		{
 			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
 			{
-				 System.out.println("yup");
+				
 				 buttonPressed=true;
 				 repaint();
 
 			}else
-			{System.out.println("yup");
+			
 				buttonPressed=false;
 				repaint();
 		    }
@@ -209,7 +210,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
 				{
                  
-					System.out.println("rozstrzygamy walkê");
+				
 					if(logikaMunchkin.isAboveRun(x, y)==5) 
 					logikaMunchkin.getCurrentFight().resolveBattle();
 					if(logikaMunchkin.isAboveRun(x, y)==6) 
@@ -228,7 +229,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 											                    "");
 											if(s !=null)
 											{
-												System.out.println(s);
+											
 												int k = Integer.parseInt(s);
 												logikaMunchkin.getCurrentFight().addHelper((logikaMunchkin.getPlayer(focusPlayer-1)), k);	
 											}
@@ -244,7 +245,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 				 repaint();
 		}
 		}
-	}
+	
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0)
@@ -290,7 +291,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
 				{
                  
-					System.out.println("rozstrzygamy walkê");
+				
 					
 					logikaMunchkin.getCurrentFight().resolveBattle();
 					

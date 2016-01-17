@@ -98,7 +98,7 @@ public class DatabaseConnection {
 
 				cards.add(temp);
 
-				System.out.println(result.getString("Nazwa"));
+		
 			}
 		} catch (SQLException e) {
 			System.out.println("Error when executing SQLite query: " + query);

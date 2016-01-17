@@ -9,7 +9,7 @@ public class Munchkin extends JFrame {
 	public static void main (String[] args)
 	{
 		JFrame.setDefaultLookAndFeelDecorated(true); //Make it look nice
-        JFrame frame = new JFrame("Munchkin"); //Title
+        JFrame frame = new JFrame("Munchkin"); 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MunchkinGUI munchkin;  munchkin = new MunchkinGUI();
         frame.setContentPane(munchkin.createGUI(frame));
@@ -19,5 +19,11 @@ public class Munchkin extends JFrame {
         frame.setVisible(true);  
         frame.pack();       
 	}
+	
+	private void setMenuFrame()
+	{
+		
+	}
+	
 
 }

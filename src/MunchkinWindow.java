@@ -83,9 +83,9 @@ public void useCardWindow(objCard karta,objPlayer player )
 			System.out.println("X "+x+" Y "+y);
 	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 	{
-			if (menuSystem.checkMenuClicked(x,y)) //Check if the menu or menu items were clicked
+			if (menuSystem.checkMenuClicked(x,y)) 
 			{
-				performMenuAction(); //if so, perform the action of the menu item clicked
+				performMenuAction();
 			}else
 
 			if (logikaMunchkin.getCurrentPlayer().getHand().isMouseCard(x, y,0)!=0) 
@@ -102,46 +102,47 @@ public void useCardWindow(objCard karta,objPlayer player )
 			}else
 				if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 				{
-
+					
 					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y)+1);
 					CharactersingletonFrame.repaint();
 					CharactersingletonFrame.setVisible(true);
+					
 				}else
 					if(logikaMunchkin.isAboveStack(x, y)!=0)
-					{
-                    switch(logikaMunchkin.isAboveStack(x, y))
-                    {
-                    case 1:
-                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
-                    	{
-                    		  
-                    	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
-          
-                    	
-
-                    	}else	
-                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
-                    	{
-                  		 
-                    	logikaMunchkin.getCurrentPlayer().lootRoom();
-                    	
-                    	}
-                    	break;
-                    case 2:
-                    	break;
-                    case 3:
-                    	if(logikaMunchkin.getOpenedSeals().size()!=0)
-                    	{
-        				CardsingletonFrame .setSignalSource("Seal");
-        				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getOpenedSeals().getLastCard());
-        			// singletonFrame.repaint();
-        		        CardsingletonFrame.setVisible(true);
-                    	}
-                    	break;
-             
-                    }
+						{
+		                    switch(logikaMunchkin.isAboveStack(x, y))
+		                    {
+		                    case 1:
+		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
+		                    	{
+		                    		  
+		                    	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
+		          
+		                    	
+		
+		                    	}else	
+		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
+		                    	{
+		                  		 
+		                    	logikaMunchkin.getCurrentPlayer().lootRoom();
+		                    	
+		                    	}
+		                    	break;
+		                    case 2:
+		                    	break;
+		                    case 3:
+		                    	if(logikaMunchkin.getOpenedSeals().size()!=0)
+		                    	{
+		        				CardsingletonFrame .setSignalSource("Seal");
+		        				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getOpenedSeals().getLastCard());
+		        			// singletonFrame.repaint();
+		        		        CardsingletonFrame.setVisible(true);
+		                    	}
+		                    	break;
+		             
+		                    }
                  
-					}
+				        }
 
 
 		 }else///////////////////////////// Tutaj bêd¹ efekty dla walki
@@ -157,10 +158,12 @@ public void useCardWindow(objCard karta,objPlayer player )
 				}else
 					if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 					{
-
+                        if(logikaMunchkin.isMouseOnCharacter(x, y)+1==1)
+                        {
 						CharactersingletonFrame.setPlyer(getFocusedPlayer());
 						CharactersingletonFrame.repaint();
 						CharactersingletonFrame.setVisible(true);
+                        }
 					}
 		 }
 	  }
@@ -207,10 +210,30 @@ public void useCardWindow(objCard karta,objPlayer player )
 				{
                  
 					System.out.println("rozstrzygamy walkê");
-					
+					if(logikaMunchkin.isAboveRun(x, y)==5) 
 					logikaMunchkin.getCurrentFight().resolveBattle();
-					
-					
+					if(logikaMunchkin.isAboveRun(x, y)==6) 
+					{
+						if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
+						{
+											Object[] possibilities = {"1"," 2", "3","4","5"};
+											String s = (String)JOptionPane.showInputDialog(
+											                    null,
+											                    "Liczba wymaganych skarbów:\n"
+											                   ,
+											                    "Customized Dialog",
+											                    JOptionPane.PLAIN_MESSAGE,
+											                    null,
+											                    possibilities,
+											                    "");
+											if(s !=null)
+											{
+												System.out.println(s);
+												int k = Integer.parseInt(s);
+												logikaMunchkin.getCurrentFight().addHelper((logikaMunchkin.getPlayer(focusPlayer-1)), k);	
+											}
+						}
+					}
 			    }else
 			    {
 			    	repaint();

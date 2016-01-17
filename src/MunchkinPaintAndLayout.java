@@ -237,6 +237,24 @@ public class MunchkinPaintAndLayout extends Canvas
             {
             	grpOffScreen.drawString("Uciekaj", 450, 335);
             }
+       		
+       		
+       		
+       		
+	        if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
+	        {
+			       	if(logikaMunchkin.getCurrentPlayer().getPlayerId()!=focusPlayer-1)	
+			       	{
+			     	   drawCard(grpOffScreen,tempImg,440 ,420,1);
+			     		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			       	     
+			        		grpOffScreen.setColor(Color.black);
+			    
+			        		grpOffScreen.drawString("Do³¹cz do walki", 410, 400);
+			            
+			          
+			          }
+	        }
     }
     
     

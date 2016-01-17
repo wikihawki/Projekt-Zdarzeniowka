@@ -524,6 +524,11 @@ public class objGameLogic
  	 {
  		 System.out.println("Wyswietl 5");
         return 5;
+ 	 }else
+ 	 if((x >= 410&& x <= 550)&& (y >= 375&& y <= 415))
+ 	 {
+ 	 System.out.println("Wyswietl 5");
+ 	 return 6;
  	 }
  	 return 0;
    }

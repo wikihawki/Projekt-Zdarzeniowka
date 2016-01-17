@@ -226,7 +226,7 @@ private objPlayer  Gracz;
 			karty.add(x, new JLabel());
 			karty.get(x).setIcon(getEqupmentIcon("src/images/karta ("+Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr()+").jpg",100,155));
 			list  .add(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(x)).getIdNr());
-			cardType="Calss";
+			cardType="Class";
 			
 			panelKart.get(0).add(karty.get(x));
 			   add(panelKart.get(0));
@@ -320,7 +320,7 @@ for(JLabel i : karty)
 			
        for(int i=0;i<list.size();i++ )
        {
-    	System.out.println("list size"+list.size()+" i "+i+" Panel size"+	panelKart.size());
+    	System.out.println("list size"+list.size()+" i "+i+" Panel size"+	panelKart.size()+"Source" +e.getSource()+"kary "+karty.get(i));
     
     	   if (e.getSource() == karty.get(i))
     	   {
@@ -340,6 +340,7 @@ for(JLabel i : karty)
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(i)),Gracz);
     			   break;
     		   case "Class":
+    			   System.out.println("Class");
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(i)),Gracz);
     			   break;
     		   case "Bonus":
@@ -348,6 +349,9 @@ for(JLabel i : karty)
     		   case "Backpack":
     			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCarriedCards().getCard(i),Gracz);
     			   break;
+    			   default:
+    				   System.out.println("Class");
+    				   break;
     		   }
     		   
     	   }

@@ -29,10 +29,11 @@ public class objFight implements GameEventListener
 		this.parent=parent;
 		mainPlayer.addListener(this);
 		updatePlayers();
+		for(int i=0; i<parent.getPlayersNumber();i++)parent.getPlayer(i).addListener(this);
 	}
 	public void resolveBattle()
 	{
-		if(getMonstersStrength() < getPlayersStrength()&&getMonstersStrength()>=0)
+		if(getMonstersStrength() < getPlayersStrength())
 		{
 			int levels=0,treasures=0;
 			for(int i=0; i<this.monsters.size();i++)
@@ -56,6 +57,7 @@ public class objFight implements GameEventListener
 				}
 			}
 			mainPlayer.drawTreasure(treasures);
+			mainPlayer.charity();
 		}
 		else
 		{
@@ -113,6 +115,7 @@ public class objFight implements GameEventListener
 	public int getMonstersStrength() //-1 automatyczne zwyciestwo potworow
 	{
 		int monsters=monstersBonus;
+		monsters+=parent.getOpenedSeals().size();
 		for(int i=0; i<this.monsters.size();i++)
 		{
 			int temp=this.monsters.elementAt(i).getStrength();
@@ -262,7 +265,7 @@ public class objFight implements GameEventListener
 	}
 	@Override
 	public void gameEventOccurred(GameEvent evt) {
-		if(evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED||evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED)playerChanged();
+		if(evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED||evt.getEventType()==GameEvent.EventType.CARDPLAYED)playerChanged();
 
 	}
 }

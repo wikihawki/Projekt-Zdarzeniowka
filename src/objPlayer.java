@@ -19,6 +19,7 @@ public class objPlayer extends objEntity
 	private MunchkinHand hand;
 	private MunchkinGroup cardsInPlay;
 	private MunchkinGroup carriedCards;
+	private MunchkinGroup effects;
 	private int freeHandCounter, footgearCounter, armorCounter, classCounter,headgearCounter;
 	private objGameLogic environment;
 	private int levelUpsCounter;
@@ -34,11 +35,12 @@ public class objPlayer extends objEntity
 		level=1;
 		cardsInPlay=new MunchkinGroup();
 		carriedCards=new MunchkinGroup();
+		effects=new MunchkinGroup();
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
 		drawTreasure(3);
-		drawDoor(3);
+		drawDoor(4);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -118,6 +120,9 @@ public class objPlayer extends objEntity
 	public void setClassCounter(int classCounter)
 	{
 		this.classCounter = classCounter;
+	}
+	public MunchkinGroup getEffects() {
+		return effects;
 	}
 
 
@@ -293,7 +298,7 @@ public class objPlayer extends objEntity
 	public Vector<Integer> findWeapon()
 	{
 		Vector<Integer> temp=cardsInPlay.findCardsIndex(null, objCard.SecondaryType.ONEHANDWEAPON);
-		temp=cardsInPlay.findCardsIndex(null, objCard.SecondaryType.TWOHANDWEAPON);
+		temp.addAll(cardsInPlay.findCardsIndex(null, objCard.SecondaryType.TWOHANDWEAPON));
 		return temp;
 	}
 	public Vector<Integer> findClass()
@@ -405,8 +410,8 @@ public class objPlayer extends objEntity
 			switch (temp.getSecondaryType())
 			{
 			case MONSTER:
-				fireEvent("Monster",temp);
 				myTurnPhase=TurnPhase.FIGHT;
+				fireEvent("Monster",temp);
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this, environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);

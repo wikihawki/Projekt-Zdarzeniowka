@@ -8,6 +8,7 @@ public class objMonster extends objEntity
 	private int escapeBonus;
 	private objCard myCard;
 	private int badStuff;
+	private int level;
 	private boolean effectTookPlace;
 	public objMonster(objCard card)
 	{
@@ -18,12 +19,13 @@ public class objMonster extends objEntity
 		this.treasures=card.getTreasures();
 		badStuff=card.getEffect(1);
 		effectTookPlace=false;
+		level=myCard.getLevel();
 	}
 	public String getName() {
 		return name;
 	}
 	public int getStrength() {
-		return bonus+myCard.getLevel();
+		return bonus+level;
 	}
 	public int getBonus()
 	{
@@ -47,6 +49,10 @@ public class objMonster extends objEntity
 	public void setBonus(int bonus)
 	{
 		this.bonus=bonus;
+	}
+	public void setLevel(int level)
+	{
+		this.level=level;
 	}
 	public int increaseTreasures(int amount)
 	{

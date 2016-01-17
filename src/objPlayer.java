@@ -136,7 +136,7 @@ public class objPlayer extends objEntity
 	}
 	public void playCard(objCard temp, objEntity target)
 	{
-		hand.removeCard(hand.getCardIndex(temp));
+
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
@@ -152,7 +152,7 @@ public class objPlayer extends objEntity
 			equipItem(temp,freeHandCounter,temp.getSecondaryType());
 			break;
 		case ITEMENCHANTER:
-			if(target.getClass()==objCard.class)if(((objCard)target).getType()==objCard.Type.TREASURE&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.CLASS&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.DISASTER&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.SEAL&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.OTHER&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.MONSTER)
+			if(target.getClass()==objCard.class)if(((objCard)target).getType()==objCard.Type.TREASURE&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.OTHER)
 			{
 				cardsInPlay.addCard(temp);
 				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
@@ -208,6 +208,8 @@ public class objPlayer extends objEntity
 			break;
 
 		}
+		fireEvent(GameEvent.EventType.CARDPLAYED, temp);
+		hand.removeCard(hand.getCardIndex(temp));
 	}
 	public void useCardFromBackpack(objCard temp, objEntity target)
 	{

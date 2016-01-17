@@ -174,8 +174,9 @@ public class objGameLogic
 		objCard temp=drawDoor();
 		if(temp.getSecondaryType()==objCard.SecondaryType.DISASTER)
 		{
-			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)
-				playedCards.add(new objPlayedCard(temp,players[currPlayer],players[currPlayer]));
+			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)playedCards.add(new objPlayedCard(temp,players[currPlayer],players[currPlayer]));
+			else playedCards.add(new objPlayedCard(temp,null,players[currPlayer]));
+			resolveStackTopCard();
 		}
 		return temp;
 	}

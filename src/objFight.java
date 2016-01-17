@@ -65,6 +65,7 @@ public class objFight implements GameEventListener
 				if(helperPlayer!=null)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
 			}
 		}
+		for(int i=0; i<monsters.size();i++)parent.discardCard(monsters.get(i).getMyCard());
 		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
 		parent.setCurrentFight(null);
 	}
@@ -98,8 +99,8 @@ public class objFight implements GameEventListener
 	}
 	public void playerChanged()
 	{
+		updatePlayers();
 		fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
-
 	}
 	public int getMonstersBonus()
 	{
@@ -261,7 +262,7 @@ public class objFight implements GameEventListener
 	}
 	@Override
 	public void gameEventOccurred(GameEvent evt) {
-		if(evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED)playerChanged();
+		if(evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED||evt.getEventType()==GameEvent.EventType.INVENTORYCHANGED)playerChanged();
 
 	}
 }

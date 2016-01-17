@@ -210,9 +210,10 @@ public class objEffectHandler implements GameEventListener
 			temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
 			addContinuousEffect(5, target);
 			monsterBonus((objMonster)target, "Scientist", -3);
-			addContinuousEffect(14,target);
+			addContinuousEffect(17,target);
 			for(int i=0; i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)flag=true;
 			if(!flag)((objMonster)target).increaseStrength(5);
+			addContinuousEffect(18, target);
 			break;
 		}
 		case 15:
@@ -393,7 +394,7 @@ public class objEffectHandler implements GameEventListener
 		case 10:
 
 			if(target.getClass()==objPlayer.class)environment.getCurrentFight().addBonus(3);
-			else if(target.getClass()==objMonster.class)environment.getCurrentFight().addBonus(3);
+			else if(target.getClass()==objMonster.class)environment.getCurrentFight().addBonus(-3);
 			else throw new IllegalArgumentException();
 			break;
 		case 11:
@@ -698,10 +699,10 @@ public class objEffectHandler implements GameEventListener
 			}
 		case ITEMENCHANTER:
 		{
-			Vector<Integer>temp2=environment.getCurrentPlayer().findItemsInPlay();
+			MunchkinHand temp2=environment.getCurrentPlayer().getHand();
 			if(temp2.size()>0)
 			{
-				for(int i=0;i<temp2.size();i++) temp.add(environment.getCurrentPlayer().getCardsInPlay().getCard(temp2.get(i)));
+				for(int i=0;i<temp2.size();i++)if(temp2.getCard(i).getType()==objCard.Type.TREASURE&&temp2.getCard(i).getSecondaryType()==objCard.SecondaryType.OTHER) temp.add(temp2.getCard(i));
 			}
 			return temp;
 		}
@@ -734,6 +735,10 @@ public class objEffectHandler implements GameEventListener
 					}
 					else return null;
 				}
+			case 10:
+				temp.add(environment.getCurrentFight().getMainPlayer());
+				temp.add(environment.getCurrentFight().getMonsters().get(0));
+				break;
 			case 12:
 			case 13:
 				return null;
@@ -768,9 +773,17 @@ public class objEffectHandler implements GameEventListener
 					else if(monsterBonus(((objMonster)pair.getValue()), "Militia",0)==false)
 					{
 						((objMonster)pair.getValue()).increaseStrength(-3);
+						((objMonster)pair.getValue()).setEffectTookPlace(false);
 					}
 					if(((objMonster)pair.getValue()).getBonus()%5==0||(((objMonster)pair.getValue()).didEffectTookPlace()&&((objMonster)pair.getValue()).getBonus()%5==3))monsterBonus(((objMonster)pair.getValue()),true,3);
-					else monsterBonus(((objMonster)pair.getValue()), false,-3);
+					if(((objMonster)pair.getValue()).getBonus()%5==1||(!((objMonster)pair.getValue()).didEffectTookPlace()&&((objMonster)pair.getValue()).getBonus()%5==3))
+					{
+						objPlayer player2=environment.getCurrentFight().getHelperPlayer();
+						boolean temp=true;
+						if(environment.getCurrentFight().getMainPlayer().getSex()!=false)temp=false;
+						if(player2!=null)if(player2.getSex()!=false)temp=false;
+						if(temp)((objMonster)pair.getValue()).increaseStrength(-3);
+					}
 
 				}
 				break;
@@ -812,12 +825,19 @@ public class objEffectHandler implements GameEventListener
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)
 				{
 					if(!((objMonster)pair.getValue()).didEffectTookPlace())monsterBonus(((objMonster)pair.getValue()),objCard.SecondaryType.ARMOR,5);
-					else if(monsterBonus(((objMonster)pair.getValue()), "Militia",0)==false)
+					else if(monsterBonus(((objMonster)pair.getValue()), objCard.SecondaryType.ARMOR,0)==false)
 					{
-						((objMonster)pair.getValue()).increaseStrength(-3);
+						((objMonster)pair.getValue()).increaseStrength(-5);
 					}
 					if(((objMonster)pair.getValue()).getBonus()%5==0)monsterBonus(((objMonster)pair.getValue()),false,3);
-					else monsterBonus(((objMonster)pair.getValue()), true,-3);
+					else
+					{
+						objPlayer player2=environment.getCurrentFight().getHelperPlayer();
+						boolean temp=true;
+						if(environment.getCurrentFight().getMainPlayer().getSex()!=true)temp=false;
+						if(player2!=null)if(player2.getSex()!=true)temp=false;
+						if(temp)((objMonster)pair.getValue()).increaseStrength(-3);
+					}
 				}
 				break;
 			case 22:
@@ -935,6 +955,11 @@ public class objEffectHandler implements GameEventListener
 					removeContinuousEffect(pair.getKey());
 					removeContinuousEffect(-pair.getKey());
 				}
+			case -3:
+			case -4:
+			case -5:
+			case -9:
+			case -16:
 			}
 		}
 	}

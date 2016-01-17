@@ -40,7 +40,9 @@ public class objMonster extends objEntity
 	}
 	public int increaseStrength(int amount)
 	{
-		return (bonus+=amount);
+
+		if(amount>-getStrength()) return (bonus+=amount);
+		return getStrength();
 	}
 	public void setBonus(int bonus)
 	{

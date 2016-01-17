@@ -32,8 +32,8 @@ public void useCardWindow(objCard karta )
 	public MunchkinWindow(MunchkinGUI gui)
 	{
 		this.GUI=gui;
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
+		   if (this.getMouseListeners().length<1){this.addMouseListener(this);}
+		   if (this.getMouseMotionListeners().length<1){this.addMouseMotionListener(this);}
 		this.CardsingletonFrame   =  objCardWindow.getInstance(this,0);
 		this.CardsingletonFrame .setVisible(false);
 		this.CharactersingletonFrame   =  objCharacterWindow.getInstance(this,0);
@@ -209,7 +209,6 @@ public void useCardWindow(objCard karta )
 		    	
 
 	            }
-			logikaMunchkin.getCurrentPlayer().endTurn();
 			int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
 			if(focusPlayer!=4)
 			{

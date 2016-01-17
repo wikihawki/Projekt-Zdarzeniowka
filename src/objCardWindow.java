@@ -38,6 +38,9 @@ public class objCardWindow extends JFrame implements ActionListener{
     public JButton odrzuc = new JButton("Odrzuæ");
     public JButton skill1 = new JButton("U¿yj karty");
     public JButton zaloz = new JButton("Dodaj na stó³");
+    public JButton zagrajPotwora = new JButton("Zagraj potwora");
+    public JButton ZdejmijItem = new JButton("Zdejmij Item");
+    public JButton ZalozItem = new JButton("Za³ó¿ Item");
     // the constructor
     private objCardWindow(MunchkinWindow Window,int index)  {
 
@@ -55,14 +58,14 @@ public class objCardWindow extends JFrame implements ActionListener{
         img  =scaleImage(205, 285,"src/images/Buttons/buttonLong_beige.png");
         ImageIcon icon=new ImageIcon((Image) img);
 
-        odrzuc.setBounds(200, 200, 100, 30);
+        odrzuc.setBounds(200, 200, 50, 30);
    	    if (odrzuc.getActionListeners().length<1){odrzuc.addActionListener(this);}
    	    //odrzuc.setIcon(icon);
         pnlButtons.add(odrzuc);
 
 
 
-        skill1.setBounds(200, 200, 100, 30);
+        skill1.setBounds(200, 200, 50, 30);
    	    if (skill1.getActionListeners().length<1){skill1.addActionListener(this);}
    	   // skill1.setIcon(icon);
         pnlButtons.add(skill1);
@@ -70,9 +73,29 @@ public class objCardWindow extends JFrame implements ActionListener{
 
 
 
-        zaloz.setBounds(200, 200, 100, 30);
+        zaloz.setBounds(200, 200,50, 30);
    	    if (zaloz.getActionListeners().length<1){zaloz.addActionListener(this);}
         pnlButtons.add(zaloz);
+       // zaloz.setIcon(icon);
+        add(pnlButtons);
+        
+        zagrajPotwora.setBounds(200, 200, 50, 30);
+   	    if (zagrajPotwora.getActionListeners().length<1){zagrajPotwora.addActionListener(this);}
+        pnlButtons.add(zagrajPotwora);
+       // zaloz.setIcon(icon);
+        add(pnlButtons);
+        
+        
+        ZdejmijItem.setBounds(200, 200, 50, 30);
+   	    if ( ZdejmijItem.getActionListeners().length<1){ ZdejmijItem.addActionListener(this);}
+        pnlButtons.add( ZdejmijItem);
+       // zaloz.setIcon(icon);
+        add(pnlButtons);
+        
+        
+        ZalozItem.setBounds(200, 200, 50, 30);
+   	    if ( ZalozItem.getActionListeners().length<1){ ZalozItem.addActionListener(this);}
+        pnlButtons.add( ZalozItem);
        // zaloz.setIcon(icon);
         add(pnlButtons);
 
@@ -203,6 +226,7 @@ public class objCardWindow extends JFrame implements ActionListener{
             	  if(!listops.contains(null)&&!listops.isEmpty())
             	  {
             		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+            		  System.out.println(tmp1);
             		  if(tmp1!=null)
             		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
             	  }
@@ -218,65 +242,101 @@ public class objCardWindow extends JFrame implements ActionListener{
 			       this.setVisible(false);
 		        }
 
+		  
+		  if (src == ZalozItem)
+		    {
+			  window.getLogic().getPlayer(window.getFocusedPlayer()-1).moveFromCarriedToPlay(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card));
+			  window.repaint();
+		       this.setVisible(false);
+		    }
+		    
+		  
+		  
+		  if (src == ZdejmijItem)
+		    {
+			  window.getLogic().getPlayer(window.getFocusedPlayer()-1).moveFromPlayToCarried(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCardsInPlay().getCardIndex(Card));
+			  window.repaint();
+		       this.setVisible(false);
+		    }
+		  
+		  
+		  if (src == zagrajPotwora)
+		    {
+			    if(window.getLogic().getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
+			    {
+			    window.getLogic().getPlayer(window.getFocusedPlayer()-1).lookForTrouble(Card);
+			    window.getLogic().getPlayer(window.getFocusedPlayer()-1).getHand().removeCard(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getHand().getCardIndex(Card));
+			    window.repaint();
+		        this.setVisible(false);
+			    }else
+			    {
+			    	   JOptionPane.showMessageDialog(null, "To nie jest odpowiednia faza na zagrywanie potwora","error", JOptionPane.ERROR_MESSAGE);
+			    }
+		    }
+		  
+		  
+		  
 	}
 @SuppressWarnings("deprecation")
    private void menageButtons(objCard karta)
    {
-	
+	RemoveButtons();
 	if(karta.getType()==objCard.Type.TREASURE)
 	{
 		if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Hand")
 		{
-		odrzuc.setVisible(true);
-		odrzuc.setEnabled(true);
-		zaloz.setVisible(true);
-		zaloz.setEnabled(true);
-		skill1.setVisible(false);
-		skill1.setEnabled(false);
+		
+			pnlButtons.add(odrzuc);
+			pnlButtons.add(zaloz);
 		}
 		else if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Equipment")
 		{
-			odrzuc.setVisible(true);
-			odrzuc.setEnabled(true);
-			zaloz.setVisible(false);
-			zaloz.setEnabled(false);
-			skill1.setVisible(true);
-			skill1.setEnabled(true);
+			
+			pnlButtons.add(odrzuc);
+			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+			{
+				if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
+				{
+					pnlButtons.add(ZalozItem);
+				}else
+				{
+					pnlButtons.add(ZdejmijItem);
+				}
+				
+			}else
+			{
+				pnlButtons.add(skill1);
+			}
 		}else if(Source=="Hand")
 		{
-			odrzuc.setVisible(true);
-			odrzuc.setEnabled(true);
-			zaloz.setVisible(true);
-			zaloz.setEnabled(true);
-			skill1.setVisible(false);
-			skill1.setEnabled(false);
+			pnlButtons.add(odrzuc);
 		}
 		else if(Source=="Equipment")
 		{
-			odrzuc.setVisible(true);
-			odrzuc.setEnabled(true);
-			zaloz.setVisible(false);
-			zaloz.setEnabled(false);
-			skill1.setVisible(true);
-			skill1.setEnabled(true);
+			pnlButtons.add(odrzuc);
+			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+			{
+				pnlButtons.add(zaloz);
+			}else
+			{
+				pnlButtons.add(skill1);
+			}
 		}
 	}else
 	{
-		odrzuc.setVisible(true);
-		odrzuc.setEnabled(true);
-		zaloz.setVisible(false);
-		zaloz.setEnabled(false);
-		skill1.setVisible(true);
-		skill1.setEnabled(true);
+		pnlButtons.add(odrzuc);
+		if(Card.getSecondaryType()!=objCard.SecondaryType.MONSTER)
+		{
+		pnlButtons.add(skill1);	
+		}else
+		{
+			pnlButtons.add(zagrajPotwora);	
+		}
+
 	}
 	if(karta.getType()==objCard.Type.SEAL)
 	{
-		odrzuc.setVisible(false);
-		odrzuc.setEnabled(false);
-		zaloz.setVisible(false);
-		zaloz.setEnabled(false);
-		skill1.setVisible(false);
-		skill1.setEnabled(false);
+	
 	}
 	
 }
@@ -285,6 +345,19 @@ public class objCardWindow extends JFrame implements ActionListener{
 	   this.Source=source;
    }
  
+   private void RemoveButtons()
+   {
+	
+
+		pnlButtons.remove(odrzuc);
+		pnlButtons.remove(skill1);
+		pnlButtons.remove(zaloz);
+		pnlButtons.remove(zagrajPotwora);
+		pnlButtons.remove(ZdejmijItem);
+		pnlButtons.remove(ZalozItem);
+		//pnlButtons = new JPanel(new GridLayout(8, 1));
+   }
+   
 
 
 }

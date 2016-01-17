@@ -46,19 +46,19 @@ public class objGameLogic
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
 		importPictures();
-	//	temp.importCards();
-	//TODO: usun¹c po fazie testów
-		DatabaseConnection temp=new DatabaseConnection();
-		players[0].getHand().addCard(temp.importCard(106));
-		players[0].getHand().addCard(temp.importCard(103));
-		players[0].getHand().addCard(temp.importCard(137));
-		players[0].getHand().addCard(temp.importCard(95));
+
 		ArrayList<String> lista = new ArrayList<String>();
 		lista.add("AAAA");
 		lista.add("BBBB");
 		lista.add("CCCC");
 		lista.add("DDDD");
 		newGame(4,lista);
+		//TODO: usun¹c po fazie testów
+		DatabaseConnection temp=new DatabaseConnection();
+		players[0].getHand().addCard(temp.importCard(106));
+		players[0].getHand().addCard(temp.importCard(103));
+		players[0].getHand().addCard(temp.importCard(137));
+		players[0].getHand().addCard(temp.importCard(95));
 	}
 
 	public void newGame(int amount,ArrayList<String> listaGraczy)

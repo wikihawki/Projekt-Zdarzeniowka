@@ -330,7 +330,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 			    }
 		    }
 		  
-		  
+		  window.repaint();
 		  
 	}
 @SuppressWarnings("deprecation")

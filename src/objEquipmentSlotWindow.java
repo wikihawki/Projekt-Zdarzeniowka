@@ -357,6 +357,8 @@ for(JLabel i : karty)
     	   }
 	    }
 	}
+		oknoGracza.getMainWindow().repaint();
+		setVisible(false);
 	}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {

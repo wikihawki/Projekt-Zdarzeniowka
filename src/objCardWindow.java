@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
+
+
 public class objCardWindow extends JFrame implements ActionListener{
-    /**
-	 *
-	 */
+   
 	private static final long serialVersionUID = 1L;
 	private objPlayer  Gracz;
 	private static objCardWindow myInstance;
@@ -177,7 +177,7 @@ public class objCardWindow extends JFrame implements ActionListener{
     }
     @Override
 	public void actionPerformed(ActionEvent e) {
-		//System.out.println("Count of listeners: " + ((JButton) e.getSource()).getActionListeners().length);
+		
 
 	      Object src =e.getSource();
 
@@ -218,40 +218,54 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == skill1)
 			    {
  
-			  Vector<objEntity> listops=window.getLogic().getEffectHandler().getValidTargets(Card);
-              if(Source =="Hand")
-              {
-                if(listops!=null)
-               {
-            	  
-            	    if(!listops.contains(null)&&!listops.isEmpty())
-            	   {
-            		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-            		  System.out.println(tmp1);
-            		  if(tmp1!=null)
-            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
-            	    }
-            	         else JOptionPane.showMessageDialog(null, "Brak celu");
-                    }
-                    else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);
-			        this.setVisible(false);
-               }else
-               {
-            	   if(listops!=null)
-                   {
-                	  
-                	    if(!listops.contains(null)&&!listops.isEmpty())
-                	   {
-                		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-                		  System.out.println(tmp1);
-                		  if(tmp1!=null)
-                		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,tmp1 );
-                	    }
-                	         else JOptionPane.showMessageDialog(null, "Brak celu");
-                        }
-                        else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,null);
-    			        this.setVisible(false);
-               }
+							  Vector<objEntity> listops=window.getLogic().getEffectHandler().getValidTargets(Card);
+				              if(Source =="Hand")
+				              {
+								                if(listops!=null)
+								               {
+								            	  
+								            	    if(!listops.contains(null)&&!listops.isEmpty())
+								            	   {
+								            		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+								            		
+								            		  if(tmp1!=null)
+								            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
+								            	    }
+								            	         else JOptionPane.showMessageDialog(null, "Brak celu");
+								                    }
+								                    else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);
+											        this.setVisible(false);
+				               }else
+				               {
+						            	   if(listops!=null)
+						                   {
+						                	  
+						            		   
+									                	    if(!listops.contains(null)&&!listops.isEmpty())
+									                	   {
+									                		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+									                		 
+									                		  if(tmp1!=null)
+									                		  {
+											                    	if(Card.getSecondaryType()!=objCard.SecondaryType.CLASS) {window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,tmp1);}
+											                    	else{window.getLogic().getEffectHandler().handleEffect(Card.getSecondaryType(), Card.getEffect(0), tmp1);}
+									                		  }
+									                		
+									                	    }
+									                	         else JOptionPane.showMessageDialog(null, "Brak celu");
+									                	    
+									                	    
+									                	    
+									                	    
+						                     }else
+						                    	 {
+						                    	if(Card.getSecondaryType()!=objCard.SecondaryType.CLASS) {window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,null);}
+						                    	else{window.getLogic().getEffectHandler().handleEffect(Card.getSecondaryType(), Card.getEffect(0), null);}
+						                    		
+						                    	
+						                    	 }
+						    			     this.setVisible(false);
+				               }
 		      }else
 		      if (src == zaloz)
 			    {
@@ -316,14 +330,14 @@ public class objCardWindow extends JFrame implements ActionListener{
 			    }
 		    }
 		  
-		  
+		  window.repaint();
 		  
 	}
 @SuppressWarnings("deprecation")
    private void menageButtons(objCard karta)
    {
 	RemoveButtons();
-	System.out.println(window.getLogic().getCurrentPlayer().getPlayerId()+" Current Player "+(window.getFocusedPlayer()-1)+" focused player");
+	
 	if(window.getLogic().getCurrentPlayer().getPlayerId()==Gracz.getPlayerId())
 	{
 	if(karta.getType()==objCard.Type.TREASURE)
@@ -337,35 +351,42 @@ public class objCardWindow extends JFrame implements ActionListener{
 		else if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Equipment")
 		{
 			
-			pnlButtons.add(odrzuc);
-			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
-			{
-				if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
-				{
-					pnlButtons.add(ZalozItem);
-				}else
-				{
-					pnlButtons.add(ZdejmijItem);
-				}
-				
-			}else
-			{
-				pnlButtons.add(skill1);
-			}
+						pnlButtons.add(odrzuc);
+						if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+						{
+							if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
+							{
+								pnlButtons.add(ZalozItem);
+							}else
+							{
+								pnlButtons.add(ZdejmijItem);
+							}
+							
+						}else
+						{
+							pnlButtons.add(skill1);
+						}
 		}else if(Source=="Hand")
 		{
 			pnlButtons.add(odrzuc);
 		}
 		else if(Source=="Equipment")
 		{
-			pnlButtons.add(odrzuc);
-			if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
-			{
-				pnlButtons.add(zaloz);
-			}else
-			{
-				pnlButtons.add(skill1);
-			}
+							pnlButtons.add(odrzuc);
+							if(Card.getSecondaryType()!=objCard.SecondaryType.OTHER)
+							{
+								if(window.getLogic().getPlayer(window.getFocusedPlayer()-1).getCarriedCards().getCardIndex(Card)>=0)
+								{
+									pnlButtons.add(ZalozItem);
+								}else
+								{
+									pnlButtons.add(ZdejmijItem);
+								}
+								
+							}else
+							{
+								pnlButtons.add(skill1);
+							}
 		}
 	}else if(karta.getType()==objCard.Type.SEAL)
 	{

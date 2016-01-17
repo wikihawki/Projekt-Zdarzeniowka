@@ -3,7 +3,7 @@ import java.awt.geom.AffineTransform;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -27,7 +27,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	private void setupMenuSystem ()
 	{
-		logikaMunchkin=new objGameLogic();//to coœ
+		logikaMunchkin=new objGameLogic();
 		String[] strMenuItemText = {"Nowa Gra", "Zapisz Grê", "Wczytaj Grê"};
 		boolean[] boolMenuItemSep = {true, false, false};
 
@@ -37,6 +37,15 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected void performMenuAction ()
 	{
 		int menuAction = menuSystem.getMenuAction();
+		
+		if(menuAction==0)
+		{
+			 ComplexDialogPanel panelNowegoGracza = new ComplexDialogPanel();
+			 ArrayList<String> listaGraczy= panelNowegoGracza.createAndShowGui();		
+			 logikaMunchkin.newGame(4,listaGraczy);
+			
+		}
+		
 		repaint();
 	}
 	public void newGame ()
@@ -78,7 +87,7 @@ public class MunchkinPaintAndLayout extends Canvas
 
 	    tempImg = logikaMunchkin.getCharacterImage();
 	    grpOffScreen.drawString(logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
-       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+       
 		drawCard(grpOffScreen,tempImg,30,150,1);
 	
 	  if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
@@ -106,7 +115,7 @@ public class MunchkinPaintAndLayout extends Canvas
     }
     public void DrawMonsters(Graphics grpOffScreen)
     {
-    	Image tempImg =null;
+    
     	Image img =null;
     	int fontSize = 20;
 		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
@@ -157,7 +166,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		}
 		
 		    tempImg = logikaMunchkin.getCharacterImage();
-	       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+	       
 			drawCard(grpOffScreen,tempImg,250,500,1);
 		
 			int fontSize = 20;
@@ -237,6 +246,24 @@ public class MunchkinPaintAndLayout extends Canvas
             {
             	grpOffScreen.drawString("Uciekaj", 450, 335);
             }
+       		
+       		
+       		
+       		
+	        if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
+	        {
+			       	if(logikaMunchkin.getCurrentPlayer().getPlayerId()!=focusPlayer-1)	
+			       	{
+			     	   drawCard(grpOffScreen,tempImg,440 ,420,1);
+			     		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+			       	     
+			        		grpOffScreen.setColor(Color.black);
+			    
+			        		grpOffScreen.drawString("Do³¹cz do walki", 410, 400);
+			            
+			          
+			          }
+	        }
     }
     
     
@@ -293,7 +320,7 @@ public class MunchkinPaintAndLayout extends Canvas
 if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 	{
 		Image tempImg = logikaMunchkin.getCharacterImage();
-       // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
+    
 		drawCard(grpOffScreen,tempImg,250,500,1);
 
 
@@ -301,19 +328,19 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 
 		//rysowanie dla pozycji gracza numer 2 po lewej stronie
 	
-	   //  System.out.println("player 2"+" X "+(tempX+200)+" Y "+(tempY+100));
+
 		drawCard(grpOffScreen,tempImg,200,160,2);
 
 
 		//rysowanie dla pozycji gracza numer 3 u góry
 		
-	   //  System.out.println("player 3"+" X "+(tempX+500)+" Y "+(tempY+200));
+	
 		drawCard(grpOffScreen,tempImg,710,200,3);
 
 
 		//rysowanie dla pozycji gracza numer 4 po prawej stronie
 		
-	    // System.out.println("player 4"+" X "+(tempX-150)+" Y "+(tempY+500));
+
 		drawCard(grpOffScreen,tempImg,760,500,4);
 	  }
 	}
@@ -436,29 +463,21 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
     }
     protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY,int Player) //Called by solitareColumn() to paint each card
 	{
-		/*
-		grpOffScreen.drawImage(imgCard, startX, startY, this);
-		grpOffScreen.setColor(new Color(149,146,140)); //Grey
-		grpOffScreen.drawRect(startX, startY, imgWidth, imgHeight); //Draw a border around the card
-	*/
-
 		Graphics2D g2d = (Graphics2D) grpOffScreen;
 
 
 	       AffineTransform at = new AffineTransform();
 
-	       // 4. translate it to the center of the component
+	   
 	       at.translate( startX,  startY);
 
-	       // 3. do the actual rotation
+	
 	       at.rotate((Player-1)*(Math.PI/2));
 
 
-	       // 1. translate the object so that you rotate it around the
-	       //    center (easier :))
+
 	       at.translate(-imgWidth/2, -imgHeight/2);
 
-	       // draw the image
 
 	       g2d.drawImage( imgCard, at, this);
 
@@ -513,7 +532,12 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 
 
 	}
-	
+    public void StartNewGame(ArrayList<String> listaGraczy)
+	{
+		System.out.println(listaGraczy+" Starg");
+		logikaMunchkin.newGame(4,listaGraczy);
+		repaint();
+	}
 	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
         ImageIcon ii ;

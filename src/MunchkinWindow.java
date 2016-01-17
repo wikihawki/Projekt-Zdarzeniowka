@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -83,9 +84,9 @@ public void useCardWindow(objCard karta,objPlayer player )
 			System.out.println("X "+x+" Y "+y);
 	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 	{
-			if (menuSystem.checkMenuClicked(x,y)) //Check if the menu or menu items were clicked
+			if (menuSystem.checkMenuClicked(x,y)) 
 			{
-				performMenuAction(); //if so, perform the action of the menu item clicked
+				performMenuAction();
 			}else
 
 			if (logikaMunchkin.getCurrentPlayer().getHand().isMouseCard(x, y,0)!=0) 
@@ -102,46 +103,47 @@ public void useCardWindow(objCard karta,objPlayer player )
 			}else
 				if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 				{
-
+					
 					CharactersingletonFrame.setPlyer(logikaMunchkin.isMouseOnCharacter(x, y)+1);
 					CharactersingletonFrame.repaint();
 					CharactersingletonFrame.setVisible(true);
+					
 				}else
 					if(logikaMunchkin.isAboveStack(x, y)!=0)
-					{
-                    switch(logikaMunchkin.isAboveStack(x, y))
-                    {
-                    case 1:
-                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
-                    	{
-                    		  
-                    	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
-          
-                    	
-
-                    	}else	
-                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
-                    	{
-                  		 
-                    	logikaMunchkin.getCurrentPlayer().lootRoom();
-                    	
-                    	}
-                    	break;
-                    case 2:
-                    	break;
-                    case 3:
-                    	if(logikaMunchkin.getOpenedSeals().size()!=0)
-                    	{
-        				CardsingletonFrame .setSignalSource("Seal");
-        				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getOpenedSeals().getLastCard());
-        			// singletonFrame.repaint();
-        		        CardsingletonFrame.setVisible(true);
-                    	}
-                    	break;
-             
-                    }
+						{
+		                    switch(logikaMunchkin.isAboveStack(x, y))
+		                    {
+		                    case 1:
+		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
+		                    	{
+		                    		  showFirstDoorCard();
+		                    	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
+		                        repaint();
+		                    	
+		
+		                    	}else	
+		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
+		                    	{
+		                    		 showFirstDoorCard();
+		                    	logikaMunchkin.getCurrentPlayer().lootRoom();
+		                    	repaint();
+		                    	}
+		                    	break;
+		                    case 2:
+		                    	break;
+		                    case 3:
+		                    	if(logikaMunchkin.getOpenedSeals().size()!=0)
+		                    	{
+		        				CardsingletonFrame .setSignalSource("Seal");
+		        				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getOpenedSeals().getLastCard());
+		        			// singletonFrame.repaint();
+		        		        CardsingletonFrame.setVisible(true);
+		                    	}
+		                    	break;
+		             
+		                    }
                  
-					}
+				        }
 
 
 		 }else///////////////////////////// Tutaj bêd¹ efekty dla walki
@@ -157,10 +159,12 @@ public void useCardWindow(objCard karta,objPlayer player )
 				}else
 					if(logikaMunchkin.isMouseOnCharacter(x, y)>=0)
 					{
-
+                        if(logikaMunchkin.isMouseOnCharacter(x, y)+1==1)
+                        {
 						CharactersingletonFrame.setPlyer(getFocusedPlayer());
 						CharactersingletonFrame.repaint();
 						CharactersingletonFrame.setVisible(true);
+                        }
 					}
 		 }
 	  }
@@ -176,52 +180,74 @@ public void useCardWindow(objCard karta,objPlayer player )
 	}
 	@Override
 	public void mousePressed(MouseEvent arg0)
-	{
+	{			
+		
 		if (arg0.getButton() == MouseEvent.BUTTON1)
 		{
-
-			int x = arg0.getX();
-			int y = arg0.getY();
-			System.out.println(buttonPressed);
-		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
-		{
-			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
-			{
-				 System.out.println("yup");
-				 buttonPressed=true;
-				 repaint();
-
-			}else
-			{System.out.println("yup");
-				buttonPressed=false;
-				repaint();
-		    }
-		}else ////////////////////////////////////// zdarzenia walki
-		{
-			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
-			{
-				setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
-
-		    }else 
-		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
+														int x = arg0.getX();
+													    int y = arg0.getY();
+													
+											
+			if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 				{
-                 
-					System.out.println("rozstrzygamy walkê");
-					
-					logikaMunchkin.getCurrentFight().resolveBattle();
-					
-					
-			    }else
-			    {
-			    	repaint();
-			    }
+							if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
+							{
+																
+							 buttonPressed=true;
+							 repaint();
+												
+							}else
+							{
+								buttonPressed=false;
+								repaint();
+						    }
+			}else ////////////////////////////////////// zdarzenia walki
+			{
+					if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
+					{
+						setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
+		
+				    }else 
+				    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
+						{
+		                 
+						
+							if(logikaMunchkin.isAboveRun(x, y)==5) 
+							logikaMunchkin.getCurrentFight().resolveBattle();
+							if(logikaMunchkin.isAboveRun(x, y)==6) 
+							{
+													if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
+													{
+																		Object[] possibilities = {"1"," 2", "3","4","5"};
+																		String s = (String)JOptionPane.showInputDialog(
+																		                    null,
+																		                    "Liczba wymaganych skarbów:\n"
+																		                   ,
+																		                    "Customized Dialog",
+																		                    JOptionPane.PLAIN_MESSAGE,
+																		                    null,
+																		                    possibilities,
+																                    "");
+																if(s !=null)
+																{
+																
+																	int k = Integer.parseInt(s);
+																	logikaMunchkin.getCurrentFight().addHelper((logikaMunchkin.getPlayer(focusPlayer-1)), k);	
+																}
+													}
+							}
+						    }else
+						    {
+						    	repaint();
+						    }
 				  
 				
 				
 				 repaint();
+				}
+			}
 		}
-		}
-	}
+	
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0)
@@ -238,7 +264,8 @@ public void useCardWindow(objCard karta,objPlayer player )
 			{
 			   try {
 				   logikaMunchkin.getCurrentPlayer().endTurn();
-		           } catch (IllegalStateException e) 
+		           } 
+			   catch (IllegalStateException e) 
 			       {
 		    	   }
 			   int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
@@ -267,7 +294,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
 				{
                  
-					System.out.println("rozstrzygamy walkê");
+				
 					
 					logikaMunchkin.getCurrentFight().resolveBattle();
 					
@@ -282,15 +309,59 @@ public void useCardWindow(objCard karta,objPlayer player )
 	
 	}
 
+public void showFirstDoorCard()
+{
+	if(logikaMunchkin.getDoorDeck().getLastCard().getSecondaryType()==objCard.SecondaryType.MONSTER)
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+				this, 
+   			   "",
+   			   "Wylosowa³eœ potwora , musisz walczyæ!",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
 
-	@Override
+	}else if(logikaMunchkin.getDoorDeck().getLastCard().getSecondaryType()==objCard.SecondaryType.DISASTER)
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+				this, 
+   			   "",
+   			   "Wylosowa³eœ katastrofê ,jej efekty dzia³aj¹ natychmiastowo",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
+	}else
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+   			   this, 
+   			   "",
+   			   "DRZWI!",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
+	}
+
+	
+}
+
+
 	public void gameActionEventOccurred(GameActionEvent evt) {
 		if(evt.getType()=="Monster")
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+					this, 
        			   "",
        			   "Wylosowa³eœ potwora , musisz walczyæ!",
        			   JOptionPane.INFORMATION_MESSAGE,
@@ -300,10 +371,11 @@ public void useCardWindow(objCard karta,objPlayer player )
 		}else
 		if(evt.getType()=="Disaster")
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+					this, 
        			   "",
        			   "Wylosowa³eœ katastrofê ,jej efekty dzia³aj¹ natychmiastowo",
        			   JOptionPane.INFORMATION_MESSAGE,
@@ -311,10 +383,11 @@ public void useCardWindow(objCard karta,objPlayer player )
 			repaint();
 		}else
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+       			   this, 
        			   "",
        			   "DRZWI!",
        			   JOptionPane.INFORMATION_MESSAGE,
@@ -325,5 +398,6 @@ public void useCardWindow(objCard karta,objPlayer player )
 		
 	}
 
+	
 }
 

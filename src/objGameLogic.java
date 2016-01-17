@@ -46,24 +46,29 @@ public class objGameLogic
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
 		importPictures();
-		
 	//	temp.importCards();
-		newGame(4);
 	//TODO: usun¹c po fazie testów
 		DatabaseConnection temp=new DatabaseConnection();
 		players[0].getHand().addCard(temp.importCard(106));
 		players[0].getHand().addCard(temp.importCard(103));
 		players[0].getHand().addCard(temp.importCard(137));
 		players[0].getHand().addCard(temp.importCard(95));
+		ArrayList<String> lista = new ArrayList<String>();
+		lista.add("AAAA");
+		lista.add("BBBB");
+		lista.add("CCCC");
+		lista.add("DDDD");
+		newGame(4,lista);
 	}
 
-	public void newGame(int amount)
+	public void newGame(int amount,ArrayList<String> listaGraczy)
 	{
+		System.out.println(listaGraczy+"NEEW");
 		state=GameState.PLAY;
 		playersNumber=amount;
 		importCards();
 		effectHandler=new objEffectHandler(this);
-		setupPlayers(amount);
+		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
 	}
 	private void importCards()
@@ -96,13 +101,14 @@ public class objGameLogic
 		doorDeck.suffle();
 
 	}
-	private void setupPlayers(int amount)
+	private void setupPlayers(int amount,ArrayList<String> listaGraczy)
 	{
 		for(int i =0 ; i<amount;i++)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("Player ");
-			sb.append(i+1);
+
+			sb.append(listaGraczy.get(i));
+
 			String strI = sb.toString();
 			players[i]=new objPlayer(strI,true,this,i);
 			players[i].addListener(effectHandler);
@@ -118,8 +124,8 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
-				//System.out.print("\nGot card");
+				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
+
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -131,7 +137,7 @@ public class objGameLogic
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[1][rank] = createImage.getImage(this, "images/karta ("+(92+rank)+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
-				//System.out.print("\nGot card");
+
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -144,7 +150,7 @@ public class objGameLogic
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
 				imgCards[2][rank] = createImage.getImage(this, "images/karta ("+(168+rank)+").jpg", 6000000).getScaledInstance(150,150, Image.SCALE_DEFAULT);;
-				//System.out.print("\nGot card");
+
 		        //	mt.addImage(imgCards[suit][rank], 0);
 
 			}
@@ -534,11 +540,16 @@ public class objGameLogic
      }
    public int isAboveRun(int x,int y)
    {
-	   System.out.println("Wyswietl 11111");
+
  	 if((x >= 410&& x <= 550)&& (y >= 300&& y <= 350))
  	 {
- 		 System.out.println("Wyswietl 5");
+
         return 5;
+ 	 }else
+ 	 if((x >= 410&& x <= 550)&& (y >= 375&& y <= 415))
+ 	 {
+
+ 	 return 6;
  	 }
  	 return 0;
    }

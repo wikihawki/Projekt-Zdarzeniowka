@@ -133,7 +133,7 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 
 			int x = e.getX();
 			int y = e.getY();
-			System.out.println("X "+x+" Y "+y);
+	
 			for(int i =0;i<9;i++)
 {
 			if (e.getSource() == PaneleEkwipunku.get(i)) //Check if the menu or menu items were clicked
@@ -141,52 +141,52 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 				switch(i)
 				{
 				case 0:
-					System.out.println(i);
+				
 					break;
 				case 1:
-					System.out.println(i);
+		
 					setVisible(false);
 					okienko.ShowEquipment("Headgear", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 2:
-					System.out.println(i);
+				
 					setVisible(false);
 					okienko.ShowEquipment("Class", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 3:
-					System.out.println(i);
+					
 					setVisible(false);
 					okienko.ShowEquipment("Weapon", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 4:
-					System.out.println(i);
+				
 					setVisible(false);
 					okienko.ShowEquipment("Armor", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 5:
-					System.out.println(i);
+			
 					okienko.ShowEquipment("Bonus", Player.getPlayerId());
 					setVisible(false);
 					okienko.setVisible(true);
 					
 					break;
 				case 6:
-					System.out.println(i);
+			
 					setVisible(false);
 					okienko.setVisible(true);
 					break;
 				case 7:
-					System.out.println(i);
+		
 					setVisible(false);
 					okienko.ShowEquipment("Footgear", Player.getPlayerId());
 					okienko.setVisible(true);
 					break;
 				case 8:
-					System.out.println(i);
+				
 					setVisible(false);
 					okienko.ShowEquipment("Backpack", Player.getPlayerId());
 					okienko.setVisible(true);
@@ -231,7 +231,7 @@ public static objCharacterWindow getInstance(MunchkinWindow Window,int index) {
 	}
     public void setPlyer(int PlayerId)
     {
-    System.out.println(PlayerId);
+   
 	Player=MainWindow.getLogic().getPlayer(PlayerId-1);
 	PlayerName=Player.getName();
 	PlayerLVL=Player.getLevel();

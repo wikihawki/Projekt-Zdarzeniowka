@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -59,7 +60,9 @@ public class MunchkinGUI {
 		
 	}
 	
-	
-
+	public void StartNewGame(ArrayList<String> listaGraczy)
+	{
+		mainWindow.StartNewGame(listaGraczy);
+	}
 
 }

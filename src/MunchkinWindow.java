@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -246,7 +247,10 @@ public void useCardWindow(objCard karta,objPlayer player )
 				}
 			}
 		}
-	
+	public void StartNewGame(ArrayList<String> listaGraczy)
+	{
+		logikaMunchkin.newGame(4, listaGraczy);
+	}
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0)
@@ -263,7 +267,8 @@ public void useCardWindow(objCard karta,objPlayer player )
 			{
 			   try {
 				   logikaMunchkin.getCurrentPlayer().endTurn();
-		           } catch (IllegalStateException e) 
+		           } 
+			   catch (IllegalStateException e) 
 			       {
 		    	   }
 			   int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());

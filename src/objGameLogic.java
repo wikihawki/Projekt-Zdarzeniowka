@@ -48,10 +48,11 @@ public class objGameLogic
 	//	DatabaseConnection temp=new DatabaseConnection();
 	//	temp.importCards();
 		importPictures();
-		newGame(4);
+		
+	//	newGame(4,);
 	}
 
-	public void newGame(int amount)
+	public void newGame(int amount,ArrayList<String> listaGraczy)
 	{
 		state=GameState.PLAY;
 		playersNumber=amount;

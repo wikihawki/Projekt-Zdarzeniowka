@@ -3,7 +3,7 @@ import java.awt.geom.AffineTransform;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -40,7 +40,9 @@ public class MunchkinPaintAndLayout extends Canvas
 		
 		if(menuAction==0)
 		{
-			logikaMunchkin.newGame(4);
+			 ComplexDialogPanel panelNowegoGracza = new ComplexDialogPanel();
+			 ArrayList<String> listaGraczy= panelNowegoGracza.createAndShowGui();		
+			logikaMunchkin.newGame(4,listaGraczy);
 			
 		}
 		

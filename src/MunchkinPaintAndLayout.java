@@ -80,7 +80,7 @@ System.out.println("wow");
 	    grpOffScreen.drawString(logikaMunchkin.getCurrentFight().getMainPlayer().getName(), 200,200);
        // System.out.println("player 1"+" X "+(tempX)+" Y "+(tempY-222));
 		drawCard(grpOffScreen,tempImg,30,150,1);
-		logikaMunchkin.getCurrentFight().updatePlayers();
+	
 	  if(logikaMunchkin.getCurrentFight().getHelperPlayer()!=null)
 		{
 	   drawCard(grpOffScreen,tempImg,30,350,1);
@@ -128,7 +128,7 @@ System.out.println("wow");
 	   if(tmp>10)
 	  {
 	   img  =scaleImage(50, 50,"src"
-	   		+ "/images/LVL/"+tmp/10+".jpg");
+	   		+ "/images/LVL/"+tmp+".jpg");
        drawCard(grpOffScreen,img,720,315,1);
 	   img  =scaleImage(50, 50,"src"
 		   		+ "/images/LVL/"+(tmp-10)+".jpg");

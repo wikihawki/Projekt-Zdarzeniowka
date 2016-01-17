@@ -75,7 +75,7 @@ public void useCardWindow(objCard karta )
 				performMenuAction(); //if so, perform the action of the menu item clicked
 			}else
 
-			if (logikaMunchkin.getHand(0).isMouseCard(x, y,0)!=0) 
+			if (logikaMunchkin.getCurrentPlayer().getHand().isMouseCard(x, y,0)!=0) 
 			{
 				int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
 				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(tmp[3]).isMouseCard(x, y,0));

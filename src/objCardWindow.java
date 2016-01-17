@@ -199,8 +199,13 @@ public class objCardWindow extends JFrame implements ActionListener{
               
               if(listops!=null)
               {
+            	  
             	  if(!listops.contains(null)&&!listops.isEmpty())
-            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card, (objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1"));
+            	  {
+            		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+            		  if(tmp1!=null)
+            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
+            	  }
             	  else JOptionPane.showMessageDialog(null, "Brak celu");
               }
               else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);

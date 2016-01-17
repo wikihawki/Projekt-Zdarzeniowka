@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -8,7 +9,7 @@ import javax.swing.JPanel;
 import com.sun.glass.ui.Window;
 
 
-public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListener, MouseMotionListener
+public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListener, MouseMotionListener,GameActionEventListener
 {
 
 	private final int refreshRate = 5;
@@ -19,9 +20,10 @@ public class MunchkinWindow extends MunchkinPaintAndLayout implements MouseListe
 	private objCharacterWindow CharactersingletonFrame ;
 	private objFightFrame FightsingletonFrame ;
 	
-public void useCardWindow(objCard karta )
+public void useCardWindow(objCard karta,objPlayer player )
 {
 	//CardsingletonFrame .setCardPklaceOnHand(id);
+	CardsingletonFrame.setPlayer(player);
 	CardsingletonFrame .setSignalSource("Equipment");
 	CardsingletonFrame .drawChanges(CardsingletonFrame ,karta);
 // singletonFrame.repaint();
@@ -34,6 +36,10 @@ public void useCardWindow(objCard karta )
 		this.GUI=gui;
 		   if (this.getMouseListeners().length<1){this.addMouseListener(this);}
 		   if (this.getMouseMotionListeners().length<1){this.addMouseMotionListener(this);}
+		   for(int x =0;x<4;x++)
+		   {
+			   logikaMunchkin.getPlayer(x).addListener(this);
+		   }
 		this.CardsingletonFrame   =  objCardWindow.getInstance(this,0);
 		this.CardsingletonFrame .setVisible(false);
 		this.CharactersingletonFrame   =  objCharacterWindow.getInstance(this,0);
@@ -85,6 +91,7 @@ public void useCardWindow(objCard karta )
 			if (logikaMunchkin.getCurrentPlayer().getHand().isMouseCard(x, y,0)!=0) 
 			{
 				int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
+				CardsingletonFrame.setPlayer(logikaMunchkin.getCurrentPlayer());
 				CardsingletonFrame .setCardPklaceOnHand(logikaMunchkin.getHand(tmp[3]).isMouseCard(x, y,0));
 				CardsingletonFrame .setSignalSource("Hand");
 				CardsingletonFrame .drawChanges(CardsingletonFrame ,logikaMunchkin.getPlayer(tmp[3]).getHand().getCard(logikaMunchkin.getHand(tmp[3]).isMouseCard(x, y,0)-1));
@@ -107,11 +114,17 @@ public void useCardWindow(objCard karta )
                     case 1:
                     	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
                     	{
+                    		  
                     	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
+          
+                    	
+
                     	}else	
                     	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
                     	{
+                  		 
                     	logikaMunchkin.getCurrentPlayer().lootRoom();
+                    	
                     	}
                     	break;
                     case 2:
@@ -247,6 +260,49 @@ public void useCardWindow(objCard karta )
 				 repaint();
 		}
 	
+	}
+
+
+	@Override
+	public void gameActionEventOccurred(GameActionEvent evt) {
+		if(evt.getType()=="Monster")
+		{
+			int numer = evt.getCard().getIdNr();
+			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+			JOptionPane.showMessageDialog(
+       			   null, 
+       			   "",
+       			   "Wylosowa³eœ potwora , musisz walczyæ!",
+       			   JOptionPane.INFORMATION_MESSAGE,
+       			  icon);
+			repaint();
+	
+		}else
+		if(evt.getType()=="Disaster")
+		{
+			int numer = evt.getCard().getIdNr();
+			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+			JOptionPane.showMessageDialog(
+       			   null, 
+       			   "",
+       			   "Wylosowa³eœ katastrofê ,jej efekty dzia³aj¹ natychmiastowo",
+       			   JOptionPane.INFORMATION_MESSAGE,
+       			  icon);
+			repaint();
+		}else
+		{
+			int numer = evt.getCard().getIdNr();
+			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+			JOptionPane.showMessageDialog(
+       			   null, 
+       			   "",
+       			   "DRZWI!",
+       			   JOptionPane.INFORMATION_MESSAGE,
+       			  icon);
+			repaint();
+		}
+
+		
 	}
 
 }

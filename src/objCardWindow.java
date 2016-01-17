@@ -25,7 +25,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private objPlayer  Gracz;
 	private static objCardWindow myInstance;
     private MunchkinWindow window;
     public static objCard Card;
@@ -302,6 +302,9 @@ public class objCardWindow extends JFrame implements ActionListener{
    private void menageButtons(objCard karta)
    {
 	RemoveButtons();
+	System.out.println(window.getLogic().getCurrentPlayer().getPlayerId()+" Current Player "+(window.getFocusedPlayer()-1)+" focused player");
+	if(window.getLogic().getCurrentPlayer().getPlayerId()==Gracz.getPlayerId())
+	{
 	if(karta.getType()==objCard.Type.TREASURE)
 	{
 		if(window.getLogic().getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT&&Source=="Hand")
@@ -359,7 +362,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 
 	}
 	
-	
+	}
 }
    public void setSignalSource(String source)
    {
@@ -379,6 +382,9 @@ public class objCardWindow extends JFrame implements ActionListener{
 		//pnlButtons = new JPanel(new GridLayout(8, 1));
    }
    
-
+  public void setPlayer(objPlayer player)
+  {
+	  this.Gracz=player;
+  }
 
 }

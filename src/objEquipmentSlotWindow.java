@@ -328,25 +328,25 @@ for(JLabel i : karty)
     		   {
     		   case "Armor":
     			   
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findArmor().get(i)),Gracz);
     			   break;
     		   case "Weapon":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findWeapon().get(i)),Gracz);
     			   break;
     		   case "Footgear":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findBoots().get(i)),Gracz);
     			   break;
     		   case "Headgear":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findHat().get(i)),Gracz);
     			   break;
     		   case "Class":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findClass().get(i)),Gracz);
     			   break;
     		   case "Bonus":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findOtherItem().get(i)));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCardsInPlay().getCard(Gracz.findOtherItem().get(i)),Gracz);
     			   break;
     		   case "Backpack":
-    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCarriedCards().getCard(i));
+    			   oknoGracza.getMainWindow().useCardWindow(Gracz.getCarriedCards().getCard(i),Gracz);
     			   break;
     		   }
     		   

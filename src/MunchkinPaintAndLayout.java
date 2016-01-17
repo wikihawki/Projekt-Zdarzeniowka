@@ -172,6 +172,7 @@ System.out.println("wow");
 	        DrawParty(grpOffScreen);
 	        DrawMonsters( grpOffScreen);
 	        DrawTresure(grpOffScreen);
+	        DrawResolweFightButton(grpOffScreen);
     }
     protected void setFocusedPlayer(int PlayerIndex)
     {
@@ -223,11 +224,17 @@ System.out.println("wow");
     {
     	Image tempImg=null;
     	 tempImg = logikaMunchkin.getButtonImage();	
-    	   drawCard(grpOffScreen,tempImg,470 ,540,1);
+    	   drawCard(grpOffScreen,tempImg,440 ,350,1);
     		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
       	     
        		grpOffScreen.setColor(Color.black);
-       		grpOffScreen.drawString("Koniec Tury", 450, 520);
+       		if(logikaMunchkin.getCurrentFight().getPlayersStrength()>logikaMunchkin.getCurrentFight().getMonstersStrength())
+       		{
+       		grpOffScreen.drawString("Walcz", 450, 335);
+            }else
+            {
+            	grpOffScreen.drawString("Uciekaj", 450, 335);
+            }
     }
     
     

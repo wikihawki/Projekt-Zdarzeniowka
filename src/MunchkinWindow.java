@@ -62,6 +62,13 @@ public void useCardWindow(objCard karta )
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 
+		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
+		{
+			focusPlayer=logikaMunchkin.getCurrentPlayer().getPlayerId()+1;
+		}
+		
+		
+		
 		if (arg0.getButton() == MouseEvent.BUTTON1)
 		{
 
@@ -203,7 +210,8 @@ public void useCardWindow(objCard karta )
 		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
 		{
 			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
-			{try {
+			{
+			try {
 				  logikaMunchkin.getCurrentPlayer().endTurn();
 		      } catch (IllegalStateException e) {
 		    	

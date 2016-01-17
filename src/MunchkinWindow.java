@@ -202,7 +202,19 @@ public void useCardWindow(objCard karta,objPlayer player )
 			{
 				setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
 
-		    }
+		    }else 
+		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
+				{
+                 
+					System.out.println("rozstrzygamy walkê");
+					
+					logikaMunchkin.getCurrentFight().resolveBattle();
+					
+					
+			    }else
+			    {
+			    	repaint();
+			    }
 				  
 				
 				
@@ -224,41 +236,49 @@ public void useCardWindow(objCard karta,objPlayer player )
 		{
 			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
 			{
-			try {
-				  logikaMunchkin.getCurrentPlayer().endTurn();
-		      } catch (IllegalStateException e) {
-		    	
-
-	            }
-			int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
-			if(focusPlayer!=4)
-			{
-			focusPlayer++;
-			}else
-			{
-				focusPlayer=1;
-			}
-			 buttonPressed=false;
-			 repaint();
-		      }
-				  
-				
-		
-			}else
-			{
-		    }
+			   try {
+				   logikaMunchkin.getCurrentPlayer().endTurn();
+		           } catch (IllegalStateException e) 
+			       {
+		    	   }
+			   int[] tmp=logikaMunchkin.getNextPlayerId(logikaMunchkin.getCurrentPlayer().getPlayerId());
+			   if(focusPlayer<4)
+			   {
+			       focusPlayer++;
+			   }else
+			   {
+			 	focusPlayer=1;
+			   }
+			    buttonPressed=false;
+			    repaint();
+		     }
 		}else
 		{
+	    }
+	}else
+		{
+		
 			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) 
 			{
-				System.out.println("PP");
-				focusPlayer=logikaMunchkin.isAboveFocusedPlayerButton(x, y);
-		    }
-				  
-				
-				
-				 repaint();
+				int tmp=logikaMunchkin.isAboveFocusedPlayerButton(x, y);
+				if(tmp <4)
+				focusPlayer=tmp;
+		    }else 
+		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
+				{
+                 
+					System.out.println("rozstrzygamy walkê");
+					
+					logikaMunchkin.getCurrentFight().resolveBattle();
+					
+					
+			    }else
+			    {
+			    	repaint();
+			    }
+			    
 		}
+		
 	
 	}
 

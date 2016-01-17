@@ -379,12 +379,9 @@ public class objGameLogic
 	{
 		return state;
 	}
-
 	public int getPlayersNumber() {
 		return playersNumber;
 	}
-
-
     public objPlayer getCurrentPlayer()
     {
     	return players[currPlayer];
@@ -418,7 +415,6 @@ public class objGameLogic
     {
     	return Door;
     }
-
     public Image getTreasureImage()
     {
     	return Treasure;
@@ -429,12 +425,11 @@ public class objGameLogic
     	else currPlayer=0;
     	players[currPlayer].beginTurn();
     }
-
-    public Image getSealImage()
+     public Image getSealImage()
     {
     	return Seal;
     }
-    public Image getCardImage(int cardType , int cardId)
+     public Image getCardImage(int cardType , int cardId)
 	    {
 	    	return imgCards[cardType][cardId];
 	    }
@@ -458,7 +453,6 @@ public class objGameLogic
         	 }
 
     	 }
-
 
 
     	 return 0;
@@ -523,7 +517,16 @@ public class objGameLogic
 		    }
     	 return 0;
      }
-
+   public int isAboveRun(int x,int y)
+   {
+	   System.out.println("Wyswietl 11111");
+ 	 if((x >= 410&& x <= 550)&& (y >= 300&& y <= 350))
+ 	 {
+ 		 System.out.println("Wyswietl 5");
+        return 5;
+ 	 }
+ 	 return 0;
+   }
 	public int getPlayingPlayer() {
 		return playingPlayer;
 	}

@@ -41,7 +41,7 @@ public class MunchkinPaintAndLayout extends Canvas
 	}
 	public void newGame ()
 	{
-System.out.println("wow");
+
 		//currentInstruction.reset();
 
 	}
@@ -62,7 +62,7 @@ System.out.println("wow");
 		grpOffScreen.setColor(Color.BLACK);
 		  grpOffScreen.drawString("Number of treasures : ", 360, 160);
 		  int tmp = logikaMunchkin.getCurrentFight().getMonsters().get(0).getTreasures();
-		  System.out.println(tmp+" to jest tmp");
+		 
 		  img  =scaleImage(50, 50,"src"
 	    	   		+ "/images/LVL/"+tmp+".jpg");
 	        drawCard(grpOffScreen,img,579,180,1);
@@ -116,13 +116,14 @@ System.out.println("wow");
       
 		for(objMonster x : logikaMunchkin.getCurrentFight().getMonsters())
          {
-			 System.out.println(x.getMyCard().getIdNr()+" to jest monster");
+		
 	      img  =scaleImage(170, 190,"src/images/Karta ("+x.getMyCard().getIdNr()+").jpg");
            drawCard(grpOffScreen,img,752,95+tmp*160,1);
            tmp++;
          }
        
 	   grpOffScreen.drawString("Monsters power "+logikaMunchkin.getCurrentFight().getMonstersStrength(), 540, 300);
+	   /*
 	 tmp = logikaMunchkin.getCurrentFight().getMonstersStrength();
 	  //  tmp =5;
 	   if(tmp>10)
@@ -138,6 +139,7 @@ System.out.println("wow");
 		   img  =scaleImage(50, 50,"src"
 			   		+ "/images/LVL/"+tmp+".jpg");
         }
+        */
     }
     public void DrawBattlefield(Graphics grpOffScreen)
     {

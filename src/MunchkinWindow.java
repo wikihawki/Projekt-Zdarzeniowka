@@ -180,70 +180,71 @@ public void useCardWindow(objCard karta,objPlayer player )
 	@Override
 	public void mousePressed(MouseEvent arg0)
 	{			
-		int x = arg0.getX();
-	    int y = arg0.getY();
-	
+		
 		if (arg0.getButton() == MouseEvent.BUTTON1)
 		{
-
-
-		if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
-		{
-			if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
-			{
-				
-				 buttonPressed=true;
-				 repaint();
-
-			}else
-			
-				buttonPressed=false;
-				repaint();
-		    }
-		}else ////////////////////////////////////// zdarzenia walki
-		{
-			if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
-			{
-				setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
-
-		    }else 
-		    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
-				{
-                 
-				
-					if(logikaMunchkin.isAboveRun(x, y)==5) 
-					logikaMunchkin.getCurrentFight().resolveBattle();
-					if(logikaMunchkin.isAboveRun(x, y)==6) 
-					{
-						if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
-						{
-											Object[] possibilities = {"1"," 2", "3","4","5"};
-											String s = (String)JOptionPane.showInputDialog(
-											                    null,
-											                    "Liczba wymaganych skarbów:\n"
-											                   ,
-											                    "Customized Dialog",
-											                    JOptionPane.PLAIN_MESSAGE,
-											                    null,
-											                    possibilities,
-											                    "");
-											if(s !=null)
-											{
+														int x = arg0.getX();
+													    int y = arg0.getY();
+													
 											
-												int k = Integer.parseInt(s);
-												logikaMunchkin.getCurrentFight().addHelper((logikaMunchkin.getPlayer(focusPlayer-1)), k);	
-											}
-						}
-					}
-			    }else
-			    {
-			    	repaint();
-			    }
+			if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT)
+				{
+							if (logikaMunchkin.isAboveButton(x, y)) //Check if the menu or menu items were clicked
+							{
+																
+							 buttonPressed=true;
+							 repaint();
+												
+							}else
+							{
+								buttonPressed=false;
+								repaint();
+						    }
+			}else ////////////////////////////////////// zdarzenia walki
+			{
+					if (logikaMunchkin.isAboveFocusedPlayerButton(x, y)!=0) //Check if the menu or menu items were clicked
+					{
+						setFocusedPlayer(logikaMunchkin.isAboveFocusedPlayerButton(x, y));
+		
+				    }else 
+				    	if (logikaMunchkin.isAboveRun(x, y)!=0) 
+						{
+		                 
+						
+							if(logikaMunchkin.isAboveRun(x, y)==5) 
+							logikaMunchkin.getCurrentFight().resolveBattle();
+							if(logikaMunchkin.isAboveRun(x, y)==6) 
+							{
+													if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
+													{
+																		Object[] possibilities = {"1"," 2", "3","4","5"};
+																		String s = (String)JOptionPane.showInputDialog(
+																		                    null,
+																		                    "Liczba wymaganych skarbów:\n"
+																		                   ,
+																		                    "Customized Dialog",
+																		                    JOptionPane.PLAIN_MESSAGE,
+																		                    null,
+																		                    possibilities,
+																                    "");
+																if(s !=null)
+																{
+																
+																	int k = Integer.parseInt(s);
+																	logikaMunchkin.getCurrentFight().addHelper((logikaMunchkin.getPlayer(focusPlayer-1)), k);	
+																}
+													}
+							}
+						    }else
+						    {
+						    	repaint();
+						    }
 				  
 				
 				
 				 repaint();
-		}
+				}
+			}
 		}
 	
 	

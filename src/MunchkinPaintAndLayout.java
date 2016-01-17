@@ -37,9 +37,13 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected void performMenuAction ()
 	{
 		int menuAction = menuSystem.getMenuAction();
-		System.out.println("menu action "+menuAction);
+		
 		if(menuAction==0)
+		{
 			logikaMunchkin.newGame(4);
+			
+		}
+		
 		repaint();
 	}
 	public void newGame ()
@@ -109,7 +113,7 @@ public class MunchkinPaintAndLayout extends Canvas
     }
     public void DrawMonsters(Graphics grpOffScreen)
     {
-    	Image tempImg =null;
+    
     	Image img =null;
     	int fontSize = 20;
 		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
@@ -457,29 +461,21 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
     }
     protected void drawCard (Graphics grpOffScreen, Image imgCard, int startX, int startY,int Player) //Called by solitareColumn() to paint each card
 	{
-		/*
-		grpOffScreen.drawImage(imgCard, startX, startY, this);
-		grpOffScreen.setColor(new Color(149,146,140)); //Grey
-		grpOffScreen.drawRect(startX, startY, imgWidth, imgHeight); //Draw a border around the card
-	*/
-
 		Graphics2D g2d = (Graphics2D) grpOffScreen;
 
 
 	       AffineTransform at = new AffineTransform();
 
-	       // 4. translate it to the center of the component
+	   
 	       at.translate( startX,  startY);
 
-	       // 3. do the actual rotation
+	
 	       at.rotate((Player-1)*(Math.PI/2));
 
 
-	       // 1. translate the object so that you rotate it around the
-	       //    center (easier :))
+
 	       at.translate(-imgWidth/2, -imgHeight/2);
 
-	       // draw the image
 
 	       g2d.drawImage( imgCard, at, this);
 

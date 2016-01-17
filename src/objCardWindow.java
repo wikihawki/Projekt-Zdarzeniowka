@@ -20,10 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
+
+
 public class objCardWindow extends JFrame implements ActionListener{
-    /**
-	 *
-	 */
+   
 	private static final long serialVersionUID = 1L;
 	private objPlayer  Gracz;
 	private static objCardWindow myInstance;
@@ -218,40 +218,54 @@ public class objCardWindow extends JFrame implements ActionListener{
 		  if (src == skill1)
 			    {
  
-			  Vector<objEntity> listops=window.getLogic().getEffectHandler().getValidTargets(Card);
-              if(Source =="Hand")
-              {
-                if(listops!=null)
-               {
-            	  
-            	    if(!listops.contains(null)&&!listops.isEmpty())
-            	   {
-            		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-            		
-            		  if(tmp1!=null)
-            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
-            	    }
-            	         else JOptionPane.showMessageDialog(null, "Brak celu");
-                    }
-                    else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);
-			        this.setVisible(false);
-               }else
-               {
-            	   if(listops!=null)
-                   {
-                	  
-                	    if(!listops.contains(null)&&!listops.isEmpty())
-                	   {
-                		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
-                		 
-                		  if(tmp1!=null)
-                		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,tmp1 );
-                	    }
-                	         else JOptionPane.showMessageDialog(null, "Brak celu");
-                        }
-                        else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,null);
-    			        this.setVisible(false);
-               }
+							  Vector<objEntity> listops=window.getLogic().getEffectHandler().getValidTargets(Card);
+				              if(Source =="Hand")
+				              {
+								                if(listops!=null)
+								               {
+								            	  
+								            	    if(!listops.contains(null)&&!listops.isEmpty())
+								            	   {
+								            		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+								            		
+								            		  if(tmp1!=null)
+								            		  window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,tmp1 );
+								            	    }
+								            	         else JOptionPane.showMessageDialog(null, "Brak celu");
+								                    }
+								                    else window.getLogic().getPlayer((window.getFocusedPlayer()-1)).playCard(Card,null);
+											        this.setVisible(false);
+				               }else
+				               {
+						            	   if(listops!=null)
+						                   {
+						                	  
+						            		   
+									                	    if(!listops.contains(null)&&!listops.isEmpty())
+									                	   {
+									                		  objEntity tmp1 =(objEntity) JOptionPane.showInputDialog(rootPane, "Select","Select List Box", JOptionPane.PLAIN_MESSAGE,null, listops.toArray(),"list1");
+									                		 
+									                		  if(tmp1!=null)
+									                		  {
+											                    	if(Card.getSecondaryType()!=objCard.SecondaryType.CLASS) {window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,tmp1);}
+											                    	else{window.getLogic().getEffectHandler().handleEffect(Card.getSecondaryType(), Card.getEffect(0), tmp1);}
+									                		  }
+									                		
+									                	    }
+									                	         else JOptionPane.showMessageDialog(null, "Brak celu");
+									                	    
+									                	    
+									                	    
+									                	    
+						                     }else
+						                    	 {
+						                    	if(Card.getSecondaryType()!=objCard.SecondaryType.CLASS) {window.getLogic().getPlayer((window.getFocusedPlayer()-1)).useCardFromBackpack(Card,null);}
+						                    	else{window.getLogic().getEffectHandler().handleEffect(Card.getSecondaryType(), Card.getEffect(0), null);}
+						                    		
+						                    	
+						                    	 }
+						    			     this.setVisible(false);
+				               }
 		      }else
 		      if (src == zaloz)
 			    {

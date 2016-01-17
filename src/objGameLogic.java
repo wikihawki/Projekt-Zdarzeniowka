@@ -112,7 +112,7 @@ public class objGameLogic
 			{
 
 				//title = colour + Integer.toString(rank + 1); //Current title is the current suit + the rank number + 1
-				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);;
+				imgCards[0][rank] = createImage.getImage(this, "images/karta ("+rank+").jpg", 200000).getScaledInstance(72, 96, Image.SCALE_DEFAULT);
 			
 		        //	mt.addImage(imgCards[suit][rank], 0);
 

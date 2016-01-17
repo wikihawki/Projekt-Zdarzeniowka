@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class MunchkinGUI {
 	private MunchkinWindow mainWindow;
+	private MunchkinMenu mainMenu;
 	private MediaTracker mt;
 	public MunchkinGUI()
 	{
@@ -32,6 +33,27 @@ public class MunchkinGUI {
 	   
 		
 		panRoot.add(mainWindow, BorderLayout.CENTER);
+		
+		return panRoot;
+		
+	}
+	
+	
+	public Container createMenuGui (JFrame mainApp)
+	{
+		JPanel panRoot = new JPanel(new BorderLayout());
+		
+		mainMenu = new MunchkinMenu(this);
+		mainMenu.setSize(new Dimension(645,600));
+		mainMenu.setBackground(new Color(255, 214, 158));
+		
+		mt = new MediaTracker(mainApp);
+		JLabel lab1 = new JLabel("User Name", JLabel.CENTER);
+	//	panRoot.setLayout(new FlowLayout()); 
+
+	   
+		
+		panRoot.add(mainMenu, BorderLayout.CENTER);
 		
 		return panRoot;
 		

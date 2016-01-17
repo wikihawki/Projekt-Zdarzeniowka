@@ -116,17 +116,17 @@ public void useCardWindow(objCard karta,objPlayer player )
 		                    case 1:
 		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.ITEMSARRANGE)
 		                    	{
-		                    		  
+		                    		  showFirstDoorCard();
 		                    	logikaMunchkin.getCurrentPlayer().kickOpenDoor();
-		          
+		                        repaint();
 		                    	
 		
 		                    	}else	
 		                    	if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()==objPlayer.TurnPhase.KICKDOOR)
 		                    	{
-		                  		 
+		                    		 showFirstDoorCard();
 		                    	logikaMunchkin.getCurrentPlayer().lootRoom();
-		                    	
+		                    	repaint();
 		                    	}
 		                    	break;
 		                    case 2:
@@ -309,15 +309,59 @@ public void useCardWindow(objCard karta,objPlayer player )
 	
 	}
 
+public void showFirstDoorCard()
+{
+	if(logikaMunchkin.getDoorDeck().getLastCard().getSecondaryType()==objCard.SecondaryType.MONSTER)
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+				this, 
+   			   "",
+   			   "Wylosowa³eœ potwora , musisz walczyæ!",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
 
-	@Override
+	}else if(logikaMunchkin.getDoorDeck().getLastCard().getSecondaryType()==objCard.SecondaryType.DISASTER)
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+				this, 
+   			   "",
+   			   "Wylosowa³eœ katastrofê ,jej efekty dzia³aj¹ natychmiastowo",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
+	}else
+	{
+		System.out.println("ssdfsfS");
+		int numer = logikaMunchkin.getDoorDeck().getLastCard().getIdNr();
+		ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
+		JOptionPane.showMessageDialog(
+   			   this, 
+   			   "",
+   			   "DRZWI!",
+   			   JOptionPane.INFORMATION_MESSAGE,
+   			  icon);
+		repaint();
+	}
+
+	
+}
+
+
 	public void gameActionEventOccurred(GameActionEvent evt) {
 		if(evt.getType()=="Monster")
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+					this, 
        			   "",
        			   "Wylosowa³eœ potwora , musisz walczyæ!",
        			   JOptionPane.INFORMATION_MESSAGE,
@@ -327,10 +371,11 @@ public void useCardWindow(objCard karta,objPlayer player )
 		}else
 		if(evt.getType()=="Disaster")
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+					this, 
        			   "",
        			   "Wylosowa³eœ katastrofê ,jej efekty dzia³aj¹ natychmiastowo",
        			   JOptionPane.INFORMATION_MESSAGE,
@@ -338,10 +383,11 @@ public void useCardWindow(objCard karta,objPlayer player )
 			repaint();
 		}else
 		{
+			System.out.println("ssdfsfS");
 			int numer = evt.getCard().getIdNr();
 			ImageIcon icon =  new ImageIcon("src/images/karta ("+numer+").jpg");
 			JOptionPane.showMessageDialog(
-       			   null, 
+       			   this, 
        			   "",
        			   "DRZWI!",
        			   JOptionPane.INFORMATION_MESSAGE,

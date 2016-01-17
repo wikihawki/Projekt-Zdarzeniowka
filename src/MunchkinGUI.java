@@ -25,7 +25,7 @@ public class MunchkinGUI {
 	{
 		JPanel panRoot = new JPanel(new BorderLayout());
 		gameframe=mainApp;
-		mainWindow = new MunchkinWindow(this);
+	    mainWindow = new MunchkinWindow(this);
 		mainWindow.setSize(new Dimension(970, 700));
 		mainWindow.setBackground(new Color(231, 218, 167));
 		JLabel lab1 = new JLabel("User Name", JLabel.CENTER);
@@ -39,6 +39,26 @@ public class MunchkinGUI {
 		
 	}
 	
+	
+	public Container createMainGUI (JFrame mainApp)
+	{
+		JPanel panRoot = new JPanel(new BorderLayout());
+		gameframe=mainApp;
+		MunchkinWindow mainWindow2 = new MunchkinWindow(this);
+		mainWindow2.setSize(new Dimension(970, 700));
+		mainWindow2.setBackground(new Color(231, 218, 167));
+		JLabel lab1 = new JLabel("User Name", JLabel.CENTER);
+	//	panRoot.setLayout(new FlowLayout()); 
+
+	   
+		
+		panRoot.add(mainWindow2, BorderLayout.CENTER);
+		
+		return panRoot;
+		
+	}
+	
+
 	
 	public Container createMenuGui (JFrame mainApp)
 	{

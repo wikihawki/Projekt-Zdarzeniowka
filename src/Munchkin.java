@@ -24,23 +24,25 @@ public class Munchkin extends JFrame {
 		
         JFrame frame = new JFrame("Munchkin"); 
         JFrame MenuFrame = new JFrame("Munchkin Menu"); 
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MunchkinGUI munchkin;  munchkin = new MunchkinGUI();
         
         
-        
+        frame.add(munchkin.createGUI(frame));
+      //  frame.setContentPane(munchkin.createMainGUI(frame));
+       
+        frame.setSize(970,730);
+        frame.setResizable(false);
+        frame.setVisible(false);  
+        frame.pack(); 
         MenuFrame.setContentPane(munchkin.createMenuGui(MenuFrame));
+        //MenuFrame.add(munchkin.createMenuGui(MenuFrame));
         MenuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MenuFrame.setSize(645,600);
         MenuFrame.setResizable(false);
         MenuFrame.setVisible(true);  
         MenuFrame.pack(); 
-       // frame.setContentPane(munchkin.createGUI(frame));
-        frame.add(munchkin.createGUI(frame));
-        frame.setSize(970,730);
-        frame.setResizable(false);
-        frame.setVisible(false);  
-        frame.pack(); 
+       
      
         
 	}

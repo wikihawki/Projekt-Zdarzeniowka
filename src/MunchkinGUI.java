@@ -64,5 +64,8 @@ public class MunchkinGUI {
 	{
 		mainWindow.StartNewGame(listaGraczy);
 	}
+	
+	
+
 
 }

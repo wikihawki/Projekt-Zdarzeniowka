@@ -42,7 +42,7 @@ public class MunchkinPaintAndLayout extends Canvas
 		{
 			 ComplexDialogPanel panelNowegoGracza = new ComplexDialogPanel();
 			 ArrayList<String> listaGraczy= panelNowegoGracza.createAndShowGui();		
-			logikaMunchkin.newGame(4,listaGraczy);
+			 logikaMunchkin.newGame(4,listaGraczy);
 			
 		}
 		
@@ -532,7 +532,12 @@ if(logikaMunchkin.getCurrentPlayer().getMyTurnPhase()!=objPlayer.TurnPhase.FIGHT
 
 
 	}
-	
+    public void StartNewGame(ArrayList<String> listaGraczy)
+	{
+		System.out.println(listaGraczy+" Starg");
+		logikaMunchkin.newGame(4,listaGraczy);
+		repaint();
+	}
 	public BufferedImage scaleImage(int WIDTH, int HEIGHT, String filename) {
         BufferedImage bi = null;
         ImageIcon ii ;

@@ -247,10 +247,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 				}
 			}
 		}
-	public void StartNewGame(ArrayList<String> listaGraczy)
-	{
-		logikaMunchkin.newGame(4, listaGraczy);
-	}
+	
 	
 	@Override
 	public void mouseReleased(MouseEvent arg0)
@@ -355,5 +352,6 @@ public void useCardWindow(objCard karta,objPlayer player )
 		
 	}
 
+	
 }
 

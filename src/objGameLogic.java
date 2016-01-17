@@ -48,17 +48,22 @@ public class objGameLogic
 	//	DatabaseConnection temp=new DatabaseConnection();
 	//	temp.importCards();
 		importPictures();
-		
-	//	newGame(4,);
+		ArrayList<String> lista = new ArrayList<String>();
+		lista.add("AAAA");
+		lista.add("BBBB");
+		lista.add("CCCC");
+		lista.add("DDDD");
+	newGame(4,lista);
 	}
 
 	public void newGame(int amount,ArrayList<String> listaGraczy)
 	{
+		System.out.println(listaGraczy+"NEEW");
 		state=GameState.PLAY;
 		playersNumber=amount;
 		importCards();
 		effectHandler=new objEffectHandler(this);
-		setupPlayers(amount);
+		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
 	}
 	private void importCards()
@@ -91,13 +96,14 @@ public class objGameLogic
 		doorDeck.suffle();
 
 	}
-	private void setupPlayers(int amount)
+	private void setupPlayers(int amount,ArrayList<String> listaGraczy)
 	{
 		for(int i =0 ; i<amount;i++)
 		{
 			StringBuilder sb = new StringBuilder();
-			sb.append("Player ");
-			sb.append(i+1);
+			
+			sb.append(listaGraczy.get(i));
+			
 			String strI = sb.toString();
 			players[i]=new objPlayer(strI,true,this,i);
 			players[i].addListener(effectHandler);

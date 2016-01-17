@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 
 public class MunchkinMenu extends Canvas implements MouseListener, MouseMotionListener
 {
-
+ private MunchkinGUI Gui;
     private Image logo;
 	private static final long serialVersionUID = 1L;
 	protected int imgHeight=0;
@@ -30,6 +30,7 @@ public class MunchkinMenu extends Canvas implements MouseListener, MouseMotionLi
 	private objCreateAppletImage createImage = new objCreateAppletImage();
 	public MunchkinMenu(MunchkinGUI gui)
 	{
+		this.Gui=gui;
 		  if (this.getMouseListeners().length<1){this.addMouseListener(this);}
 		   if (this.getMouseMotionListeners().length<1){this.addMouseMotionListener(this);}
 		this.logo=createImage.getImage(this, "images/Munchkin_Banner.png",500000);
@@ -221,6 +222,7 @@ public class MunchkinMenu extends Canvas implements MouseListener, MouseMotionLi
 			 ComplexDialogPanel panelNowegoGracza = new ComplexDialogPanel();
 			 ArrayList<String> listaGraczy= panelNowegoGracza.createAndShowGui();		
 			 System.out.println(listaGraczy);
+			 zwrocListeGraczy(listaGraczy);
 			}else
 			{
 			
@@ -229,8 +231,9 @@ public class MunchkinMenu extends Canvas implements MouseListener, MouseMotionLi
 												
 		}			
 	}
-	public ArrayList<String> zwrocListeGraczy()
+	public void zwrocListeGraczy(ArrayList<String> listaGraczy)
 	{
+		Gui.StartNewGame(listaGraczy);
 	}
-	}
+
 }

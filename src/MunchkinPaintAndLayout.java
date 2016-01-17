@@ -37,7 +37,9 @@ public class MunchkinPaintAndLayout extends Canvas
 	protected void performMenuAction ()
 	{
 		int menuAction = menuSystem.getMenuAction();
-		System.out.println(menuAction);
+		System.out.println("menu action "+menuAction);
+		if(menuAction==0)
+			logikaMunchkin.newGame(4);
 		repaint();
 	}
 	public void newGame ()

@@ -219,7 +219,16 @@ System.out.println("wow");
        		grpOffScreen.drawString("Koniec Tury", 450, 520);
            }
     }
-    
+    public void DrawResolweFightButton(Graphics grpOffScreen)
+    {
+    	Image tempImg=null;
+    	 tempImg = logikaMunchkin.getButtonImage();	
+    	   drawCard(grpOffScreen,tempImg,470 ,540,1);
+    		grpOffScreen.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+      	     
+       		grpOffScreen.setColor(Color.black);
+       		grpOffScreen.drawString("Koniec Tury", 450, 520);
+    }
     
     
 

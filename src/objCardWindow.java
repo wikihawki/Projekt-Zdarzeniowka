@@ -322,7 +322,10 @@ public class objCardWindow extends JFrame implements ActionListener{
 				pnlButtons.add(skill1);
 			}
 		}
-	}else
+	}else if(karta.getType()==objCard.Type.SEAL)
+	{
+	
+	}else 
 	{
 		pnlButtons.add(odrzuc);
 		if(Card.getSecondaryType()!=objCard.SecondaryType.MONSTER)
@@ -334,10 +337,7 @@ public class objCardWindow extends JFrame implements ActionListener{
 		}
 
 	}
-	if(karta.getType()==objCard.Type.SEAL)
-	{
 	
-	}
 	
 }
    public void setSignalSource(String source)

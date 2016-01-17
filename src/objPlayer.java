@@ -39,8 +39,8 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(3);
-		drawDoor(4);
+		drawTreasure(5);
+		drawDoor(3);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -162,6 +162,8 @@ public class objPlayer extends objEntity
 				cardsInPlay.addCard(temp);
 				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
 				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), target);
+				cardsInPlay.addCard(hand.removeCard(hand.getCardIndex((objCard) target)));
+				
 			}
 			break;
 		case MONSTER:
@@ -530,7 +532,7 @@ public class objPlayer extends objEntity
 	    Iterator<GameEventListener> i = listeners.iterator();
 	    while(i.hasNext())
 	    {
-	    	i.next().gameEventOccurred(event);;
+	    	i.next().gameEventOccurred(event);
 	    }
 	}
 

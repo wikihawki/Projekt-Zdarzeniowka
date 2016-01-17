@@ -242,7 +242,7 @@ public class objGameLogic
     	{
 	    	sealDeck.addCard(openedSeals.removeLastCard());
 	    	sealDeck.suffle();
-	    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
+	    	if(openedSeals.size()>0)effectHandler.handleEffect(objCard.SecondaryType.SEAL, openedSeals.getLastCard().getEffect(1), null);
 	    	fireEvent(GameEvent.EventType.SEALCLOSED,null);
     	}
     }

@@ -1,4 +1,4 @@
-public class objPlayedCard
+public class objPlayedCard extends objEntity
 {
 	private objCard playedCard;
 	private objEntity target;
@@ -18,5 +18,9 @@ public class objPlayedCard
 	}
 	public objPlayer getPlayer() {
 		return player;
+	}
+	@Override
+	public String getName() {
+		return playedCard.getName()+" zagrane na "+target.getName()+" przez "+player.getName();
 	}
 }

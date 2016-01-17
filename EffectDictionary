@@ -12,7 +12,7 @@
 11 -1 run Away
 12			nie dla dzieci
 13			przy odrzuceniu wybierz pieczec która sie teraz odtworzy
-
+14			+jedna reka
 
 -------------->Disaster
 1 Lose Level
@@ -84,7 +84,7 @@
 6			  militia 1
 7			militia 2
 8			close seal or wyjeb disaster
-9			+jedna reka
+9
 10			+3 dla strony,
 11			jesli razem z 12 to +1 level
 12 			jesli razem z 11 to +1 level

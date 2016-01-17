@@ -271,9 +271,11 @@ public class objEffectHandler implements GameEventListener
 			Vector<objCard> temp=((objPlayer)target).getCardsInPlay().getStack(0);
 			temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
 			int help=0, index=0;
-			for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)index=i;
-			if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
-			else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
+			if(temp.size()>0){
+				for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)index=i;
+				if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
+				else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
+			}
 			break;
 		}
 		case 40:
@@ -327,7 +329,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 		case 2:
-		{
+		{//TODO: sprawidzc czy dobrze dziala
 			objPlayedCard temp=environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
 			temp.getPlayer().getCardsInPlay().addCard(temp.getPlayer().getHand().removeCard(temp.getPlayer().getHand().getCardIndex((objCard)target)));
 			switch(((objCard)target).getSecondaryType())
@@ -355,7 +357,8 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 		case 3:
-			addContinuousEffect(35,null);
+			addContinuousEffect(35,environment.getPlayedCards().get(environment.getPlayedCards().size()-1).getPlayedCard());
+			if(rotation==0)removeCardFromStack();
 			break;
 		case 4:
 		{
@@ -391,9 +394,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		case 9:
 		{
-			environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
-			addContinuousEffect(32, target);
-			break;
+
 		}
 		case 10:
 
@@ -455,7 +456,7 @@ public class objEffectHandler implements GameEventListener
 			//zaimplementowane przy dodawaniu
 			break;
 		case 9:
-			if(!continuousEffectContains(50))if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
+			if(!continuousEffectContains(35))if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Militia", true))addContinuousEffect(26, target);
 			break;
 		case 10:
 		case 11:
@@ -465,6 +466,10 @@ public class objEffectHandler implements GameEventListener
 			break;
 		case 13:
 			addContinuousEffect(22, target);
+			break;
+		case 14:
+			environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()+1);
+			addContinuousEffect(32, target);
 			break;
 		}
 		break;
@@ -708,7 +713,7 @@ public class objEffectHandler implements GameEventListener
 			MunchkinHand temp2=environment.getCurrentPlayer().getHand();
 			if(temp2.size()>0)
 			{
-				for(int i=0;i<temp2.size();i++)if(temp2.getCard(i).getType()==objCard.Type.TREASURE&&temp2.getCard(i).getSecondaryType()==objCard.SecondaryType.OTHER) temp.add(temp2.getCard(i));
+				for(int i=0;i<temp2.size();i++)if(temp2.getCard(i).getType()==objCard.Type.TREASURE&&temp2.getCard(i).getSecondaryType()!=objCard.SecondaryType.OTHER) temp.add(temp2.getCard(i));
 			}
 			return temp;
 		}
@@ -946,7 +951,7 @@ public class objEffectHandler implements GameEventListener
 				}
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)
 				{
-					for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)if(continuousEffectContains(51,pair.getValue()))
+					for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)if(continuousEffectContains(51,environment.getCurrentFight().getMonsters().elementAt(i)))
 					{
 						environment.getCurrentFight().getMonsters().elementAt(i).increaseTreasures(-1);
 						addContinuousEffect(51, environment.getCurrentFight().getMonsters().elementAt(i));
@@ -958,7 +963,10 @@ public class objEffectHandler implements GameEventListener
 			case 41:
 				break;
 			case 50:
+			if(eventType==GameEvent.EventType.INVENTORYCHANGED){
 
+			}
+				break;
 			case -1:
 			case -2:
 				if(eventType==GameEvent.EventType.FIGHTOVER||(eventType==GameEvent.EventType.FIGHTCHANGED&&evt.getTarget()==pair.getValue()))

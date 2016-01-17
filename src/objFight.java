@@ -27,7 +27,6 @@ public class objFight implements GameEventListener
 		setMainPlayer(player);
 		treasuresForHelper=0;
 		this.parent=parent;
-		mainPlayer.addListener(this);
 		updatePlayers();
 		for(int i=0; i<parent.getPlayersNumber();i++)parent.getPlayer(i).addListener(this);
 	}
@@ -57,19 +56,26 @@ public class objFight implements GameEventListener
 				}
 			}
 			mainPlayer.drawTreasure(treasures);
-			mainPlayer.charity();
+			System.out.println("Gracz wygral");
 		}
 		else
 		{
+			System.out.println("Gracz przegral");
 			for(int i=0; i<monsters.size();i++)
 			{
-				if(!tryToRunAway(i, true))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
+				if(!tryToRunAway(i, true))
+					{
+						parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
+						System.out.println("Graczowi nie udalo sie uciec");
+					}
 				if(helperPlayer!=null)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
 			}
 		}
 		for(int i=0; i<monsters.size();i++)parent.discardCard(monsters.get(i).getMyCard());
 		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
 		parent.setCurrentFight(null);
+		for(int i=0; i<parent.getPlayersNumber();i++)parent.getPlayer(i).removeListener(this);
+		mainPlayer.charity();
 	}
 	private boolean tryToRunAway(int monsterNr, boolean which)
 	{
@@ -90,6 +96,7 @@ public class objFight implements GameEventListener
 			this.fireEvent(GameEvent.EventType.FIGHTCHANGED, null);
 			setHelperPlayer(helper);
 			treasuresForHelper=treasuresReward;
+			updatePlayers();
 		}
 		else throw new IllegalStateException("pomagac mo¿e tylko jedna osoba");
 	}

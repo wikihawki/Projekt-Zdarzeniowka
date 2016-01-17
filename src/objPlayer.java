@@ -31,6 +31,7 @@ public class objPlayer extends objEntity
 		setFootgearCounter(1);
 		setArmorCounter(1);
 		setClassCounter(1);
+		setHeadgearCounter(1);
 		this.name=name;
 		level=1;
 		cardsInPlay=new MunchkinGroup();
@@ -39,8 +40,8 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(5);
-		drawDoor(3);
+		drawTreasure(1);
+		drawDoor(1);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -154,16 +155,16 @@ public class objPlayer extends objEntity
 			equipItem(temp,headgearCounter,temp.getSecondaryType());
 			break;
 		case ONEHANDWEAPON:
-			equipItem(temp,freeHandCounter,temp.getSecondaryType());
+			equipWeapon(temp);
 			break;
 		case ITEMENCHANTER:
 			if(target.getClass()==objCard.class)if(((objCard)target).getType()==objCard.Type.TREASURE&&((objCard)target).getSecondaryType()!=objCard.SecondaryType.OTHER)
 			{
 				cardsInPlay.addCard(temp);
-				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), target);
-				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), target);
-				cardsInPlay.addCard(hand.removeCard(hand.getCardIndex((objCard) target)));
-				
+				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(0), new objPlayedCard(temp, target, this));
+				environment.getEffectHandler().handleEffect(objCard.SecondaryType.ITEMENCHANTER, temp.getEffect(1), new objPlayedCard(temp, target, this));
+				playCard((objCard)target,null);
+
 			}
 			break;
 		case MONSTER:
@@ -191,10 +192,11 @@ public class objPlayer extends objEntity
 			}
 			break;
 		case OTHERITEM:
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.OTHERITEM, temp.getEffect(0), temp);
 			cardsInPlay.addCard(temp);
 			break;
 		case TWOHANDWEAPON:
-			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
+			equipWeapon(temp);
 			break;
 		case CLASS:
 			if(classCounter<findClass().size())
@@ -222,7 +224,9 @@ public class objPlayer extends objEntity
 	{
 		carriedCards.removeCard(carriedCards.getCardIndex(temp));
 		environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), target);
+		environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), target);
 		environment.discardCard(temp);
+		fireEvent(GameEvent.EventType.CARDPLAYED, temp);
 	}
 
 	private void equipItem(objCard temp,int counter, objCard.SecondaryType type)
@@ -236,25 +240,36 @@ public class objPlayer extends objEntity
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
 			}
 			else carriedCards.addCard(temp);
-			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
 		}else
 		{
 			JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
 			hand.addCard(temp);
 		}
 	}
-	private void equipItem(objCard temp, int counter, int amount,objCard.SecondaryType type)
+	private void equipWeapon(objCard temp)
 	{
 		if(temp.getTag()!=objCard.Tag.BIG||!isThereBigItem())
 		{
-			if(counter-amount>=findItem(type).size()-cardsInPlay.findCardsIndex(8, type).size()||temp.getEffect(0)==8)
+			if(temp.getSecondaryType()==objCard.SecondaryType.ONEHANDWEAPON)
 			{
-				cardsInPlay.addCard(temp);
-				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
-				environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
+				if(freeHandCounter-1>=findWeapon().size()+cardsInPlay.findCardsIndex(null, objCard.SecondaryType.TWOHANDWEAPON).size()-cardsInPlay.findCardsIndex(8, objCard.SecondaryType.ONEHANDWEAPON).size()-2*cardsInPlay.findCardsIndex(8, objCard.SecondaryType.TWOHANDWEAPON).size()||temp.getEffect(0)==8)
+				{
+					cardsInPlay.addCard(temp);
+					environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
+					environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
+				}
+				else carriedCards.addCard(temp);
 			}
-			else carriedCards.addCard(temp);
-			fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
+			else
+			{
+				if(freeHandCounter-2>=findWeapon().size()+cardsInPlay.findCardsIndex(8, objCard.SecondaryType.TWOHANDWEAPON).size()-cardsInPlay.findCardsIndex(8, objCard.SecondaryType.ONEHANDWEAPON).size()-2*cardsInPlay.findCardsIndex(8, objCard.SecondaryType.TWOHANDWEAPON).size()||temp.getEffect(0)==8)
+				{
+					cardsInPlay.addCard(temp);
+					environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(0), temp);
+					environment.getEffectHandler().handleEffect(temp.getSecondaryType(), temp.getEffect(1), temp);
+				}
+				else carriedCards.addCard(temp);
+			}
 		}else
 		{
 			JOptionPane.showMessageDialog(null, "nie mo¿esz zagrac tej karty bo masz ju¿ du¿y item");
@@ -263,20 +278,23 @@ public class objPlayer extends objEntity
 	}
 	public void discardCardfromHand(int index)
 	{
-		objCard temp=hand.removeCard(index);
+		objCard temp=hand.getCard(index);
 		fireEvent(GameEvent.EventType.DSICARD, temp);
+		temp=hand.removeCard(index);
 		environment.discardCard(temp);
 	}
 	public void discardCardFromPlay(int index)
 	{
-		objCard temp=cardsInPlay.removeCard(index);
+		objCard temp=cardsInPlay.getCard(index);
 		fireEvent(GameEvent.EventType.DSICARD, temp);
+		temp=cardsInPlay.removeCard(index);
 		environment.discardCard(temp);
 	}
 	public void discardCarriedCard(int index)
 	{
-		objCard temp=carriedCards.removeCard(index);
+		objCard temp=carriedCards.getCard(index);
 		fireEvent(GameEvent.EventType.DSICARD, temp);
+		temp=carriedCards.removeCard(index);
 		environment.discardCard(temp);
 	}
 	public boolean isThereBigItem()
@@ -317,11 +335,19 @@ public class objPlayer extends objEntity
 	}
 	public void moveFromPlayToCarried(Vector<Integer> cardIndexes)
 	{
-		for(int i=0; i<cardIndexes.size();i++)carriedCards.addCard(cardsInPlay.removeCard(cardIndexes.elementAt(i)));
+		objCard temp;
+		for(int i=0; i<cardIndexes.size();i++)
+		{
+			temp=cardsInPlay.removeCard(cardIndexes.elementAt(i));
+			carriedCards.addCard(temp);
+			fireEvent(GameEvent.EventType.INVENTORYCHANGED, temp);
+		}
 	}
 	public void moveFromPlayToCarried(int cardIndex)
 	{
-		carriedCards.addCard(cardsInPlay.removeCard(cardIndex));
+		objCard temp=cardsInPlay.removeCard(cardIndex);
+		carriedCards.addCard(temp);
+		fireEvent(GameEvent.EventType.INVENTORYCHANGED, temp);
 	}
 	public void moveFromCarriedToPlay(int cardIndex)
 	{
@@ -329,20 +355,27 @@ public class objPlayer extends objEntity
 		switch (temp.getSecondaryType())
 		{
 		case ARMOR:
+			equipItem(temp,armorCounter,temp.getSecondaryType());
+			break;
 		case BOOTS:
+			equipItem(temp,footgearCounter,temp.getSecondaryType());
+			break;
 		case HAT:
-			equipItem(temp,1,temp.getSecondaryType());
+			equipItem(temp,headgearCounter,temp.getSecondaryType());
 			break;
 		case ONEHANDWEAPON:
-			equipItem(temp,freeHandCounter,temp.getSecondaryType());
+			equipWeapon(temp);
 			break;
 		case TWOHANDWEAPON:
-			equipItem(temp,freeHandCounter,2,temp.getSecondaryType());
+			equipWeapon(temp);
+			break;
+		case OTHER:
+			cardsInPlay.addCard(temp);
 			break;
 		default:
 			break;
 		}
-		fireEvent(GameEvent.EventType.INVENTORYCHANGED, this);
+		fireEvent(GameEvent.EventType.INVENTORYCHANGED, temp);
 	}
 	public void sellTreasureFromHand(int index)
 	{
@@ -413,12 +446,13 @@ public class objPlayer extends objEntity
 			{
 			case MONSTER:
 				myTurnPhase=TurnPhase.FIGHT;
-				fireEvent("Monster",temp);
+
 				objMonster monst=new objMonster(temp);
 				environment.setCurrentFight(new objFight(monst, this, environment));
 				environment.getEffectHandler().handleEffect(temp.getSecondaryType(),temp.getEffect(0), monst);
 				environment.getCurrentFight().addListener(environment.getEffectHandler());
 				fireEvent(GameEvent.EventType.FIGHTSTARTED,this);
+				fireEvent("Monster",temp);
 				break;
 			case DISASTER:
 				fireEvent("Disaster",temp);

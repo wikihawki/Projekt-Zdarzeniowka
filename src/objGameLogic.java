@@ -45,10 +45,16 @@ public class objGameLogic
 		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
 		currPlayer=0;
-	//	DatabaseConnection temp=new DatabaseConnection();
-	//	temp.importCards();
 		importPictures();
+		
+	//	temp.importCards();
 		newGame(4);
+	//TODO: usun¹c po fazie testów
+		DatabaseConnection temp=new DatabaseConnection();
+		players[0].getHand().addCard(temp.importCard(106));
+		players[0].getHand().addCard(temp.importCard(103));
+		players[0].getHand().addCard(temp.importCard(137));
+		players[0].getHand().addCard(temp.importCard(95));
 	}
 
 	public void newGame(int amount)
@@ -161,9 +167,18 @@ public class objGameLogic
 	}
     public void resolveStackTopCard()
     {
-    	objPlayedCard temp=playedCards.get(playedCards.size()-1);
-    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
-    //	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
+    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
+    	if(temp.getPlayedCard().getSecondaryType()==objCard.SecondaryType.DISASTER)
+    	{
+	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
+	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
+	    	discardCard(temp.getPlayedCard());
+    	}
+    	else
+    	{
+    		effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp);
+	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp);
+    	}
     }
     public void addCardToStack(objCard card, objEntity target, objPlayer player)
     {

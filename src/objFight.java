@@ -105,6 +105,7 @@ public class objFight implements GameEventListener
 		fireEvent(GameEvent.EventType.FIGHTCHANGED,null);
 		if(bonus>0)playersBonus+=bonus;
 		else monstersBonus-=bonus;
+		updatePlayers();
 	}
 	public void playerChanged()
 	{

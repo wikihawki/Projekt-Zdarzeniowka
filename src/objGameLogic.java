@@ -54,11 +54,7 @@ public class objGameLogic
 		lista.add("DDDD");
 		newGame(4,lista);
 		//TODO: usun¹c po fazie testów
-		DatabaseConnection temp=new DatabaseConnection();
-		players[0].getHand().addCard(temp.importCard(106));
-		players[0].getHand().addCard(temp.importCard(103));
-		players[0].getHand().addCard(temp.importCard(137));
-		players[0].getHand().addCard(temp.importCard(95));
+
 	}
 
 	public void newGame(int amount,ArrayList<String> listaGraczy)
@@ -70,6 +66,15 @@ public class objGameLogic
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
+		DatabaseConnection temp=new DatabaseConnection();
+		players[0].getHand().addCard(temp.importCard(94));
+		players[0].getHand().addCard(temp.importCard(95));
+		players[0].getHand().addCard(temp.importCard(101));
+		players[0].getHand().addCard(temp.importCard(108));
+		players[0].getHand().addCard(temp.importCard(110));
+		players[0].getHand().addCard(temp.importCard(111));
+		players[0].getHand().addCard(temp.importCard(18));
+
 	}
 	private void importCards()
 	{

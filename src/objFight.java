@@ -41,7 +41,7 @@ public class objFight implements GameEventListener
 				treasures+=this.monsters.elementAt(i).getTreasures();
 			}
 
-			mainPlayer.levelUp(levels);
+			mainPlayer.levelUp(levels+levelBonus);
 			if(helperPlayer!=null)
 			{
 				if(treasures>treasuresForHelper)

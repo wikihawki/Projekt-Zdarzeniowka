@@ -66,7 +66,7 @@ public class objEffectHandler implements GameEventListener
 		{
 			Random gen=new Random();
 			int n=gen.nextInt(6)+1;
-			for(int i=0;i<n;i++)
+			for(int i=0;i<n||((objPlayer)target).getHand().size()>1;i++)
 			{
 				int temp=((objPlayer)target).getHand().size();
 				int help=gen.nextInt(temp);
@@ -128,7 +128,7 @@ public class objEffectHandler implements GameEventListener
 		case 0:
 			break;
 		default:
-			
+
 			throw new IllegalArgumentException();
 		}
 		break;
@@ -960,6 +960,10 @@ public class objEffectHandler implements GameEventListener
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(continuousEffectContains(33))
 				{
 					environment.getCurrentFight().addLevelBonus(1);
+					removeContinuousEffect(33);
+					removeContinuousEffect(-33);
+					removeContinuousEffect(34);
+					removeContinuousEffect(-34);
 				}
 				break;
 			case 35:

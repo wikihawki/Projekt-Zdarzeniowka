@@ -84,27 +84,27 @@ public class objCard extends objEntity
 	public int getBonus() {
 		if(type==Type.TREASURE)
 		return levelBonus;
-		else throw new IllegalStateException();
+		else return -1;
 	}
 	public int getValue() {
 		if(type==Type.TREASURE)
 		return rewardValue;
-		else throw new IllegalStateException();
+		else return -1;
 	}
 	public int getLevel() {
 		if(type==Type.DOOR&&secondaryType==SecondaryType.MONSTER)
 		return levelBonus;
-		else throw new IllegalStateException();
+		else return -1;
 	}
 	public int getReward() {
 		if(type==Type.DOOR&&secondaryType==SecondaryType.MONSTER)
 		return rewardValue;
-		else throw new IllegalStateException();
+		else return -1;
 	}
 	public int getTreasures() {
 		if(type==Type.DOOR&&secondaryType==SecondaryType.MONSTER)
 		return treasures;
-		else throw new IllegalStateException();
+		else return -1;
 	}
 
 	public SecondaryType getSecondaryType() {

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 
 public class objFight implements GameEventListener
 {
@@ -63,19 +65,23 @@ public class objFight implements GameEventListener
 			System.out.println("Gracz przegral");
 			for(int i=0; i<monsters.size();i++)
 			{
+				if(helperPlayer!=null)if(!tryToRunAway(i, false))
+					{
+					parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
+					JOptionPane.showMessageDialog(null, "Niestety "+helperPlayer+" ! Nie udolo Ci sie uciec przed "+monsters.elementAt(i)+", teraz czeka Cie marny koniec");
+					}
 				if(!tryToRunAway(i, true))
 					{
 						parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), mainPlayer);
-						System.out.println("Graczowi nie udalo sie uciec");
+						JOptionPane.showMessageDialog(null, "Niestety "+mainPlayer+" ! Nie udolo Ci sie uciec przed "+monsters.elementAt(i)+", teraz czeka Cie marny koniec");
 					}
-				if(helperPlayer!=null)if(!tryToRunAway(i, false))parent.getEffectHandler().handleEffect(monsters.elementAt(i).getMyCard().getSecondaryType(),monsters.elementAt(i).getBadStuff(), helperPlayer);
 			}
 		}
 		for(int i=0; i<monsters.size();i++)parent.discardCard(monsters.get(i).getMyCard());
 		this.fireEvent(GameEvent.EventType.FIGHTOVER, null);
 		parent.setCurrentFight(null);
-		for(int i=0; i<parent.getPlayersNumber();i++)parent.getPlayer(i).removeListener(this);
-		mainPlayer.charity();
+		for(int i=0; i<4;i++)parent.getPlayer(i).removeListener(this);
+		if(parent.getCurrentPlayer()==mainPlayer)mainPlayer.charity();
 	}
 	private boolean tryToRunAway(int monsterNr, boolean which)
 	{

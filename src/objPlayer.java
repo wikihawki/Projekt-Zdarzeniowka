@@ -40,8 +40,8 @@ public class objPlayer extends objEntity
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(1);
-		drawDoor(1);
+		drawTreasure(4);
+		drawDoor(4);
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -181,19 +181,20 @@ public class objPlayer extends objEntity
 			break;
 		case DISASTER:
 			environment.addCardToStack(temp, target,this);
-			environment.resolveStackTopCard();//TODO: usun¹c to potem
+			fireEvent(GameEvent.EventType.DISASTER, temp);
+			environment.resolveStackTopCard();
 			break;
 		case OTHER:
 			if(temp.getType()==objCard.Type.TREASURE)carriedCards.addCard(temp);
 			else
 			{
 				environment.addCardToStack(temp, target,this);
-				environment.resolveStackTopCard();//TODO: usun¹c to potem
+				environment.resolveStackTopCard();
 			}
 			break;
 		case OTHERITEM:
-			environment.getEffectHandler().handleEffect(objCard.SecondaryType.OTHERITEM, temp.getEffect(0), temp);
 			cardsInPlay.addCard(temp);
+			environment.getEffectHandler().handleEffect(objCard.SecondaryType.OTHERITEM, temp.getEffect(0), temp);
 			break;
 		case TWOHANDWEAPON:
 			equipWeapon(temp);
@@ -436,12 +437,12 @@ public class objPlayer extends objEntity
 	}
 	public void kickOpenDoor() throws IllegalStateException
 	{
-	
+
 		if(myTurnPhase==TurnPhase.ITEMSARRANGE)
 		{
 			myTurnPhase=TurnPhase.KICKDOOR;
 			objCard temp= environment.showDoorCard();
-			
+
 			switch (temp.getSecondaryType())
 			{
 			case MONSTER:
@@ -455,7 +456,9 @@ public class objPlayer extends objEntity
 				fireEvent("Monster",temp);
 				break;
 			case DISASTER:
+				fireEvent(GameEvent.EventType.DISASTER, temp);
 				fireEvent("Disaster",temp);
+				environment.resolveStackTopCard();
 				break;
 			case CLASS:
 
@@ -532,11 +535,14 @@ public class objPlayer extends objEntity
     }
 	public void die()
 	{
-		for(int i=0;i <hand.size();i++)discardCardfromHand(i);
-		for(int i=0;i <carriedCards.size();i++)if(carriedCards.getCard(i).getEffect(0)!=4||cardsInPlay.getCard(i).getSecondaryType()!=objCard.SecondaryType.OTHER)discardCarriedCard(i);
-		for(int i=0;i <cardsInPlay.size();i++)discardCardFromPlay(i);
-		environment.getEffectHandler().addContinuousEffect(30, this);
-		endImmediately();
+		if(cardsInPlay.findCardsIndex("Kid", objCard.SecondaryType.CLASS).size()==0){
+			while(hand.size()>0)discardCardfromHand(0);
+			while(carriedCards.size()>0)if(carriedCards.getCard(0).getEffect(0)!=4||cardsInPlay.getCard(0).getSecondaryType()!=objCard.SecondaryType.OTHER&&cardsInPlay.getCard(0).getType()==objCard.Type.DOOR)discardCarriedCard(0);
+			while(cardsInPlay.size()>0)discardCardFromPlay(0);
+			environment.getEffectHandler().addContinuousEffect(42, this);
+			if(this==environment.getCurrentPlayer())endImmediately();
+		}
+		else levelUp(-1);
 	}
 	public int getPower()
 	{

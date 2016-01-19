@@ -218,7 +218,7 @@ public void useCardWindow(objCard karta,objPlayer player )
 							{
 													if(logikaMunchkin.getCurrentFight().getHelperPlayer()==null)
 													{
-																		Object[] possibilities = {"1"," 2", "3","4","5"};
+																		Object[] possibilities = {"1","2", "3","4","5"};
 																		String s = (String)JOptionPane.showInputDialog(
 																		                    null,
 																		                    "Liczba wymaganych skarbów:\n"

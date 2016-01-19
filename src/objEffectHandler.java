@@ -66,7 +66,7 @@ public class objEffectHandler implements GameEventListener
 		{
 			Random gen=new Random();
 			int n=gen.nextInt(6)+1;
-			for(int i=0;i<n||((objPlayer)target).getHand().size()>1;i++)
+			for(int i=0;i<n&&((objPlayer)target).getHand().size()>0;i++)
 			{
 				int temp=((objPlayer)target).getHand().size();
 				int help=gen.nextInt(temp);
@@ -145,7 +145,7 @@ public class objEffectHandler implements GameEventListener
 			addContinuousEffect(1,target);
 			break;
 		case 3:
-			monsterBonus((objMonster)target, "Militia", -3);
+			monsterBonus((objMonster)target, "Militia", 3);
 			monsterBonus((objMonster)target, true, 3);
 			addContinuousEffect(2,target);
 			break;
@@ -261,9 +261,9 @@ public class objEffectHandler implements GameEventListener
 			addContinuousEffect(16,target);
 			break;
 		case 37:
-			// TODO: poprawic ten efekt bo bedzie dzialal Ÿle//wstepnie zrobione, ale przydalo by sie jeszcze poprawic
 			handleEffectRec(objCard.SecondaryType.MONSTER, 42, target);
-			for(int i=0; i<environment.getPlayersNumber();i++)if(!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer())&&!environment.getPlayer(i).equals(environment.getCurrentFight().getMainPlayer()))environment.getPlayer(i).levelUp(1);
+			addContinuousEffect(17, target);
+			break;
 		case 38:
 			((objPlayer)target).levelUp(-1);
 		case 39:
@@ -272,14 +272,28 @@ public class objEffectHandler implements GameEventListener
 			temp.addAll(((objPlayer)target).getCarriedCards().getStack(0));
 			int help=0, index=0;
 			if(temp.size()>0){
-				for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)index=i;
+				for(int i=0;i<temp.size();i++)if(temp.get(i).getBonus()>help)
+					{
+						help=temp.get(i).getBonus();
+						index=i;
+					}
 				if(index<((objPlayer)target).getCardsInPlay().size())((objPlayer)target).getCardsInPlay().removeCard(index);
 				else((objPlayer)target).getCarriedCards().removeCard(index-((objPlayer)target).getCardsInPlay().size());
 			}
 			break;
 		}
 		case 40:
-			//potem
+		{
+			handleEffectRec(objCard.SecondaryType.MONSTER, 1, target);
+			objPlayer player=environment.getPlayer(0);
+			for(int i=1;i<4;i++)if(environment.getPlayer(i).getLevel()<player.getLevel())player=environment.getPlayer(i);
+			if(player!=target){
+				String massage="Niech gracz "+player+" wybierze jedn¹ z poni¿szych:\n";
+				for(int i=0;i<((objPlayer)target).getHand().size();i++)massage+=((objPlayer)target).getHand().getCard(i)+"   "+((objPlayer)target).getHand().getCard(i).getDiscription()+"\n";
+				int temp=JOptionPane.showOptionDialog(null, massage, "Wybierz któr¹ karte chcesz zabrac", 0, JOptionPane.QUESTION_MESSAGE, null, ((objPlayer)target).getHand().toArray(), 0);
+				player.getHand().addCard(((objPlayer)target).getHand().removeCard(temp));
+			}
+		}
 			break;
 		case 41:
 			handleEffectRec(objCard.SecondaryType.MONSTER, 38, target);
@@ -294,7 +308,8 @@ public class objEffectHandler implements GameEventListener
 		case 44:
 		{
 			Vector<Integer> temp=((objPlayer)target).findBoots();
-			for(int i=0;i<temp.size();i++)if(temp.size()>1&&((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)==7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			for(int i=0;i<temp.size();i++)if(temp.size()==1||((objPlayer)target).getCardsInPlay().getCard(i).getEffect(1)!=7)((objPlayer)target).discardCardFromPlay(temp.elementAt(i));
+			if(temp.size()==0)((objPlayer)target).levelUp(-1);
 			break;
 		}
 		default:
@@ -331,7 +346,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		}
 		case 2:
-		{//TODO: sprawidzc czy dobrze dziala
+		{
 			objPlayedCard temp=(objPlayedCard)target;
 			temp.getPlayer().getCardsInPlay().addCard(temp.getPlayer().getHand().removeCard(temp.getPlayer().getHand().getCardIndex((objCard) temp.getTarget())));
 			switch(((objCard)temp.getTarget()).getSecondaryType())
@@ -376,19 +391,7 @@ public class objEffectHandler implements GameEventListener
 			break;
 		case 6:
 		{
-			int temp=JOptionPane.showOptionDialog(null, "Wybierz pierwsz¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
-			if(temp==JOptionPane.CLOSED_OPTION);
-			else
-			{
-				environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
-				temp=JOptionPane.showOptionDialog(null, "Wybierz drug¹ karte do odrzucenia", null, 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
-				if(temp==JOptionPane.CLOSED_OPTION);
-				else
-				{
-					environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
-
-				}
-			}
+			addContinuousEffect(37, target);
 			break;
 		}
 		case 7:
@@ -420,10 +423,14 @@ public class objEffectHandler implements GameEventListener
 		{
 			case 1:
 				for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
-				addContinuousEffect(40, null);
 				break;
 			case 2:
+				addContinuousEffect(40, null);
+				break;
+			case 3:
 				for(int i=0;i<environment.getPlayersNumber();i++)if(environment.getPlayer(i).getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)environment.getPlayer(i).levelUp(-1);
+				break;
+			case 4:
 				addContinuousEffect(41, null);
 				break;
 		}
@@ -475,6 +482,12 @@ public class objEffectHandler implements GameEventListener
 			break;
 		case 15:
 			addContinuousEffect(36, target);
+			break;
+		case 16:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Blogger", true))addContinuousEffect(56, target);
+			break;
+		case 17:
+			if(!changeCard((objCard) target, environment.getCurrentPlayer(), "Blogger", false))addContinuousEffect(57, target);
 			break;
 		}
 		break;
@@ -538,8 +551,8 @@ public class objEffectHandler implements GameEventListener
 		objPlayer player1=environment.getCurrentFight().getMainPlayer();
 		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
 		Vector<objCard>classes=new Vector<objCard>();
-		if(player1.getClassCounter()==classes.size()) classes=player1.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS);
-		if(player2!=null)if(player2.getClassCounter()==0)classes.addAll(player2.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS));
+		classes=player1.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS);
+		if(player2!=null)classes.addAll(player2.getCardsInPlay().findCards(playerClass, objCard.SecondaryType.CLASS));
 		if(classes.size()>0)
 		{
 			target.increaseStrength(bonus);
@@ -553,8 +566,8 @@ public class objEffectHandler implements GameEventListener
 		objPlayer player1=environment.getCurrentFight().getMainPlayer();
 		objPlayer player2=environment.getCurrentFight().getHelperPlayer();
 		Vector<objCard>classes=new Vector<objCard>();
-		if(player1.getClassCounter()==classes.size())for(int i=0;i<playerClass.length;i++)classes=player1.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS);
-		if(player2!=null)if(player2.getClassCounter()==0)for(int i=0;i<playerClass.length;i++)classes.addAll(player2.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS));
+		for(int i=0;i<playerClass.length;i++)classes=player1.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS);
+		if(player2!=null)for(int i=0;i<playerClass.length;i++)classes.addAll(player2.getCardsInPlay().findCards(playerClass[i], objCard.SecondaryType.CLASS));
 		if(classes.size()>0)
 		{
 			target.increaseStrength(bonus);
@@ -622,6 +635,7 @@ public class objEffectHandler implements GameEventListener
 		case CLASS:
 			switch (effectNr)
 			{
+			case 6:
 			case 7:
 				return objPlayer.class;
 			case 3:
@@ -687,6 +701,7 @@ public class objEffectHandler implements GameEventListener
 		}
 		return false;
 	}
+
 	public Vector<objEntity> getValidTargets(objCard card)
 	{
 		Vector<objEntity> temp=new Vector<objEntity>();
@@ -792,7 +807,7 @@ public class objEffectHandler implements GameEventListener
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)
 				{
 					if(environment.getCurrentFight().getHelperPlayer()==null)((objMonster)pair.getValue()).setLevel(999);
-					else ((objMonster)pair.getValue()).setBonus(0);
+					else ((objMonster)pair.getValue()).setLevel(1);
 				}
 				break;
 			case 2:
@@ -839,6 +854,8 @@ public class objEffectHandler implements GameEventListener
 				{
 					objPlayer temp =environment.getCurrentFight().getMainPlayer();
 					temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
+					temp =environment.getCurrentFight().getHelperPlayer();
+					if(temp!=null)temp.moveFromPlayToCarried(temp.getCardsInPlay().findCardsIndex(null, objCard.Tag.FLAME));
 				}
 				break;
 			case 9:
@@ -849,6 +866,8 @@ public class objEffectHandler implements GameEventListener
 						((objPlayer)pair.getValue()).endImmediately();
 						removeContinuousEffect(pair.getKey());
 						removeContinuousEffect(-pair.getKey());
+						if(k>2)k-=2;
+						else k=0;
 					}
 				}
 				break;
@@ -871,6 +890,23 @@ public class objEffectHandler implements GameEventListener
 					}
 				}
 				break;
+			case 17:
+				if(eventType==GameEvent.EventType.FIGHTOVER)
+				{
+					for(int i=0; i<environment.getPlayersNumber();i++)if(!continuousEffectContains(17, environment.getPlayer(i)))environment.getPlayer(i).levelUp(1);
+					removeContinuousEffect(17);
+					removeContinuousEffect(-17);
+					if(k>2)k-=2;
+					else k=0;
+					if(continuousEffectContains(17))
+					{
+						removeContinuousEffect(-17);
+						removeContinuousEffect(17);
+						k-=2;
+					}
+
+				}
+				break;
 			case 22:
 				if(eventType==GameEvent.EventType.DSICARD)
 				{
@@ -880,6 +916,10 @@ public class objEffectHandler implements GameEventListener
 						for(int i=0;i<environment.getSealDeck().size();i++)massage+=environment.getSealDeck().getCard(i)+"   "+environment.getSealDeck().getCard(i).getDiscription()+"\n";
 						int temp=JOptionPane.showOptionDialog(null, massage, "Wybierz pieczec do otwarcia", 0, JOptionPane.QUESTION_MESSAGE, null, environment.getSealDeck().toArray(), 0);
 						environment.openSeal(temp);
+						removeContinuousEffect(pair.getKey());
+						removeContinuousEffect(-pair.getKey());
+						if(k>2)k-=2;
+						else k=0;
 					}
 				}
 				break;
@@ -909,7 +949,10 @@ public class objEffectHandler implements GameEventListener
 							for(int i=0;i<temp.size();i++)if(((objPlayer)pair.getValue()).getCardsInPlay().getCard(temp.get(i)).getSecondaryType()==objCard.SecondaryType.ONEHANDWEAPON) flag=true;
 							if(!flag)
 							{
-								removeContinuousEffect(28);
+								removeContinuousEffect(pair.getKey());
+								removeContinuousEffect(-pair.getKey());
+								if(k>2)k-=2;
+								else k=0;
 								environment.getCurrentFight().addBonus(-3);
 							}
 						}
@@ -918,17 +961,31 @@ public class objEffectHandler implements GameEventListener
 				}
 				break;
 			case 30:
-				if(eventType==GameEvent.EventType.FIGHTCHANGED||eventType==GameEvent.EventType.FIGHTSTARTED)if(!continuousEffectContains(129))
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(!continuousEffectContains(129))
 				{
-					addContinuousEffect(129, null);
-					if(environment.getCurrentFight().getHelperPlayer()!=null)environment.getCurrentFight().addBonus(-10);
 
-
+					if(environment.getCurrentFight().getHelperPlayer()!=null)
+					{
+						addContinuousEffect(129, null);
+						environment.getCurrentFight().addBonus(-10);
+					}
 				}
-				if(eventType==GameEvent.EventType.FIGHTSTARTED)environment.getCurrentFight().addBonus(5);
+				if(eventType==GameEvent.EventType.FIGHTSTARTED)
+				{
+					environment.getCurrentFight().addBonus(5);
+				}
+				if(eventType==GameEvent.EventType.DSICARD)if(evt.getTarget()==((objPlayedCard)pair.getValue()).getPlayedCard())
+				{
+					if(!continuousEffectContains(129))environment.getCurrentFight().addBonus(5);
+					else environment.getCurrentFight().addBonus(-5);
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
 				break;
 			case 31:
-				if(eventType==GameEvent.EventType.FIGHTCHANGED)if(!continuousEffectContains(28))
+				if(eventType==GameEvent.EventType.FIGHTCHANGED||eventType==GameEvent.EventType.FIGHTSTARTED)if(!continuousEffectContains(28))if(environment.getCurrentFight().getMainPlayer()==(objPlayer)pair.getValue()||environment.getCurrentFight().getMainPlayer()==(objPlayer)pair.getValue())
 				{
 					boolean flag=false;
 					Vector<Integer>temp=((objPlayer)pair.getValue()).findWeapon();
@@ -947,6 +1004,10 @@ public class objEffectHandler implements GameEventListener
 				if(eventType==GameEvent.EventType.DSICARD)if(evt.getTarget()==((objPlayedCard)pair.getValue()).getTarget())
 				{
 					if(((objPlayedCard)pair.getValue()).getPlayer().getCardsInPlay().getCardIndex(((objPlayedCard)pair.getValue()).getPlayedCard())!=-1)environment.getCurrentPlayer().setFreeHandCounter(environment.getCurrentPlayer().getFreeHandCounter()-1);
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
 				}
 				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==((objPlayedCard)pair.getValue()).getTarget())
 				{
@@ -964,11 +1025,14 @@ public class objEffectHandler implements GameEventListener
 					removeContinuousEffect(-33);
 					removeContinuousEffect(34);
 					removeContinuousEffect(-34);
+					if(k>4)k-=4;
+					else k=4;
 				}
 				break;
 			case 35:
-				if(eventType==GameEvent.EventType.FIGHTSTARTED)
+				if(eventType==GameEvent.EventType.FIGHTSTARTED||eventType==GameEvent.EventType.FIGHTCHANGED)if(!continuousEffectContains(150))
 				{
+					addContinuousEffect(150, null);
 					environment.getCurrentFight().addBonus(5);
 					for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)if(!continuousEffectContains(151,environment.getCurrentFight().getMonsters().elementAt(i)))
 					{
@@ -1011,11 +1075,80 @@ public class objEffectHandler implements GameEventListener
 						((objPlayedCard)pair.getValue()).getPlayer().getCarriedCards().removeCard(((objPlayedCard)pair.getValue()).getPlayer().getCardsInPlay().getCardIndex(((objPlayedCard)pair.getValue()).getPlayedCard()));
 						environment.discardCard(((objPlayedCard)pair.getValue()).getPlayedCard());
 					}
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
+				break;
+			case 37:
+				if(eventType==GameEvent.EventType.DISASTER)
+				{
+					if(((objPlayer)pair.getValue()).getCardsInPlay().findCards("Militia",objCard.SecondaryType.CLASS).size()>0)
+				{
+				int temp=JOptionPane.showOptionDialog(null, "Wybierz pierwsz¹ karte do odrzucenia", "Militia - I was ready for that", 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+				if(temp==JOptionPane.CLOSED_OPTION);
+				else
+				{
+					environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+					temp=JOptionPane.showOptionDialog(null, "Wybierz drug¹ karte do odrzucenia", "Militia - I was ready for that", 0, JOptionPane.QUESTION_MESSAGE, null, environment.getPlayer(environment.getPlayingPlayer()).getHand().toArray(), 0);
+					if(temp==JOptionPane.CLOSED_OPTION);
+					else
+					{
+						environment.getPlayer(environment.getPlayingPlayer()).discardCardfromHand(temp);
+						environment.getPlayedCards().remove(environment.getPlayedCards().size()-1);
+					}
+				}
+				}
+					else
+					{
+						removeContinuousEffect(pair.getKey());
+						removeContinuousEffect(-pair.getKey());
+						if(k>2)k-=2;
+						else k=0;
+					}
 				}
 				break;
 			case 40:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)
+					{
+						environment.getCurrentFight().addBonus(-3);
+						addContinuousEffect(140, environment.getCurrentFight().getMainPlayer());
+					}
+					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)
+					{
+						environment.getCurrentFight().addBonus(-3);
+						addContinuousEffect(140, environment.getCurrentFight().getHelperPlayer());
+					}
+				}
 				break;
 			case 41:
+				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				{
+					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)
+					{
+						environment.getCurrentFight().addBonus(-3);
+						addContinuousEffect(140, environment.getCurrentFight().getMainPlayer());
+					}
+					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)
+					{
+						environment.getCurrentFight().addBonus(-3);
+						addContinuousEffect(140, environment.getCurrentFight().getHelperPlayer());
+					}
+				}
+				break;
+			case 42:
+				if(eventType==GameEvent.EventType.TURNSTARTED)if(pair.getValue()==evt.getTarget())
+				{
+					((objPlayer)pair.getValue()).drawDoor(4);
+					((objPlayer)pair.getValue()).drawTreasure(4);
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
 				break;
 			case 50:
 			if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==((objPlayedCard)pair.getValue()).getTarget())
@@ -1023,25 +1156,86 @@ public class objEffectHandler implements GameEventListener
 				int n=((objPlayedCard)pair.getValue()).getPlayer().getCardsInPlay().getCardIndex(((objPlayedCard)pair.getValue()).getPlayedCard());
 				if(n!=-1)
 				{
-
+					environment.discardCard(((objPlayedCard)pair.getValue()).getPlayer().getCardsInPlay().removeCard(n));
 				}
-				((objPlayedCard)pair.getValue()).getPlayedCard();
+				removeContinuousEffect(pair.getKey());
+				removeContinuousEffect(-pair.getKey());
+				if(k>2)k-=2;
+				else k=0;
 			}
+			case 56:
+				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", true);
+				break;
+			case 57:
+				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", false);
 				break;
 			case -1:
 			case -2:
+			case -3:
+			case -4:
+			case -5:
+			case -16:
 				if(eventType==GameEvent.EventType.FIGHTOVER||(eventType==GameEvent.EventType.FIGHTCHANGED&&evt.getTarget()==pair.getValue()))
 				{
 					removeContinuousEffect(pair.getKey());
 					removeContinuousEffect(-pair.getKey());
-					k-=2;
+					if(k>2)k-=2;
+					else k=0;
 				}
 				break;
-			case -3:
-			case -4:
-			case -5:
-			case -9:
-			case -16:
+			case -23:
+			case -24:
+			case -25:
+			case -26:
+
+			case -56:
+			case -57:
+				if((eventType==GameEvent.EventType.DSICARD&&evt.getTarget()==pair.getValue()))
+				{
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
+			break;
+			case -35:
+				if(eventType==GameEvent.EventType.SEALOPEN&&eventType==GameEvent.EventType.SEALOPEN)
+				{
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
+				break;
+			case -28:
+			case -31:
+				if(eventType==GameEvent.EventType.FIGHTOVER||(eventType==GameEvent.EventType.DSICARD&&evt.getTarget()==pair.getValue()))
+				{
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
+				break;
+			case -33:
+			case -34:
+				if(eventType==GameEvent.EventType.FIGHTOVER)
+				{
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
+				break;
+			case -40:
+			case -41:
+				if(eventType==GameEvent.EventType.SEALOPEN&&eventType==GameEvent.EventType.SEALOPEN)
+				{
+					removeContinuousEffect(pair.getKey());
+					removeContinuousEffect(-pair.getKey());
+					if(k>2)k-=2;
+					else k=0;
+				}
 			}
 		}
 	}

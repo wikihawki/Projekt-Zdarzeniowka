@@ -5,6 +5,7 @@ import java.util.Vector;
 
 
 
+
 public class DatabaseConnection {
 
 	public Vector<objCard> importCards()
@@ -98,7 +99,7 @@ public class DatabaseConnection {
 
 				cards.add(temp);
 
-		
+
 			}
 		} catch (SQLException e) {
 			System.out.println("Error when executing SQLite query: " + query);
@@ -206,5 +207,38 @@ public class DatabaseConnection {
 		}
 		return null;
 
+	}
+	public void saveGame(objGameLogic game, int slot)
+	{
+
+	}
+	public void saveStackStack(Vector<objCard> stack, int slot, int type,int IDGracza)
+	{
+		while(stack.size()>0)
+		{
+
+		}
+	}
+	private boolean saveCardState(objCard card, int slot, int type, int IDGracza)
+	{
+		boolean finalized = true;
+
+		final String query ="INSERT INTO StanGry(NrGry, IDGracza, IDKarty, Polorzenie)VALUES ("+slot+","+IDGracza+","+card.getIdNr()+","+type+")";
+
+		DatabaseEngine e_id = new DatabaseEngine();
+
+		try {
+			e_id.getConnection().setAutoCommit(false);
+			e_id.getStatement().executeUpdate(query);
+			e_id.getConnection().commit();
+		} catch (SQLException e) {
+			finalized = false;
+			System.out.println("Error when executing SQLite query: " + query);
+			e.printStackTrace();
+		} finally {
+			e_id.dispose();
+		}
+
+		return finalized;
 	}
 }

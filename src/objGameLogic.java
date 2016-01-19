@@ -42,8 +42,8 @@ public class objGameLogic
 		doorDiscard=new MunchkinGroup();
 		treasureDiscard=new MunchkinGroup();
 		openedSeals=new MunchkinGroup();
-		currentInstruction	= new objInstruction(1,1);
 		playedCards= new Vector<objPlayedCard>();
+		currentInstruction	= new objInstruction(1,1);
 		currPlayer=0;
 		importPictures();
 
@@ -53,12 +53,19 @@ public class objGameLogic
 		lista.add("CCCC");
 		lista.add("DDDD");
 		newGame(4,lista);
-		//TODO: usun¹c po fazie testów
+
 
 	}
 
 	public void newGame(int amount,ArrayList<String> listaGraczy)
 	{
+		sealDeck=new MunchkinGroup();
+		treasureDeck=new MunchkinGroup();
+		doorDeck=new MunchkinGroup();
+		doorDiscard=new MunchkinGroup();
+		treasureDiscard=new MunchkinGroup();
+		openedSeals=new MunchkinGroup();
+		playedCards= new Vector<objPlayedCard>();
 		System.out.println(listaGraczy+"NEEW");
 		state=GameState.PLAY;
 		playersNumber=amount;
@@ -66,14 +73,11 @@ public class objGameLogic
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
+		//TODO: usun¹c po fazie testów
 		DatabaseConnection temp=new DatabaseConnection();
-		players[0].getHand().addCard(temp.importCard(94));
-		players[0].getHand().addCard(temp.importCard(95));
-		players[0].getHand().addCard(temp.importCard(101));
-		players[0].getHand().addCard(temp.importCard(108));
-		players[0].getHand().addCard(temp.importCard(110));
-		players[0].getHand().addCard(temp.importCard(111));
-		players[0].getHand().addCard(temp.importCard(18));
+	}
+	public void saveGame(int slot)
+	{
 
 	}
 	private void importCards()
@@ -178,17 +182,21 @@ public class objGameLogic
 	}
     public void resolveStackTopCard()
     {
-    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
-    	if(temp.getPlayedCard().getSecondaryType()==objCard.SecondaryType.DISASTER)
+    	if(playedCards.size()>0)
     	{
-	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
-	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
-	    	discardCard(temp.getPlayedCard());
-    	}
-    	else
-    	{
-    		effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp);
-	    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp);
+	    	objPlayedCard temp=playedCards.remove(playedCards.size()-1);
+	    	if(temp.getPlayedCard().getSecondaryType()==objCard.SecondaryType.DISASTER)
+	    	{
+		    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp.getTarget());
+		    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp.getTarget());
+		    	discardCard(temp.getPlayedCard());
+
+	    	}
+	    	else
+	    	{
+	    		effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(0), temp);
+		    	effectHandler.handleEffect(temp.getPlayedCard().getSecondaryType(), temp.getPlayedCard().getEffect(1), temp);
+	    	}
     	}
     }
     public void addCardToStack(objCard card, objEntity target, objPlayer player)
@@ -202,7 +210,6 @@ public class objGameLogic
 		{
 			if(effectHandler.getTargetClass(temp.getSecondaryType(), temp.getEffect(0))==objPlayer.class)playedCards.add(new objPlayedCard(temp,players[currPlayer],players[currPlayer]));
 			else playedCards.add(new objPlayedCard(temp,null,players[currPlayer]));
-			resolveStackTopCard();
 		}
 		return temp;
 	}

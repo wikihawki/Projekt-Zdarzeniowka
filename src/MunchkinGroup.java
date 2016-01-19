@@ -68,7 +68,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getType()==type || type==null))temp.add(card);
+			if((card.getName().equals(name) || name==null)&&(card.getType()==type || type==null))temp.add(card);
 		}
 		return temp;
 	}
@@ -78,7 +78,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(card);
+			if((card.getName().equals(name) || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(card);
 		}
 		return temp;
 	}
@@ -88,7 +88,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(card);
+			if((card.getName().equals(name) || name==null)&&(card.getTag()==type || type==null))temp.add(card);
 		}
 		return temp;
 	}
@@ -98,7 +98,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getType()==type || type==null))temp.add(i);
+			if((card.getName().equals(name) || name==null)&&(card.getType()==type || type==null))temp.add(i);
 		}
 		return temp;
 	}
@@ -108,7 +108,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(i);
+			if((card.getName().equals(name) || name==null)&&(card.getSecondaryType()==type || type==null))temp.add(i);
 		}
 		return temp;
 	}
@@ -118,7 +118,7 @@ public class MunchkinGroup
 		for(int i=0; i<size();i++)
 		{
 			objCard card=getCard(i);
-			if((card.getName()==name || name==null)&&(card.getTag()==type || type==null))temp.add(i);
+			if((card.getName().equals(name) || name==null)&&(card.getTag()==type || type==null))temp.add(i);
 		}
 		return temp;
 	}

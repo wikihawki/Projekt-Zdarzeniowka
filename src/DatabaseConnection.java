@@ -210,13 +210,74 @@ public class DatabaseConnection {
 	}
 	public void saveGame(objGameLogic game, int slot)
 	{
-
-	}
-	public void saveStackStack(Vector<objCard> stack, int slot, int type,int IDGracza)
-	{
-		while(stack.size()>0)
+		cleanSlot(slot);
+		saveStackState(game.getDoorDeck().getStack(0), slot, 1, -1);
+		saveStackState(game.getDoorDiscard().getStack(0), slot, 2, -1);
+		saveStackState(game.getTreasureDeck().getStack(0), slot, 3, -1);
+		saveStackState(game.getTreasureDiscard().getStack(0), slot, 4, -1);
+		saveStackState(game.getSealDeck().getStack(0), slot, 5, -1);
+		saveStackState(game.getOpenedSeals().getStack(0), slot, 6, -1);
+		int[] temp=game.getNextPlayerId(game.getPlayerIndex(game.getCurrentPlayer()));
+		for(int i=0;i<4;i++)
 		{
+			savePlayer(game.getPlayer(temp[i]), slot, i);
+			saveStackState(game.getPlayer(temp[i]).getHand().getStack(0), slot, 1, temp[i]);
+			saveStackState(game.getPlayer(temp[i]).getCardsInPlay().getStack(0), slot, 2, temp[i]);
+			saveStackState(game.getPlayer(temp[i]).getCarriedCards().getStack(0), slot, 3, temp[i]);
+		}
+	}
+	public boolean savePlayer(objPlayer player, int slot, int nr)
+	{
+		boolean finalized = true;
+		String flag;
+		if(player.getSex())flag="'M'";
+		else flag="'K'";
+		final String query ="INSERT INTO Gracz(IDGracza, IDGry, Nazwa, Poziom, Plec)VALUES ("+nr+","+slot+",'"+player.getName()+"',"+player.getLevel()+","+flag+")";
+		DatabaseEngine e_id = new DatabaseEngine();
 
+		try {
+			e_id.getConnection().setAutoCommit(false);
+			e_id.getStatement().executeUpdate(query);
+			e_id.getConnection().commit();
+		} catch (SQLException e) {
+			finalized = false;
+			System.out.println("Error when executing SQLite query: " + query);
+			e.printStackTrace();
+		} finally {
+			e_id.dispose();
+		}
+
+		return finalized;
+	}
+	private boolean cleanSlot(int slot)
+	{
+		boolean finalized = true;
+
+		final String query ="DELETE FROM StanGry WHERE NrGry="+slot;
+		final String query2 ="DELETE FROM Gracz WHERE IDGry="+slot;
+
+		DatabaseEngine e_id = new DatabaseEngine();
+
+		try {
+			e_id.getConnection().setAutoCommit(false);
+			e_id.getStatement().executeUpdate(query);
+			e_id.getStatement().executeUpdate(query2);
+			e_id.getConnection().commit();
+		} catch (SQLException e) {
+			finalized = false;
+			System.out.println("Error when executing SQLite query: " + query);
+			e.printStackTrace();
+		} finally {
+			e_id.dispose();
+		}
+
+		return finalized;
+	}
+	public void saveStackState(Vector<objCard> stack, int slot, int type,int IDGracza)
+	{
+		for(int i=0;i<stack.size();i++)
+		{
+			saveCardState(stack.get(i),slot,type, IDGracza);
 		}
 	}
 	private boolean saveCardState(objCard card, int slot, int type, int IDGracza)
@@ -240,5 +301,52 @@ public class DatabaseConnection {
 		}
 
 		return finalized;
+	}
+	public objPlayer loadPlayer(int slot, int playerNr, objGameLogic game)
+	{
+
+		final String query = "SELECT Nazwa,Plec FROM Gracz WHERE IDGracza="+playerNr+" AND IDGry="+slot;
+
+		DatabaseEngine e_id = new DatabaseEngine();
+		try {
+			ResultSet result = e_id.getStatement().executeQuery(query);
+			result.next();
+			boolean flag;
+			String help=result.getString("Plec");
+			flag=(help=="K");
+			objPlayer temp = new objPlayer(result.getString("Nazwa"),flag, game, playerNr);
+			return temp;
+
+
+		} catch (SQLException e) {
+			System.out.println("Error when executing SQLite query: " + query);
+			e.printStackTrace();
+		} finally {
+			e_id.dispose();
+		}
+		return null;
+	}
+	public Vector<objCard> loadStack(int slot, int type, int playerNr)
+	{
+		final String query = "SELECT IDKarty FROM StanGry WHERE Polorzenie="+type+" AND NrGry="+slot+" AND IDGracza="+playerNr;
+
+		DatabaseEngine e_id = new DatabaseEngine();
+		try {
+			ResultSet result = e_id.getStatement().executeQuery(query);
+			Vector<objCard> temp=new Vector<objCard>();
+			while (result.next())
+			{
+				temp.add(importCard(result.getInt("IDKarty")));
+			}
+			return temp;
+
+
+		} catch (SQLException e) {
+			System.out.println("Error when executing SQLite query: " + query);
+			e.printStackTrace();
+		} finally {
+			e_id.dispose();
+		}
+		return null;
 	}
 }

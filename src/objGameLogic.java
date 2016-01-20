@@ -56,7 +56,34 @@ public class objGameLogic
 
 
 	}
-
+	public void loadGame(int slot)
+	{
+		sealDeck=new MunchkinGroup();
+		treasureDeck=new MunchkinGroup();
+		doorDeck=new MunchkinGroup();
+		doorDiscard=new MunchkinGroup();
+		treasureDiscard=new MunchkinGroup();
+		openedSeals=new MunchkinGroup();
+		playedCards= new Vector<objPlayedCard>();
+		state=GameState.PLAY;
+		playersNumber=4;
+		effectHandler=new objEffectHandler(this);
+		currPlayer=0;
+		DatabaseConnection temp=new DatabaseConnection();
+		doorDeck.addStack(temp.loadStack(slot, 1, -1));
+		doorDiscard.addStack(temp.loadStack(slot, 2, -1));
+		treasureDeck.addStack(temp.loadStack(slot, 3, -1));
+		treasureDiscard.addStack(temp.loadStack(slot, 4, -1));
+		sealDeck.addStack(temp.loadStack(slot, 5, -1));
+		openedSeals.addStack(temp.loadStack(slot, 6, -1));
+		for(int i=0;i<4;i++)
+		{
+			players[i]=temp.loadPlayer(slot, i, this);
+			players[i].getHand().addStack(temp.loadStack(slot, 1, i));
+			players[i].getCardsInPlay().addStack(temp.loadStack(slot, 2, i));
+			players[i].getCarriedCards().addStack(temp.loadStack(slot, 3, i));
+		}
+	}
 	public void newGame(int amount,ArrayList<String> listaGraczy)
 	{
 		sealDeck=new MunchkinGroup();
@@ -70,6 +97,7 @@ public class objGameLogic
 		state=GameState.PLAY;
 		playersNumber=amount;
 		importCards();
+		currPlayer=0;
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
@@ -78,7 +106,8 @@ public class objGameLogic
 	}
 	public void saveGame(int slot)
 	{
-
+		DatabaseConnection temp=new DatabaseConnection();
+		temp.saveGame(this, slot);
 	}
 	private void importCards()
 	{
@@ -119,7 +148,7 @@ public class objGameLogic
 			sb.append(listaGraczy.get(i));
 
 			String strI = sb.toString();
-			players[i]=new objPlayer(strI,true,this,i);
+			players[i]=new objPlayer(strI,true,this,i,4);
 			players[i].addListener(effectHandler);
 		}
 	}
@@ -454,6 +483,7 @@ public class objGameLogic
     }
     public void nextPlayer()
     {
+    	saveGame(1);
     	if(currPlayer<playersNumber-1)currPlayer++;
     	else currPlayer=0;
     	players[currPlayer].beginTurn();
@@ -575,5 +605,13 @@ public class objGameLogic
 	public Image getChestImage()
 	{return Chest;
 
+	}
+
+	public MunchkinGroup getTreasureDiscard() {
+		return treasureDiscard;
+	}
+
+	public MunchkinGroup getDoorDiscard() {
+		return doorDiscard;
 	}
 }

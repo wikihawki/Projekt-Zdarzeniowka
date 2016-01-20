@@ -380,7 +380,7 @@ public class objEffectHandler implements GameEventListener
 		case 4:
 		{
 			objPlayedCard temp=((objPlayedCard)target);
-			temp.getPlayer().getEffects().addCard(temp.getPlayedCard());
+			temp.getPlayer().getCardsInPlay().addCard(temp.getPlayedCard());
 			addContinuousEffect(30, target);
 			break;
 		}
@@ -762,7 +762,7 @@ public class objEffectHandler implements GameEventListener
 				for(int i=0; i<environment.getPlayersNumber();i++)temp.add(environment.getPlayer(i));
 				return temp;
 			case 5:
-				for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)temp.add(environment.getCurrentFight().getMonsters().get(i));
+				if(environment.getCurrentFight()!=null)for(int i=0;i<environment.getCurrentFight().getMonsters().size();i++)temp.add(environment.getCurrentFight().getMonsters().get(i));
 				return temp;
 			case 8:
 				{

@@ -19,12 +19,11 @@ public class objPlayer extends objEntity
 	private MunchkinHand hand;
 	private MunchkinGroup cardsInPlay;
 	private MunchkinGroup carriedCards;
-	private MunchkinGroup effects;
 	private int freeHandCounter, footgearCounter, armorCounter, classCounter,headgearCounter;
 	private objGameLogic environment;
 	private int levelUpsCounter;
 	private int money;
-	public objPlayer(String name, boolean sex, objGameLogic envi,int MiejsceWKolejce)
+	public objPlayer(String name, boolean sex, objGameLogic envi,int MiejsceWKolejce, int amount)
 	{
 		this.PlayerId=MiejsceWKolejce;
 		setFreeHandCounter(2);
@@ -36,12 +35,30 @@ public class objPlayer extends objEntity
 		level=1;
 		cardsInPlay=new MunchkinGroup();
 		carriedCards=new MunchkinGroup();
-		effects=new MunchkinGroup();
 		this.sex=sex;
 		hand=new MunchkinHand( 0);
 		environment=envi;
-		drawTreasure(4);
-		drawDoor(4);
+		drawTreasure(amount);
+		drawDoor(amount);
+		levelUpsCounter=0;
+		money=0;
+		myTurnPhase=TurnPhase.NOTMYTURN;
+	}
+	public objPlayer(String name,boolean sex, objGameLogic envi, int place)
+	{
+		this.PlayerId=place;
+		setFreeHandCounter(2);
+		setFootgearCounter(1);
+		setArmorCounter(1);
+		setClassCounter(1);
+		setHeadgearCounter(1);
+		this.name=name;
+		level=1;
+		cardsInPlay=new MunchkinGroup();
+		carriedCards=new MunchkinGroup();
+		this.sex=sex;
+		hand=new MunchkinHand( 0);
+		environment=envi;
 		levelUpsCounter=0;
 		money=0;
 		myTurnPhase=TurnPhase.NOTMYTURN;
@@ -121,9 +138,6 @@ public class objPlayer extends objEntity
 	public void setClassCounter(int classCounter)
 	{
 		this.classCounter = classCounter;
-	}
-	public MunchkinGroup getEffects() {
-		return effects;
 	}
 
 

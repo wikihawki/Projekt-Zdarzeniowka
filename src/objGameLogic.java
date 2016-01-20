@@ -101,8 +101,6 @@ public class objGameLogic
 		effectHandler=new objEffectHandler(this);
 		setupPlayers(amount,listaGraczy);
 		players[currPlayer].beginTurn();
-		//TODO: usun¹c po fazie testów
-		DatabaseConnection temp=new DatabaseConnection();
 	}
 	public void saveGame(int slot)
 	{
@@ -265,6 +263,7 @@ public class objGameLogic
     	objCard temp=sealDeck.removeLastCard();
     	openedSeals.addCard(temp);
     	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(0),getCurrentPlayer());
+    	effectHandler.handleEffect(objCard.SecondaryType.SEAL, temp.getEffect(1),getCurrentPlayer());
     	fireEvent(GameEvent.EventType.SEALOPEN, null);
     	if(openedSeals.size()==7)
     	{

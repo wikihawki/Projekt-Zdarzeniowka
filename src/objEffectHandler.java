@@ -989,16 +989,16 @@ public class objEffectHandler implements GameEventListener
 				}
 				break;
 			case 23:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Kid", true);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Kid", true);
 				break;
 			case 24:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Militia", false);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Militia", false);
 				break;
 			case 25:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Kid", false);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Kid", false);
 				break;
 			case 26:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Militia", true);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Militia", true);
 				break;
 			case 27:
 				if(eventType==GameEvent.EventType.SEVENTHSEAL)((objCard)pair.getValue()).setBonus(3);
@@ -1175,32 +1175,36 @@ public class objEffectHandler implements GameEventListener
 				}
 				break;
 			case 40:
-				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				if(eventType==GameEvent.EventType.FIGHTCHANGED||eventType==GameEvent.EventType.FIGHTSTARTED)
 				{
-					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)
+					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getMainPlayer()))
 					{
-						environment.getCurrentFight().addBonus(-3);
 						addContinuousEffect(140, environment.getCurrentFight().getMainPlayer());
-					}
-					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)
-					{
 						environment.getCurrentFight().addBonus(-3);
+						
+					}
+					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Scientist", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getHelperPlayer()))
+					{
 						addContinuousEffect(140, environment.getCurrentFight().getHelperPlayer());
+						environment.getCurrentFight().addBonus(-3);
+						
 					}
 				}
 				break;
 			case 41:
-				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				if(eventType==GameEvent.EventType.FIGHTCHANGED||eventType==GameEvent.EventType.FIGHTSTARTED)
 				{
-					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)
+					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getMainPlayer()))
 					{
-						environment.getCurrentFight().addBonus(-3);
 						addContinuousEffect(140, environment.getCurrentFight().getMainPlayer());
-					}
-					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)
-					{
 						environment.getCurrentFight().addBonus(-3);
+						
+					}
+					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Militia", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getHelperPlayer()))
+					{
 						addContinuousEffect(140, environment.getCurrentFight().getHelperPlayer());
+						environment.getCurrentFight().addBonus(-3);
+						
 					}
 				}
 				break;
@@ -1216,17 +1220,19 @@ public class objEffectHandler implements GameEventListener
 				}
 				break;
 			case 43:
-				if(eventType==GameEvent.EventType.FIGHTCHANGED)
+				if(eventType==GameEvent.EventType.FIGHTCHANGED||eventType==GameEvent.EventType.FIGHTSTARTED)
 				{
-					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Blogger", objCard.SecondaryType.CLASS).size()>0)
+					if(environment.getCurrentFight().getMainPlayer().getCardsInPlay().findCards("Blogger", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getMainPlayer()))
 					{
-						environment.getCurrentFight().addBonus(-3);
 						addContinuousEffect(140, environment.getCurrentFight().getMainPlayer());
-					}
-					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Blogger", objCard.SecondaryType.CLASS).size()>0)
-					{
 						environment.getCurrentFight().addBonus(-3);
+						
+					}
+					if(environment.getCurrentFight().getHelperPlayer()!=null)if(environment.getCurrentFight().getHelperPlayer().getCardsInPlay().findCards("Blogger", objCard.SecondaryType.CLASS).size()>0)if(!continuousEffectContains(140,environment.getCurrentFight().getHelperPlayer()))
+					{
 						addContinuousEffect(140, environment.getCurrentFight().getHelperPlayer());
+						environment.getCurrentFight().addBonus(-3);
+						
 					}
 				}
 			case 50:
@@ -1243,10 +1249,10 @@ public class objEffectHandler implements GameEventListener
 				else k=0;
 			}
 			case 56:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", true);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", true);
 				break;
 			case 57:
-				if(eventType==GameEvent.EventType.INVENTORYCHANGED)if(evt.getTarget()==pair.getValue())changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", false);
+				if(eventType==GameEvent.EventType.CARDPLAYED)if(evt.getTarget()==pair.getValue()||((objCard)evt.getTarget()).getSecondaryType()==objCard.SecondaryType.CLASS)changeCard((objCard)pair.getValue(), environment.getCurrentPlayer(), "Blogger", false);
 				break;
 			case 58:
 				if(eventType==GameEvent.EventType.FIGHTCHANGED)

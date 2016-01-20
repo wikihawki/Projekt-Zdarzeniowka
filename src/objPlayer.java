@@ -218,11 +218,11 @@ public class objPlayer extends objEntity
 			equipWeapon(temp);
 			break;
 		case CLASS:
-			if(classCounter<findClass().size())
+			if(classCounter<=findClass().size())
 			{
 				if(((objCard)target).getSecondaryType()==objCard.SecondaryType.CLASS)
 				{
-					int index=cardsInPlay.getCardIndex(temp);
+					int index=cardsInPlay.getCardIndex((objCard) target);
 					if(index!=-1)discardCardFromPlay(index);
 					else throw new IllegalArgumentException();
 				}
@@ -364,9 +364,9 @@ public class objPlayer extends objEntity
 	}
 	public void moveFromPlayToCarried(int cardIndex)
 	{
-		objCard temp=cardsInPlay.removeCard(cardIndex);
+		if(cardIndex!=-1){objCard temp=cardsInPlay.removeCard(cardIndex);
 		carriedCards.addCard(temp);
-		fireEvent(GameEvent.EventType.INVENTORYCHANGED, temp);
+		fireEvent(GameEvent.EventType.INVENTORYCHANGED, temp);}
 	}
 	public void moveFromCarriedToPlay(int cardIndex)
 	{

@@ -75,7 +75,11 @@ public class objPlayer extends objEntity
 			levelUpsCounter+=amount;
 			fireEvent(GameEvent.EventType.LEVELUP, this);
 		}
-		if(amount>-level)return level+=amount;
+		if(amount>-level)
+			{
+			fireEvent(GameEvent.EventType.LEVELDOWN, this);
+			return level+=amount;
+			}
 		else return level;
 	}
 	public boolean changeSex()

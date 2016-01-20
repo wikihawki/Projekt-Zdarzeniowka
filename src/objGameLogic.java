@@ -483,7 +483,6 @@ public class objGameLogic
     }
     public void nextPlayer()
     {
-    	saveGame(1);
     	if(currPlayer<playersNumber-1)currPlayer++;
     	else currPlayer=0;
     	players[currPlayer].beginTurn();
